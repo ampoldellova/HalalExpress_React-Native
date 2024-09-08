@@ -27,7 +27,7 @@ const Profile = () => {
         <View
           style={{
             backgroundColor: COLORS.offwhite,
-            height: SIZES.height - 80,
+            height: SIZES.height-55,
             borderBottomEndRadius: 30,
             borderBottomStartRadius: 30,
           }}

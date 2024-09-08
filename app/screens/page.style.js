@@ -5,7 +5,7 @@ const pages = StyleSheet.create({
     viewOne: { backgroundColor: COLORS.primary, height: SIZES.height },
     viewTwo: {
         backgroundColor: COLORS.offwhite,
-        height: SIZES.height - 140,
+        height: SIZES.height - 55,
         borderBottomEndRadius: 30,
         borderBottomStartRadius: 30,
     },

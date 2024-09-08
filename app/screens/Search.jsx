@@ -23,7 +23,7 @@ const Search = () => {
   return (
     <SafeAreaView>
       <View style={{backgroundColor: COLORS.primary, height: SIZES.height}}>
-      <View style={{backgroundColor: COLORS.offwhite, height: SIZES.height-140, borderBottomEndRadius: 30, borderBottomStartRadius: 30}}>
+      <View style={{backgroundColor: COLORS.offwhite, height: SIZES.height-55, borderBottomEndRadius: 30, borderBottomStartRadius: 30}}>
       <View style={styles.searchContainer}>
     
       <View style={styles.searchWrapper}>
