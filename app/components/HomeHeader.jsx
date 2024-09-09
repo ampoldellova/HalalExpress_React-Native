@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import AssetImage from './AssetImage'
 import { UserReversedGeoCode } from '../context/UserReversedGeoCode'
 import { COLORS, SIZES } from '../constants/theme'
@@ -7,6 +7,7 @@ import { UserLocationContext } from '../context/UserLocationContext'
 import * as Location from 'expo-location';
 
 const HomeHeader = () => {
+    const [time, setTime] = useState(null);
     const { address, setAddress } = useContext(UserReversedGeoCode);
     const { location, setLocation } = useContext(UserLocationContext);
 
@@ -21,8 +22,23 @@ const HomeHeader = () => {
             longitude: longitude,
             latitude: latitude
         });
-        setAddress(reverseGeoCodedAddress[0])
+        setAddress(reverseGeoCodedAddress[0]);
+        const greetings = getTimeOfDay();
+        setTime(greetings)
     };
+
+    const getTimeOfDay = () => {
+        const now = new Date();
+        const hour = now.getHours();
+
+        if (hour >= 0 && hour < 12) {
+            return "☀️ "
+        } else if (hour >= 12 < 17) {
+            return "🌤️ "
+        } else {
+            return "🌙 "
+        }
+    }
 
     return (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -38,6 +54,8 @@ const HomeHeader = () => {
                     <Text style={styles.location}>{`${address.city} ${address.name}`}</Text>
                 </View>
             </View>
+
+            <Text style={{ fontSize: 36 }}>{time}</Text>
         </View>
     )
 }
