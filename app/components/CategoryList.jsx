@@ -4,9 +4,24 @@ import uidata from '../constants/uidata'
 import { TouchableOpacity } from 'react-native'
 import CategoryItem from './CategoryItem'
 
-const CategoryList = ({ setSelectedCategory, setSelectedSelection, setSelectedValue }) => {
+const CategoryList = ({ setSelectedCategory, setSelectedSection, setSelectedValue }) => {
     const [selected, setSelected] = useState(null)
     const categories = [1, 2, 3, 4, 5];
+
+    const handleSelectedCategory = (item) => {
+        if (selected == item.value) {
+            setSelectedCategory(null);
+            setSelected(null);
+            setSelectedSection(null);
+            setSelectedValue(null);
+        } else {
+            setSelectedCategory(item._id);
+            setSelected(item.value);
+            setSelectedSection('category');
+            setSelectedValue(item.title);
+        }
+    }
+
     return (
         <FlatList
             data={uidata.categories}
@@ -14,9 +29,10 @@ const CategoryList = ({ setSelectedCategory, setSelectedSelection, setSelectedVa
             horizontal
             style={{ marginTop: 5 }}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <TouchableOpacity>
-                <CategoryItem selected={selected} category={item} />
-            </TouchableOpacity>}
+            renderItem={({ item }) =>
+                <TouchableOpacity onPress={() => handleSelectedCategory(item)}>
+                    <CategoryItem selected={selected} category={item} />
+                </TouchableOpacity>}
         />
     )
 }

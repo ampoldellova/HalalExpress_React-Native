@@ -23,5 +23,3 @@ const CategoryItem = ({ category, selected }) => {
 }
 
 export default CategoryItem
-
-const styles = StyleSheet.create({})

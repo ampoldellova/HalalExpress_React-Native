@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { COLORS, SIZES } from "../constants/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
 import pages from './page.style'
@@ -8,6 +8,9 @@ import HomeHeader from "../components/HomeHeader";
 import CategoryList from "../components/CategoryList";
 
 const Home = () => {
+  const [selectedCategory, setSelectedCategory] = useState(null)
+  const [selectedSection, setSelectedSection] = useState(null)
+  const [selectedValue, setSelectedValue] = useState(null)
 
   return (
     <SafeAreaView>
@@ -17,7 +20,11 @@ const Home = () => {
           <ScrollView
             showsVerticalScrollIndicator={false}
             style={{ borderBottomEndRadius: 30, borderBottomStartRadius: 30 }}>
-            <CategoryList />
+            <CategoryList
+              setSelectedCategory={setSelectedCategory}
+              setSelectedSection={setSelectedSection}
+              setSelectedValue={setSelectedValue}
+            />
           </ScrollView>
         </View>
       </View>
