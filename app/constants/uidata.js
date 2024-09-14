@@ -511,4 +511,32 @@ const profile = {
     "updatedAt": "2023-10-24T11:02:28.215Z"
 }
 
-export default  {categories, restaurants, foods, cart, profile}
+const choicesList = [
+    {
+        id:1,
+        name:"Pick Up",
+        value:"pickup",
+    },
+    {
+        id:2,
+        name:"4 Star",
+        value:"4star",
+    },
+    {
+        id:3,
+        name:"3 Star",
+        value:"3star",
+    },
+    {
+        id:4,
+        name:"Under 30 min",
+        value:"under30",
+    },
+    {
+        id:5,
+        name:"Recommended",
+        value:"recommended",
+    },
+];
+
+export default  {categories, restaurants, foods, cart, profile, choicesList}
