@@ -7,13 +7,14 @@ import uidata from "../constants/uidata";
 import HomeHeader from "../components/HomeHeader";
 import CategoryList from "../components/CategoryList";
 import ChoicesList from "../components/ChoicesList";
+import Heading from "../components/Heading";
+import NearbyRestaurants from "../components/NearbyRestaurants";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [selectedSection, setSelectedSection] = useState(null)
   const [selectedValue, setSelectedValue] = useState(null)
   const [selectedChoice, setSelectedChoice] = useState(null)
-  console.log(selectedChoice);
 
   return (
     <SafeAreaView>
@@ -29,6 +30,11 @@ const Home = () => {
               setSelectedValue={setSelectedValue}
             />
             <ChoicesList setSelectedChoice={setSelectedChoice} setSelectedSection={setSelectedSection} />
+            <View>
+              <Heading heading={'Nearby Restaurants'} onPress={() => { }} />
+              <NearbyRestaurants />
+              <Heading heading={'Try Something New'} onPress={() => { }} />
+            </View>
           </ScrollView>
         </View>
       </View>
