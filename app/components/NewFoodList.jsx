@@ -2,12 +2,13 @@ import { View, Text, FlatList } from 'react-native'
 import React from 'react'
 import uidata from '../constants/uidata'
 import FoodComponent from './FoodComponent'
+import { useNavigation } from '@react-navigation/native'
 
 const NewFoodList = () => {
-
+    const navigation = useNavigation();
     const renderItem = ({ item }) => (
         <View>
-            <FoodComponent item={item} onPress={() => { }} />
+            <FoodComponent item={item} onPress={() => navigation.navigate('food-nav', item)} />
         </View>
     )
 
