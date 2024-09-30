@@ -9,7 +9,7 @@ import * as Location from 'expo-location';
 import BottomTab from './app/navigation/BottomTab';
 import { UserLocationContext } from './app/context/UserLocationContext';
 import { UserReversedGeoCode } from './app/context/UserReversedGeoCode';
-import FoodNavigator from './app/components/FoodNavigator';
+import FoodNavigator from './app/navigation/FoodNavigator';
 
 const Stack = createNativeStackNavigator();
 export default function App() {

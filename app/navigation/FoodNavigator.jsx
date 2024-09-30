@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useRoute } from '@react-navigation/native'
-import FoodPage from '../screens/FoodPage';
+import FoodPage from '../screens/FoodPage'
 import OrderPage from '../screens/OrderPage';
 
 const Stack = createNativeStackNavigator();
