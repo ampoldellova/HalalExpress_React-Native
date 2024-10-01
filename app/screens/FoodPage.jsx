@@ -1,8 +1,9 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { CartCountContext } from '../context/CartCountContext';
 import { COLORS, SIZES } from "../constants/theme";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons"
+import BouncyCheckbox from "react-native-bouncy-checkbox"
 
 const FoodPage = ({ route, navigation }) => {
   const item = route.params.item;
@@ -45,6 +46,43 @@ const FoodPage = ({ route, navigation }) => {
         </View>
 
         <Text style={styles.small}>{item.description}</Text>
+
+        <FlatList
+          data={item.foodTags}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item) => item}
+          style={{ marginTop: 10 }}
+          horizontal
+          scrollEnabled
+          renderItem={({ item }) => (
+            <View style={styles.tags}>
+              <Text style={{ paddingHorizontal: 4, color: COLORS.lightWhite }}>{item}</Text>
+            </View>
+          )} />
+
+        <Text style={[styles.title, { marginBottom: 10, marginTop: 20 }]}> Additives and Toppings</Text>
+
+        <FlatList
+          data={item.additives}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => item.id}
+          style={{ marginTop: 10 }}
+          scrollEnabled={false}
+          renderItem={({ item }) => (
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+
+              <BouncyCheckbox
+                size={20}
+                unfillColor="#FFFFFF"
+                fillColor={COLORS.primary}
+                innerIconStyle={{ borderWidth: 1 }}
+                textStyle={styles.small}
+                text={item.title}
+              />
+        
+              <Text style={styles.small}>$ {item.price}</Text>
+            </View>
+          )} />
       </View>
     </View>
   )
@@ -90,5 +128,11 @@ const styles = StyleSheet.create({
     fontFamily: 'regular',
     color: COLORS.gray,
     textAlign: "justify"
+  },
+  tags: {
+    right: 10,
+    marginHorizontal: 10,
+    backgroundColor: COLORS.primary,
+    borderRadius: 8
   }
 })
