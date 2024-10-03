@@ -1,8 +1,8 @@
-import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { CartCountContext } from '../context/CartCountContext';
 import { COLORS, SIZES } from "../constants/theme";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons"
+import { Ionicons, MaterialCommunityIcons, AntDesign } from "@expo/vector-icons"
 import BouncyCheckbox from "react-native-bouncy-checkbox"
 import Counter from '../components/Counter';
 
@@ -100,7 +100,28 @@ const FoodPage = ({ route, navigation }) => {
           <Counter count={count} setCount={setCount} />
         </View>
       </View>
-      
+
+      <View style={{ top: 110 }}>
+        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+          <View style={styles.suspended}>
+            <View style={styles.cart}>
+              <View style={styles.cartRow}>
+                <TouchableOpacity onPress={() => { }} style={styles.cartBtn}>
+                  <AntDesign name='pluscircleo' size={24} color={COLORS.lightWhite} />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => navigation.navigate('order-page')} style={{ backgroundColor: COLORS.primary, paddingHorizontal: 80, borderRadius: 30 }}>
+                  <Text style={[styles.title, { color: COLORS.lightWhite, marginTop: 5, alignItems: "center" }]}>Order</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => { }} style={styles.cartBtn}>
+                  <Text style={[styles.title, { color: COLORS.lightWhite, marginTop: 5, alignItems: "center" }]}>{0}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
     </View >
   )
 }
@@ -162,5 +183,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     alignItems: "center",
     flexDirection: 'row'
+  },
+  suspended: {
+    position: 'absolute',
+    zIndex: 999,
+    bottom: 50,
+    width: "100%",
+    alignItems: "center"
+  },
+  cart: {
+    width: SIZES.width - 24,
+    height: 60,
+    justifyContent: "center",
+    backgroundColor: COLORS.primary1,
+    borderRadius: 30
+  },
+  cartRow: {
+    flexDirection: 'row',
+    justifyContent: "space-between",
+    marginHorizontal: 12
+  },
+  cartBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 99,
+    justifyContent: "center",
+    backgroundColor: COLORS.primary,
+    alignItems: "center"
   }
 })
