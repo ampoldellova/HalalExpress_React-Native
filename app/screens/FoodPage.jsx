@@ -1,9 +1,10 @@
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { CartCountContext } from '../context/CartCountContext';
 import { COLORS, SIZES } from "../constants/theme";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons"
 import BouncyCheckbox from "react-native-bouncy-checkbox"
+import Counter from '../components/Counter';
 
 const FoodPage = ({ route, navigation }) => {
   const item = route.params.item;
@@ -76,15 +77,31 @@ const FoodPage = ({ route, navigation }) => {
                 unfillColor="#FFFFFF"
                 fillColor={COLORS.primary}
                 innerIconStyle={{ borderWidth: 1 }}
-                textStyle={styles.small}
-                text={item.title}
+              // text={item.title}
               />
-        
+              <Text style={styles.small}>{item.title}</Text>
               <Text style={styles.small}>$ {item.price}</Text>
             </View>
           )} />
+
+        <Text style={[styles.title, { marginBottom: 10, marginTop: 20 }]}> Preferences</Text>
+
+        <View style={styles.input}>
+          <TextInput
+            placeholder='Add specific instructions'
+            value={preference} onChangeText={(value) => setPreference(value)}
+            autoCapitalize={false}
+            autoCorrect={false}
+            style={{ flex: 1 }} />
+        </View>
+
+        <View style={{ flexDirection: 'row', justifyContent: "space-between", marginTop: 20 }}>
+          <Text style={[styles.title, { marginBottom: 10 }]}>Quantity</Text>
+          <Counter count={count} setCount={setCount} />
+        </View>
       </View>
-    </View>
+      
+    </View >
   )
 }
 
@@ -133,6 +150,17 @@ const styles = StyleSheet.create({
     right: 10,
     marginHorizontal: 10,
     backgroundColor: COLORS.primary,
-    borderRadius: 8
+    borderRadius: 15,
+    padding: 5
+  },
+  input: {
+    borderColor: COLORS.primary1,
+    borderWidth: 1,
+    backgroundColor: COLORS.offwhite,
+    height: 50,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    alignItems: "center",
+    flexDirection: 'row'
   }
 })
