@@ -1,5 +1,5 @@
 import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { CartCountContext } from '../context/CartCountContext';
 import { COLORS, SIZES } from "../constants/theme";
 import { Ionicons, MaterialCommunityIcons, AntDesign } from "@expo/vector-icons"
@@ -15,6 +15,34 @@ const FoodPage = ({ route, navigation }) => {
   const [count, setCount] = useState(1);
   const [preference, setPreference] = useState('');
   // const { cartCount, setCartCount } = useContext(CartCountContext);
+
+  const handleAdditives = (newAdditives) => {
+    setAdditives((prevAdditives) => {
+      const exists = prevAdditives.some(
+        (additives) => additives.id === newAdditives.id
+      );
+
+      if (exists) {
+        return prevAdditives.filter(
+          (additives) => additives.id !== newAdditives.id
+        )
+      } else {
+        return [...prevAdditives, newAdditives]
+      }
+
+    })
+  }
+
+  useEffect(() => {
+    calculatePrice();
+  }, [additives])
+
+  const calculatePrice = () => {
+    const total = additives.reduce((sum, additive) => {
+      return sum + parseFloat(additive.price)
+    }, 0)
+    setTotalPrice(total)
+  }
 
   return (
     <View style={{ backgroundColor: COLORS.lightWhite, height: SIZES.height }}>
@@ -77,7 +105,10 @@ const FoodPage = ({ route, navigation }) => {
                 unfillColor="#FFFFFF"
                 fillColor={COLORS.primary}
                 innerIconStyle={{ borderWidth: 1 }}
-              // text={item.title}
+                // text={item.title}
+                onPress={() => {
+                  handleAdditives(item);
+                }}
               />
               <Text style={styles.small}>{item.title}</Text>
               <Text style={styles.small}>$ {item.price}</Text>
