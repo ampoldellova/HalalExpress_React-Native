@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useContext, useState } from "react";
 import { COLORS, SIZES } from "../constants/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -18,6 +18,14 @@ const Home = () => {
   const [selectedSection, setSelectedSection] = useState(null)
   const [selectedValue, setSelectedValue] = useState(null)
   const [selectedChoice, setSelectedChoice] = useState(null)
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   return (
     <SafeAreaView>
@@ -26,7 +34,11 @@ const Home = () => {
           <HomeHeader />
           <ScrollView
             showsVerticalScrollIndicator={false}
-            style={{ borderBottomEndRadius: 30, borderBottomStartRadius: 30 }}>
+            style={{ borderBottomEndRadius: 30, borderBottomStartRadius: 30 }}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
+            }
+          >
             <CategoryList
               setSelectedCategory={setSelectedCategory}
               setSelectedSection={setSelectedSection}
@@ -46,7 +58,7 @@ const Home = () => {
           </ScrollView>
         </View>
       </View>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };
 

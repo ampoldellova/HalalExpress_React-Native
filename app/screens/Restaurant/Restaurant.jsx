@@ -75,7 +75,7 @@ const Restaurant = ({ navigation }) => {
 
                 <View style={{ flexDirection: 'row', justifyContent: "space-between" }}>
                     <Text style={[styles.small, { color: COLORS.gray }]}>Preparation and Delivery Time:</Text>
-                    <Text style={[styles.small, { fontFamily: 'regular' }]}>{totalTime} mins</Text>
+                    <Text style={[styles.small, { fontFamily: 'regular' }]}>{(totalTime).toFixed(0)} mins</Text>
                 </View>
 
                 <View style={{ flexDirection: 'row', justifyContent: "space-between" }}>
@@ -83,7 +83,7 @@ const Restaurant = ({ navigation }) => {
                     <Text style={[styles.small, { fontFamily: 'regular' }]}>{distanceTime.finalPrice}</Text>
                 </View>
             </View>
-            <View style={{ height: 400 }}>
+            <View style={{ height: SIZES.height / 1.5 }}>
                 <RestaurantPage />
             </View>
         </View>

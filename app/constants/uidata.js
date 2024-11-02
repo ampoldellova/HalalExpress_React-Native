@@ -84,8 +84,8 @@ const restaurants = [
     },
     {
         "_id": "6530ea6bc9e72013e5b6592d",
-        "title": "Burger King",
-        "time": "30 min",
+        "title": "Hossein's Persian Kebab",
+        "time": "10 min",
         "imageUrl": "https://d326fntlu7tb1e.cloudfront.net/uploads/5c2a9ca8-eb07-400b-b8a6-2acfab2a9ee2-image001.webp",
         "owner": "sjgdsjgfjshhjs",
         "code": "41007428",
@@ -94,10 +94,10 @@ const restaurants = [
         "ratingCount": "3278",
         "coords": {
             "id": "2020",
-            "latitude": 37.785925590588505,
-            "longitude": -122.41007428687641,
+            "latitude": 14.5630044,
+            "longitude": 121.0283879,
             "address": "333 O'Farrell St, San Francisco, CA 94102, United States",
-            "title": "Burger King",
+            "title": "Hossein's Persian Kebab",
             "latitudeDelta": 0.0122,
             "longitudeDelta": 0.0221
         }
@@ -114,8 +114,8 @@ const restaurants = [
         "ratingCount": "5666",
         "coords": {
             "id": "2022",
-            "latitude": 37.787503258917035,
-            "longitude": -122.39854938269353,
+            "latitude": 14.4983209,
+            "longitude": 121.0566424,
             "address": "333 O'Farrell St, San Francisco, CA 94102, United States",
             "title": "La Foods",
             "latitudeDelta": 0.0122,
@@ -134,8 +134,8 @@ const restaurants = [
         "ratingCount": "3278",
         "coords": {
             "id": "2021",
-            "latitude": 37.78557922976825,
-            "longitude": -122.40722000299483,
+            "latitude": 14.498309,
+            "longitude": 121.0566424,
             "address": "333 O'Farrell St, San Francisco, CA 94102, United States",
             "title": "Italian Restaurant",
             "latitudeDelta": 0.0122,
