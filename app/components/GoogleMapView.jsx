@@ -18,19 +18,6 @@ const GoogleMapView = ({ placeList }) => {
         longitudeDelta: 0.0221,
     });
 
-    // const handleRegionChangeComplete = (region) => {
-    //     // Update map region to the new region
-    //     setMapRegion(region);
-
-    //     // Optionally fetch new directions here
-    //     fetchDirections(
-    //         placeList[0].latitude,
-    //         placeList[0].longitude,
-    //         region.latitude,
-    //         region.longitude
-    //     );
-    // };
-
     useEffect(() => {
         if (location) {
             setMapRegion({
