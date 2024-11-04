@@ -55,8 +55,8 @@ const Restaurant = ({ navigation }) => {
                     <View style={styles.innerRating}>
                         <RatingInput
                             rating={Number(item.rating)}
-                            size={20}
-                            color={COLORS.primary}
+                            size={22}
+                            // color={COLORS.primary}
                         />
                         <TouchableOpacity style={styles.ratingBtn} onPress={() => navigation.navigate('rating')}>
                             <Text style={styles.btnText}>Rate this store</Text>
@@ -130,8 +130,8 @@ const styles = StyleSheet.create({
         position: "absolute",
         backgroundColor: "#00fff",
         zIndex: 999,
-        bottom: 20,
-        borderRadius: 15
+        bottom: 5,
+        borderRadius: 15,
     },
     innerRating: {
         flexDirection: 'row',
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 12
     },
     ratingBtn: {
-        borderColor: COLORS.lightWhite,
+        borderColor: COLORS.primary,
         borderWidth: 1,
         borderRadius: 9,
         padding: 6

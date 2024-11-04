@@ -85,7 +85,9 @@ const FoodPage = ({ route, navigation }) => {
           scrollEnabled
           renderItem={({ item }) => (
             <View style={styles.tags}>
-              <Text style={{ paddingHorizontal: 4, color: COLORS.lightWhite }}>{item}</Text>
+              <Text style={{ paddingHorizontal: 4, color: COLORS.lightWhite }}>
+                {item}
+              </Text>
             </View>
           )} />
 

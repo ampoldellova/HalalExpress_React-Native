@@ -93,7 +93,7 @@ export default GoogleMapView
 const styles = StyleSheet.create({
     mapContainer: {
         width: SIZES.width,
-        height: SIZES.height / 2,
+        height: SIZES.height / 2.25,
         borderColor: COLORS.gray2,
         borderWidth: 1
     },
