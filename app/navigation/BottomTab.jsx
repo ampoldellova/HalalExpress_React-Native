@@ -9,6 +9,7 @@ import Profile from "../screens/Profile";
 import Cart from "../screens/Cart";
 import { CartCountContext } from "../context/CartCountContext";
 import { LoginContext } from "../context/LoginContext";
+import LoginPage from "../screens/LoginPage";
 
 const Tab = createBottomTabNavigator();
 
@@ -21,14 +22,15 @@ const tabBarStyle = {
 
 const BottomTab = () => {
   // const {count, isCartLoading, error, refetch} =fetchCartCount();
-  
-  // const { cartCount, setCartCount } = useContext(CartCountContext);
-  // const {login, setLogin} = useContext(LoginContext)
+
+  const { cartCount, setCartCount } = useContext(CartCountContext);
+  const { login, setLogin } = useContext(LoginContext)
+  // console.log(cartCount)
 
   // if(isCartLoading){
   //   setCartCount(count)
   // }
-  
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -80,38 +82,38 @@ const BottomTab = () => {
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <View style={{ width: 26, height: 26, position: 'relative' }}>
-            <FontAwesome
+              <FontAwesome
                 name={
-                    focused ? "opencart" : "opencart"
+                  focused ? "opencart" : "opencart"
                 }
                 color={focused ? COLORS.secondary : COLORS.secondary1}
                 size={26}
-            />
-            
-                <View
-                    style={{
-                        position: 'absolute',
-                        right: -6,
-                        top: -3,
-                        backgroundColor: 'red',
-                        borderRadius: 7,
-                        width: 14,
-                        height: 14,
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                >
-                    <Text style={{ color: 'white', fontSize: 10 }}>{0}</Text>
-                </View>
-            
-        </View>
+              />
+
+              <View
+                style={{
+                  position: 'absolute',
+                  right: -6,
+                  top: -3,
+                  backgroundColor: 'red',
+                  borderRadius: 7,
+                  width: 14,
+                  height: 14,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <Text style={{ color: 'white', fontSize: 10 }}>{cartCount}</Text>
+              </View>
+
+            </View>
           ),
         }}
       />
 
       <Tab.Screen
         name="Profile"
-        component={Profile }
+        component={login ? Profile : LoginPage}
         options={{
           tabBarStyle: tabBarStyle,
           tabBarShowLabel: false,

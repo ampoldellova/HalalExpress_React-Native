@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
@@ -14,12 +14,18 @@ import RestaurantPage from './app/navigation/RestaurantPage';
 import Restaurant from './app/screens/Restaurant/Restaurant';
 import AddRating from './app/screens/AddRating';
 import { RestaurantContext } from './app/context/RestaurantContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LoginContext } from './app/context/LoginContext';
+import { CartCountContext } from './app/context/CartCountContext';
+import SignUp from './app/screens/SignUp';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [login, setLogin] = useState(null)
   const [location, setLocation] = useState(null);
   const [address, setAddress] = useState(null);
+  const [cartCount, setCartCount] = useState(0);
   const [restaurantObj, setRestaurantObj] = useState(null);
   const [error, setErrorMsg] = useState(null);
 
@@ -51,8 +57,8 @@ export default function App() {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      setLocation(location)
-      console.log(location);
+      setLocation(location);
+      loginStatus();
     })();
   }, [])
 
@@ -61,39 +67,57 @@ export default function App() {
     return;
   }
 
+  const loginStatus = async () => {
+    const userToken = await AsyncStorage.getItem('token')
+    if (userToken !== null) {
+      setLogin(true)
+    } else {
+      setLogin(false)
+    }
+  };
+
   return (
     <UserLocationContext.Provider value={{ location, setLocation }}>
       <UserReversedGeoCode.Provider value={{ address, setAddress }}>
         <RestaurantContext.Provider value={{ restaurantObj, setRestaurantObj }}>
-          <NavigationContainer>
-            <Stack.Navigator>
-              <Stack.Screen
-                name='bottom-navigation'
-                component={BottomTab}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name='food-nav'
-                component={FoodNavigator}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name='restaurant-page'
-                component={RestaurantPage}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name='restaurant'
-                component={Restaurant}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name='rating'
-                component={AddRating}
-                options={{ headerShown: false }}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
+          <LoginContext.Provider value={{ login, setLogin }}>
+            <CartCountContext.Provider value={{ cartCount, setCartCount }}>
+              <NavigationContainer>
+                <Stack.Navigator>
+                  <Stack.Screen
+                    name='bottom-navigation'
+                    component={BottomTab}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name='food-nav'
+                    component={FoodNavigator}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name='restaurant-page'
+                    component={RestaurantPage}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name='restaurant'
+                    component={Restaurant}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name='signUp'
+                    component={SignUp}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name='rating'
+                    component={AddRating}
+                    options={{ headerShown: false }}
+                  />
+                </Stack.Navigator>
+              </NavigationContainer>
+            </CartCountContext.Provider>
+          </LoginContext.Provider>
         </RestaurantContext.Provider>
       </UserReversedGeoCode.Provider>
     </UserLocationContext.Provider>

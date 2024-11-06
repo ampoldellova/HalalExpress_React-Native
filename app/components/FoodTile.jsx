@@ -54,16 +54,14 @@ export default FoodTile
 
 const styles = StyleSheet.create({
     wrapper: {
-        backgroundColor: COLORS.offwhite,
-        // shadowColor: SHADOWS.medium,
-        borderRadius: 15,
+        left: 5,
+        backgroundColor: COLORS.lightWhite,
+        borderRadius: 12,
         padding: 12,
         marginBottom: 15,
         marginRight: 10,
         paddingRight: 7,
-        borderWidth: 1,
-        borderColor: COLORS.gray2,
-        marginLeft: 10
+        ...SHADOWS.small
     },
     title: {
         fontSize: 16,

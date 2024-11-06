@@ -168,7 +168,7 @@ import {
             source={require("../../assets/anime/delivery.json")}
           />
   
-          <Text style={styles.titleLogin}>Foodly Family</Text>
+          <Text style={styles.titleLogin}>HalalExpress</Text>
           <Formik
             initialValues={{
               email: "",

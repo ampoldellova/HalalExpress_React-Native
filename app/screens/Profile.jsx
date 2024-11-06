@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
 import React, { useContext, useState } from "react";
 import { COLORS, SIZES } from "../constants/theme";
 // import fetchProfile from "../hooks/fetchProfile";
@@ -11,6 +11,7 @@ import ProfileTile from "../components/ProfileTile";
 import RegistrationTile from "../components/RegistrationTile";
 
 const Profile = () => {
+  const { login, setLogin } = useContext(LoginContext)
   const [user, setUser] = useState(null)
 
   // const { user, isProfileLoading, error, refetch } = fetchProfile();
@@ -22,12 +23,12 @@ const Profile = () => {
   //   return <LoadingScreen />;
   // }
   return (
-    <View>
+    <ScrollView>
       <View style={{ backgroundColor: COLORS.primary, height: SIZES.height }}>
         <View
           style={{
             backgroundColor: COLORS.offwhite,
-            height: SIZES.height-55,
+            height: SIZES.height - 55,
             borderBottomEndRadius: 30,
             borderBottomStartRadius: 30,
           }}
@@ -48,7 +49,7 @@ const Profile = () => {
               }}
             >
               <NetworkImage
-                source={user === null ? profile : user.profile}
+                data={user === null ? profile : user.profile}
                 width={45}
                 height={45}
                 radius={99}
@@ -66,7 +67,7 @@ const Profile = () => {
             <TouchableOpacity>
               <AntDesign name="logout" size={24} color="red" />
             </TouchableOpacity>
-            
+
           </View>
 
           <RegistrationTile
@@ -102,12 +103,12 @@ const Profile = () => {
             <ProfileTile title={"History"} icon={"globe-outline"} font={1} />
           </View>
 
-          <RegistrationTile
+          {/* <RegistrationTile
             heading={"Join the courier team"}
             desc={
               "Embark on a journey, deliver joy, and earn on your own schedule."
             }
-          />
+          /> */}
 
           <View
             style={{
@@ -127,7 +128,7 @@ const Profile = () => {
           </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

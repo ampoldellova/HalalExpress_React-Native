@@ -36,7 +36,7 @@ const Home = () => {
             showsVerticalScrollIndicator={false}
             style={{ borderBottomEndRadius: 30, borderBottomStartRadius: 30 }}
             refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
           >
             <CategoryList
@@ -45,16 +45,22 @@ const Home = () => {
               setSelectedValue={setSelectedValue}
             />
             <ChoicesList setSelectedChoice={setSelectedChoice} setSelectedSection={setSelectedSection} />
-            <View>
-              <Heading heading={'Nearby Restaurants'} onPress={() => { }} />
-              <NearbyRestaurants />
-              <Divider />
-              <Heading heading={'Try Something New'} onPress={() => { }} />
-              <NewFoodList />
-              <Divider />
-              <Heading heading={'Fastest Near You'} onPress={() => { }} />
-              <FastestNearYou />
-            </View>
+            {selectedCategory !== null && selectedSection !== null ? (
+              <View>
+                <Heading heading={`Browse ${selectedValue}`} onPress={() => { }} />
+              </View>
+            ) : (
+              <View>
+                <Heading heading={'Nearby Restaurants'} onPress={() => { }} />
+                <NearbyRestaurants />
+                <Divider />
+                <Heading heading={'Try Something New'} onPress={() => { }} />
+                <NewFoodList />
+                <Divider />
+                <Heading heading={'Fastest Near You'} onPress={() => { }} />
+                <FastestNearYou />
+              </View>
+            )}
           </ScrollView>
         </View>
       </View>
