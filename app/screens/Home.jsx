@@ -1,0 +1,77 @@
+import { RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useContext, useState } from "react";
+import { COLORS, SIZES } from "../constants/theme";
+import { SafeAreaView } from "react-native-safe-area-context";
+import pages from './page.style'
+import uidata from "../constants/uidata";
+import HomeHeader from "../components/HomeHeader";
+import CategoryList from "../components/CategoryList";
+import ChoicesList from "../components/ChoicesList";
+import Heading from "../components/Heading";
+import NearbyRestaurants from "../components/NearbyRestaurants";
+import Divider from "../components/Divider";
+import NewFoodList from "../components/NewFoodList";
+import FastestNearYou from "../components/FastestNearYou";
+import HomeCategories from "../components/HomeCategories";
+
+const Home = () => {
+  const [selectedCategory, setSelectedCategory] = useState(null)
+  const [selectedSection, setSelectedSection] = useState(null)
+  const [selectedValue, setSelectedValue] = useState(null)
+  const [selectedChoice, setSelectedChoice] = useState(null)
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
+  return (
+    <SafeAreaView>
+      <View style={pages.viewOne}>
+        <View style={pages.viewTwo}>
+          <HomeHeader />
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{ borderBottomEndRadius: 30, borderBottomStartRadius: 30 }}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          >
+            <CategoryList
+              setSelectedCategory={setSelectedCategory}
+              setSelectedSection={setSelectedSection}
+              setSelectedValue={setSelectedValue}
+            />
+            <ChoicesList setSelectedChoice={setSelectedChoice} setSelectedSection={setSelectedSection} />
+            {selectedCategory !== null && selectedSection !== null ? (
+              <View>
+                <Heading heading={`Browse ${selectedValue}`} onPress={() => { }} />
+                <HomeCategories />
+              </View>
+            ) : (
+              <View>
+                <Heading heading={'Nearby Restaurants'} onPress={() => { }} />
+                <NearbyRestaurants />
+                <Divider />
+                <Heading heading={'Try Something New'} onPress={() => { }} />
+                <NewFoodList />
+                <Divider />
+                <Heading heading={'Fastest Near You'} onPress={() => { }} />
+                <FastestNearYou />
+              </View>
+            )}
+          </ScrollView>
+        </View>
+      </View>
+    </SafeAreaView >
+  );
+};
+
+export default Home;
+
+const styles = StyleSheet.create({
+
+});
