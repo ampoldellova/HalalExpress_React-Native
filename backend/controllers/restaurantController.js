@@ -8,7 +8,7 @@ module.exports = {
             await newRestaurant.save()
             res.status(201).json({ status: true, message: "Restaurant Created Successfully" })
         } catch (error) {
-            res.status(500).json({ status: false, message: "Error Creating Restaurant" })
+            res.status(500).json({ status: false, message: "Error Creating Restaurant", error: error.message })
         }
     },
 
@@ -48,7 +48,7 @@ module.exports = {
     },
 
     getRestaurant: async (req, res) => {
-        const restaurantId = req.params
+        const restaurantId = req.params.id
 
         try {
             const restaurant = await Restaurant.findById(restaurantId)
