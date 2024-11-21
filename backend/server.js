@@ -6,6 +6,7 @@ const app = express()
 const port = 6002
 
 const authRouter = require('./routes/auth')
+const userRouter = require('./routes/user')
 
 dotenv.config()
 
@@ -21,4 +22,8 @@ mongoose.connect(process.env.MONGO_URL).then(() => console.log('Database Connect
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', authRouter);
+app.use('/api/users', userRouter);
+
+
+
 app.listen(process.env.PORT || port, () => console.log(`HalalExpress app listening on port ${process.env.PORT}!`))
