@@ -1,11 +1,12 @@
 import { Linking, Platform, StyleSheet, Text, View } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { RestaurantContext } from '../../context/RestaurantContext'
 import GoogleMapView from '../../components/GoogleMapView'
 import { COLORS, SIZES } from '../../constants/theme'
 import { TouchableOpacity } from 'react-native'
 
 const Directions = () => {
+  const [key, setKey] = useState(0)
   const { restaurantObj, setRestaurantObj } = useContext(RestaurantContext)
   const coords = restaurantObj.coords
   const onDirectionClick = () => {
@@ -16,9 +17,13 @@ const Directions = () => {
     Linking.openURL(url);
   }
 
+  useEffect(() => {
+    setKey(prev => prev + 1)
+  },[])
+
   return (
     <View>
-      <GoogleMapView placeList={[coords]} />
+      <GoogleMapView key={key} placeList={[coords]} />
 
       <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: 12 }}>
 

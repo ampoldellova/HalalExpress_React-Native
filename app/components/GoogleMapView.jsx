@@ -2,9 +2,11 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { UserLocationContext } from '../context/UserLocationContext';
 import { COLORS, SIZES } from '../constants/theme';
+// import MapView, { PROVIDER_GOOGLE, Marker, Polyline } from 'react-native-maps';
 import MapView, { PROVIDER_GOOGLE, Marker, Polyline } from 'react-native-maps';
 import PlaceMarker from './PlaceMarker';
 import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
 
 const GoogleMapView = ({ placeList }) => {
     const [directions, setDirections] = useState([]);
@@ -12,29 +14,49 @@ const GoogleMapView = ({ placeList }) => {
     const { location, setLocation } = useContext(UserLocationContext)
 
     const [mapRegion, setMapRegion] = useState({
-        latitude: 14.50970849,
-        longitude: 121.0359409655718,
-        latitudeDelta: 0.0122,
-        longitudeDelta: 0.0221,
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.1,
+        longitudeDelta: 0.1,
     });
 
-    useEffect(() => {
-        if (location) {
-            setMapRegion({
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-                latitudeDelta: 0.1,
-                longitudeDelta: 0.1,
-            });
 
-            fetchDirections(
-                placeList[0].latitude,
-                placeList[0].longitude,
-                location.coords.latitude,
-                location.coords.longitude,
-            )
-        }
-    }, [location, coordinates])
+    useFocusEffect(
+        React.useCallback(() => {
+            if (location) {
+                setMapRegion({
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude,
+                    latitudeDelta: 0.1,
+                    longitudeDelta: 0.1,
+                });
+
+                fetchDirections(
+                    placeList[0].latitude,
+                    placeList[0].longitude,
+                    location.coords.latitude,
+                    location.coords.longitude,
+                )
+            }
+        }, [location, coordinates])
+    )
+    // useEffect(() => {
+    //     if (location) {
+    //         setMapRegion({
+    //             latitude: location.coords.latitude,
+    //             longitude: location.coords.longitude,
+    //             latitudeDelta: 0.1,
+    //             longitudeDelta: 0.1,
+    //         });
+
+    //         fetchDirections(
+    //             placeList[0].latitude,
+    //             placeList[0].longitude,
+    //             location.coords.latitude,
+    //             location.coords.longitude,
+    //         )
+    //     }
+    // }, [location, coordinates])
 
 
     const fetchDirections = async (startLat, startLng, destinationLat, destinationLng) => {
@@ -47,7 +69,7 @@ const GoogleMapView = ({ placeList }) => {
                 longitude: point[0],
             })));
 
-            setCoordinates(coordinates); 
+            setCoordinates(coordinates);
         } catch (error) {
             console.error("Error fetching directions:", error);
         }
