@@ -2,7 +2,7 @@ const Category = require('../models/Categories');
 
 module.exports = {
     createCategory: async (req, res) => {
-        const newCategory = new Category(req, body)
+        const newCategory = new Category(req.body)
 
         try {
             await newCategory.save()
