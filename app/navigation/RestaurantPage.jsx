@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, useWindowDimensions } from 'react-native';
-import { TabView, SceneMap } from 'react-native-tab-view';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { COLORS } from '../constants/theme';
 import Menu from '../screens/Restaurant/Menu';
 import Directions from '../screens/Restaurant/Directions';
@@ -36,12 +36,25 @@ const RestaurantPage = () => {
         { key: 'third', title: 'New' },
     ]);
 
+    const renderTabBar = (props) => (
+        <TabBar
+            {...props}
+            indicatorStyle={{ backgroundColor: COLORS.lightWhite }} // Indicator (underline) color
+            style={{ backgroundColor: COLORS.primary }} // Tab bar background color
+            labelStyle={{ fontWeight: 'bold' }} // Font styling for tab labels
+            activeColor={COLORS.secondary} // Active tab text color
+            inactiveColor={COLORS.lightWhite} // Inactive tab text color
+        />
+    );
+
     return (
         <TabView
+            indicat
             navigationState={{ index, routes }}
             renderScene={renderScene}
             onIndexChange={setIndex}
             initialLayout={{ width: layout.width }}
+            renderTabBar={renderTabBar}
         />
     );
 }
