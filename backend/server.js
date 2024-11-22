@@ -8,6 +8,7 @@ const port = 6002
 const authRouter = require('./routes/auth')
 const userRouter = require('./routes/user')
 const restaurantRouter = require('./routes/restaurant')
+const categoryRouter = require('./routes/category')
 
 dotenv.config()
 
@@ -26,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/restaurant', restaurantRouter);
+app.use('/api/category', categoryRouter);
 
 
 app.listen(process.env.PORT || port, () => console.log(`HalalExpress app listening on port ${process.env.PORT}!`))
