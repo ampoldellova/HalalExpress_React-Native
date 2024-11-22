@@ -39,11 +39,11 @@ const RestaurantPage = () => {
     const renderTabBar = (props) => (
         <TabBar
             {...props}
-            indicatorStyle={{ backgroundColor: COLORS.lightWhite }} // Indicator (underline) color
-            style={{ backgroundColor: COLORS.primary }} // Tab bar background color
-            labelStyle={{ fontWeight: 'bold' }} // Font styling for tab labels
-            activeColor={COLORS.secondary} // Active tab text color
-            inactiveColor={COLORS.lightWhite} // Inactive tab text color
+            indicatorStyle={{ backgroundColor: COLORS.lightWhite }} 
+            style={{ backgroundColor: COLORS.primary }} 
+            labelStyle={{ fontWeight: 'bold' }} 
+            activeColor={COLORS.secondary} 
+            inactiveColor={COLORS.lightWhite} 
         />
     );
 
