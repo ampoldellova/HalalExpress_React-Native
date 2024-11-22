@@ -5,6 +5,7 @@ import { COLORS } from '../constants/theme';
 import Menu from '../screens/Restaurant/Menu';
 import Directions from '../screens/Restaurant/Directions';
 import New from '../screens/Restaurant/New';
+import 'react-native-gesture-handler';
 
 const FirstRoute = () => (
     <View style={{ flex: 1, backgroundColor: COLORS.lightWhite }} />

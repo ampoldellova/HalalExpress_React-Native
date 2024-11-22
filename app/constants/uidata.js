@@ -74,8 +74,8 @@ const restaurants = [
         "ratingCount": "6765",
         "coords": {
             "id": "2023",
-            "latitude": 14.509708499999999,
-            "longitude": 121.0359409655718,
+            "latitude": 14.55067,
+            "longitude": 121.057569,
             "address": "698 Post St, San Francisco, CA 94109, United States",
             "title": "Lapisara Eatery",
             "latitudeDelta": 0.0122,

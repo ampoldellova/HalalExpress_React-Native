@@ -10,6 +10,7 @@ import Cart from "../screens/Cart";
 import { CartCountContext } from "../context/CartCountContext";
 import { LoginContext } from "../context/LoginContext";
 import LoginPage from "../screens/LoginPage";
+import 'react-native-gesture-handler';
 
 const Tab = createBottomTabNavigator();
 

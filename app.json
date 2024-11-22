@@ -18,22 +18,21 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.dacarnage.expofire",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "config": {
-        "package": "com.dacarnage.foodly",
-        "googleMaps": {
-          "apiKey": "AIzaSyDuPMUUBxeeqh65Brjy5NYxpdZ-XmvOFyw"
-        }
       },
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.FOREGROUND_SERVICE"
       ],
-      "package": "com.dacarnage.expofire"
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDuPMUUBxeeqh65Brjy5NYxpdZ-XmvOFyw"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -45,6 +44,11 @@
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "4be65fdd-c591-4c21-8038-bd667af23781"
+      }
+    }
   }
 }
