@@ -4,12 +4,13 @@
   "main": "expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.23.1",
+    "@react-native-community/cli": "^15.1.2",
     "@react-navigation/bottom-tabs": "^6.6.1",
     "@react-navigation/material-top-tabs": "^6.6.14",
     "@react-navigation/native": "^6.1.18",
@@ -20,6 +21,7 @@
     "expo-location": "~18.0.2",
     "expo-splash-screen": "^0.29.13",
     "expo-status-bar": "~2.0.0",
+    "expo-system-ui": "~4.0.4",
     "firebase": "^10.13.1",
     "formik": "^2.4.6",
     "lottie-react-native": "^7.1.0",
@@ -40,7 +42,8 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "react-native-codegen": "^0.70.7"
   },
   "private": true,
   "expo": {
@@ -49,9 +52,12 @@
         "exclude": [
           "firebase",
           "node-fetch",
+          "react-native-mmkv",
           "react-native-stock-star-rating",
           "react-native-bouncy-checkbox",
           "react-native-star-rating",
+          "lottie-react-native",
+          "react-native-gesture-handler",
           "yup"
         ],
         "listUnknownPackages": false
