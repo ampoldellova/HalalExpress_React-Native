@@ -47,10 +47,12 @@ const foodSchema = new mongoose.Schema({
         type: Array,
         required: true
     },
-    imageUrl: {
-        type: String,
-        required: true,
-    }
+    imageUrl: [
+        {
+            type: String,
+            required: true,
+        }
+    ]
 });
 
 module.exports = mongoose.model('Food', foodSchema)
