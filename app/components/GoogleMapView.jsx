@@ -85,7 +85,7 @@ const GoogleMapView = ({ placeList }) => {
                 showsUserLocation={true}
                 region={mapRegion}
             >
-                <Marker title='My location' coordinate={mapRegion} />
+                <Marker title='My location' coordinate={mapRegion} style={{}}/>
 
                 {placeList.map(
                     (item, index) => index <= 1 && <PlaceMarker coordinates={item} />
