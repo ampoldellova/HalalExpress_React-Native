@@ -11,6 +11,7 @@ import { CartCountContext } from "../context/CartCountContext";
 import { LoginContext } from "../context/LoginContext";
 import LoginPage from "../screens/LoginPage";
 import 'react-native-gesture-handler';
+import { useSelector } from "react-redux";
 
 const Tab = createBottomTabNavigator();
 
@@ -26,11 +27,14 @@ const BottomTab = () => {
 
   const { cartCount, setCartCount } = useContext(CartCountContext);
   const { login, setLogin } = useContext(LoginContext)
+  const { user } = useSelector(state => state.user)
   // console.log(cartCount)
 
   // if(isCartLoading){
   //   setCartCount(count)
   // }
+  console.log(user)
+  
 
   return (
     <Tab.Navigator
@@ -114,7 +118,7 @@ const BottomTab = () => {
 
       <Tab.Screen
         name="Profile"
-        component={login ? Profile : LoginPage}
+        component={user ? Profile : LoginPage}
         options={{
           tabBarStyle: tabBarStyle,
           tabBarShowLabel: false,

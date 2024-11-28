@@ -18,6 +18,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LoginContext } from './app/context/LoginContext';
 import { CartCountContext } from './app/context/CartCountContext';
 import SignUp from './app/screens/SignUp';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 const Stack = createNativeStackNavigator();
 
@@ -77,49 +79,51 @@ export default function App() {
   };
 
   return (
-    <UserLocationContext.Provider value={{ location, setLocation }}>
-      <UserReversedGeoCode.Provider value={{ address, setAddress }}>
-        <RestaurantContext.Provider value={{ restaurantObj, setRestaurantObj }}>
-          <LoginContext.Provider value={{ login, setLogin }}>
-            <CartCountContext.Provider value={{ cartCount, setCartCount }}>
-              <NavigationContainer>
-                <Stack.Navigator>
-                  <Stack.Screen
-                    name='bottom-navigation'
-                    component={BottomTab}
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name='food-nav'
-                    component={FoodNavigator}
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name='restaurant-page'
-                    component={RestaurantPage}
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name='restaurant'
-                    component={Restaurant}
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name='signUp'
-                    component={SignUp}
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name='rating'
-                    component={AddRating}
-                    options={{ headerShown: false }}
-                  />
-                </Stack.Navigator>
-              </NavigationContainer>
-            </CartCountContext.Provider>
-          </LoginContext.Provider>
-        </RestaurantContext.Provider>
-      </UserReversedGeoCode.Provider>
-    </UserLocationContext.Provider>
+    <Provider store={store}>
+      <UserLocationContext.Provider value={{ location, setLocation }}>
+        <UserReversedGeoCode.Provider value={{ address, setAddress }}>
+          <RestaurantContext.Provider value={{ restaurantObj, setRestaurantObj }}>
+            <LoginContext.Provider value={{ login, setLogin }}>
+              <CartCountContext.Provider value={{ cartCount, setCartCount }}>
+                <NavigationContainer>
+                  <Stack.Navigator>
+                    <Stack.Screen
+                      name='bottom-navigation'
+                      component={BottomTab}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name='food-nav'
+                      component={FoodNavigator}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name='restaurant-page'
+                      component={RestaurantPage}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name='restaurant'
+                      component={Restaurant}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name='signUp'
+                      component={SignUp}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name='rating'
+                      component={AddRating}
+                      options={{ headerShown: false }}
+                    />
+                  </Stack.Navigator>
+                </NavigationContainer>
+              </CartCountContext.Provider>
+            </LoginContext.Provider>
+          </RestaurantContext.Provider>
+        </UserReversedGeoCode.Provider>
+      </UserLocationContext.Provider>
+    </Provider>
   );
 }

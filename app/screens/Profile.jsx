@@ -1,18 +1,64 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
-import React, { useContext, useState } from "react";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Alert } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
 import { COLORS, SIZES } from "../constants/theme";
 // import fetchProfile from "../hooks/fetchProfile";
 import { LoginContext } from "../context/LoginContext";
 
 import { AntDesign } from "@expo/vector-icons";
-
+import baseUrl from "../../assets/common/baseUrl";
 import NetworkImage from "../components/NetworkImage";
 import ProfileTile from "../components/ProfileTile";
 import RegistrationTile from "../components/RegistrationTile";
+import { useDispatch, useSelector } from "react-redux";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import LoginPage from "./LoginPage";
+import { cleanUser } from "../../redux/UserReducer";
 
 const Profile = () => {
-  const { login, setLogin } = useContext(LoginContext)
-  const [user, setUser] = useState(null)
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  // const [user, setUser] = useState({});
+  const { user } = useSelector(state => state.user)
+
+  const getProfile = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(token)}`,
+          },
+        };
+
+        const response = await axios.get(`${baseUrl}/api/users/profile`, config);
+
+        console.log(response.data)
+
+        // setUser(response.data);
+      } else {
+        console.log("Authentication token not found");
+      }
+    } catch (error) {
+      console.log("Error fetching profile:", error);
+    }
+  };
+
+
+  useFocusEffect(
+    React.useCallback(() => {
+
+
+      getProfile();
+    }, [])
+  )
+
+  const handleLogout = async () => {
+    AsyncStorage.removeItem("token");
+    Alert.alert("Logout", "You have been logged out");
+    dispatch(cleanUser());
+  };
 
   // const { user, isProfileLoading, error, refetch } = fetchProfile();
   const profile =
@@ -49,22 +95,22 @@ const Profile = () => {
               }}
             >
               <NetworkImage
-                data={user === null ? profile : user.profile}
+                data={user === null ? profile : user?.profile}
                 width={45}
                 height={45}
                 radius={99}
               />
               <View style={{ marginLeft: 10, marginTop: 3 }}>
                 <Text style={styles.text}>
-                  {user === null ? "username" : user.username}
+                  {user === null ? "username" : user?.username}
                 </Text>
                 <Text style={styles.email}>
-                  {user === null ? "email" : user.email}
+                  {user === null ? "email" : user?.email}
                 </Text>
               </View>
             </View>
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleLogout}>
               <AntDesign name="logout" size={24} color="red" />
             </TouchableOpacity>
 

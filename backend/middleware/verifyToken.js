@@ -6,13 +6,14 @@ const verifyToken = (req, res, next) => {
     if (authHeader) {
         const token = authHeader.split(' ')[1]
 
-        jwt.verify(token, process.env.JWT_SEC, async (err, user) => {
-            if (err) {
-                res.status(403).json({ status: false, message: 'Invalid Token' });
-            }
-            req.user = user;
-            next();
-        })
+        console.log(token)
+        const user = jwt.verify(token, process.env.JWT_SEC)
+        // if (err) {
+        //     res.status(403).json({ status: false, message: 'Invalid Token' });
+        // }
+        req.user = user;
+        
+        next();
     }
 }
 

@@ -56,8 +56,7 @@ module.exports = {
                 id: user._id, userType: user.userType, email: user.email,
             }, process.env.JWT_SEC, { expiresIn: '21d' });
 
-            const { password, email, ...others } = user._doc;
-
+            const { password, ...others } = user._doc;
             res.status(200).json({ ...others, userToken })
 
         } catch (error) {
