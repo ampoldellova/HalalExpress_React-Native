@@ -1,4 +1,5 @@
-{
+import 'dotenv/config'
+export default {
   "expo": {
     "name": "HalalExpress",
     "slug": "HalalExpress",
@@ -41,11 +42,17 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+          "locationAlwaysAndWhenInUsePermission": "Allow HalalExpress to use your location."
         }
       ]
     ],
     "extra": {
+      apiKkey: process.env.API_KEY,
+      authDomain: process.env.AUTH_DOMAIN,
+      projectId: process.env.PROJECT_ID,
+      storageBucket: process.env.STORAGE_BUCKET,
+      messagingSenderId: process.env.MESSAGING_SENDER_ID,
+      appId: process.env.APP_ID,
       "eas": {
         "projectId": "4be65fdd-c591-4c21-8038-bd667af23781"
       }

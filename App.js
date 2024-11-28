@@ -20,6 +20,7 @@ import { CartCountContext } from './app/context/CartCountContext';
 import SignUp from './app/screens/SignUp';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import Chat from './app/screens/Chat';
 
 const Stack = createNativeStackNavigator();
 
@@ -115,6 +116,11 @@ export default function App() {
                     <Stack.Screen
                       name='rating'
                       component={AddRating}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name='chat-page'
+                      component={Chat}
                       options={{ headerShown: false }}
                     />
                   </Stack.Navigator>

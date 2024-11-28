@@ -17,6 +17,7 @@ import {
   import { COLORS, SIZES } from "../constants/theme";
   import { BackBtn, Button } from "../components";
   import { UserLocationContext } from "../context/UserLocationContext";
+import baseUrl from "../../assets/common/baseUrl";
   const validationSchema = Yup.object().shape({
     password: Yup.string()
       .min(8, "Password must be at least 8 character")
@@ -55,7 +56,7 @@ import {
       setLoader(true);
   
       try {
-        const endpoint = "http://localhost:6002/register";
+        const endpoint = `${baseUrl}/register`;
         const data = values;
   
         const response = await axios.post(endpoint, data);

@@ -1,15 +1,18 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import AssetImage from './AssetImage'
 import { UserReversedGeoCode } from '../context/UserReversedGeoCode'
 import { COLORS, SIZES } from '../constants/theme'
 import { UserLocationContext } from '../context/UserLocationContext'
 import * as Location from 'expo-location';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native'
 
 const HomeHeader = () => {
     const [time, setTime] = useState(null);
     const { address, setAddress } = useContext(UserReversedGeoCode);
     const { location, setLocation } = useContext(UserLocationContext);
+    const navigation = useNavigation();
 
     useEffect(() => {
         if (location !== null) {
@@ -27,18 +30,18 @@ const HomeHeader = () => {
         setTime(greetings)
     };
 
-    const getTimeOfDay = () => {
-        const now = new Date();
-        const hour = now.getHours();
+    // const getTimeOfDay = () => {
+    //     const now = new Date();
+    //     const hour = now.getHours();
 
-        if (hour >= 0 && hour < 12) {
-            return "☀️ "
-        } else if (hour >= 12 < 17) {
-            return "🌤️ "
-        } else {
-            return "🌙 "
-        }
-    }
+    //     if (hour >= 0 && hour < 12) {
+    //         return "☀️ "
+    //     } else if (hour >= 12 < 17) {
+    //         return "🌤️ "
+    //     } else {
+    //         return "🌙 "
+    //     }
+    // }
 
     return (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -55,7 +58,14 @@ const HomeHeader = () => {
                 </View>
             </View>
 
-            <Text style={{ fontSize: 36 }}>{time}</Text>
+            <View style={styles.message}>
+                <TouchableOpacity onPress={() => navigation.navigate('chat-page')}>
+                    <MaterialCommunityIcons name='message-reply-text' size={24} color={COLORS.secondary} />
+                </TouchableOpacity>
+            </View>
+
+
+            {/* <Text style={{ fontSize: 36 }}>{time}</Text> */}
         </View>
     )
 }
@@ -81,5 +91,9 @@ const styles = StyleSheet.create({
         fontFamily: 'regular',
         fontSize: SIZES.small + 2,
         color: COLORS.gray
+    },
+    message: {
+        marginTop: 15,
+        marginRight:15
     }
 })

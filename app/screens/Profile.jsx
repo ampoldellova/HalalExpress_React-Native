@@ -70,11 +70,11 @@ const Profile = () => {
   // }
   return (
     <ScrollView>
-      <View style={{ backgroundColor: COLORS.primary, height: SIZES.height }}>
+      <View style={{ backgroundColor: COLORS.primary, height: SIZES.height}}>
         <View
           style={{
             backgroundColor: COLORS.offwhite,
-            height: SIZES.height - 55,
+            height: SIZES.height - 19,
             borderBottomEndRadius: 30,
             borderBottomStartRadius: 30,
           }}
