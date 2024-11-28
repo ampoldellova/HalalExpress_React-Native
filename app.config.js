@@ -47,12 +47,14 @@ export default {
       ]
     ],
     "extra": {
-      apiKkey: process.env.API_KEY,
-      authDomain: process.env.AUTH_DOMAIN,
-      projectId: process.env.PROJECT_ID,
-      storageBucket: process.env.STORAGE_BUCKET,
-      messagingSenderId: process.env.MESSAGING_SENDER_ID,
-      appId: process.env.APP_ID,
+      "firebase": {
+        "apiKey": "AIzaSyDwOyieKzXVKxAsLq66k72S7a6fPOn5Abs",
+        "authDomain": "halalexpress-7e67e.firebaseapp.com",
+        "projectId": "halalexpress-7e67e",
+        "storageBucket": "halalexpress-7e67e.firebasestorage.app",
+        "messagingSenderId": "318811896092",
+        "appId": "1:318811896092:web:25697ebbd12fbab04a62d9",
+      },
       "eas": {
         "projectId": "4be65fdd-c591-4c21-8038-bd667af23781"
       }
