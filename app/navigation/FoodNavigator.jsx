@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useRoute } from '@react-navigation/native'
 import FoodPage from '../screens/FoodPage'
 import OrderPage from '../screens/OrderPage';
-import Chat from '../screens/Chat'
+import Chat from '../screens/ChatBox/Chat'
 import 'react-native-gesture-handler';
 
 const Stack = createNativeStackNavigator();

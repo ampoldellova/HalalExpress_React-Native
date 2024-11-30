@@ -12,6 +12,11 @@ module.exports = {
         }
     },
 
+    getAllUsers: async (req, res) => {
+        const user = await User.find();
+        res.status(200).json(user);
+    },
+
     deleteUser: async (req, res) => {
         const userId = req.user.id
 

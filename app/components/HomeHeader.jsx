@@ -6,13 +6,58 @@ import { COLORS, SIZES } from '../constants/theme'
 import { UserLocationContext } from '../context/UserLocationContext'
 import * as Location from 'expo-location';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { useNavigation } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import baseUrl from '../../assets/common/baseUrl'
+import axios from 'axios'
 
 const HomeHeader = () => {
     const [time, setTime] = useState(null);
     const { address, setAddress } = useContext(UserReversedGeoCode);
     const { location, setLocation } = useContext(UserLocationContext);
     const navigation = useNavigation();
+    const [user, setUser] = useState("");
+
+    // useEffect(() => {
+    //     const fetchUser = async () => {
+    //         const token = await AsyncStorage.getItem("token");
+    //         setUser(token)
+    //     }
+    //     fetchUser();
+    // }, []);
+    // console.log(user)
+
+    const getProfile = async () => {
+        try {
+            const token = await AsyncStorage.getItem("token");
+            console.log(token)
+            if (token) {
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${JSON.parse(token)}`,
+                    },
+                };
+
+                const response = await axios.get(`${baseUrl}/api/users/profile`, config);
+                setUser(response.data)
+                // console.log(response.data)
+
+                // setUser(response.data);
+            } else {
+                console.log("Authentication token not found");
+            }
+        } catch (error) {
+            console.log("Error fetching profile:", error);
+        }
+    };
+
+
+    useFocusEffect(
+        React.useCallback(() => {
+            getProfile();
+        }, [])
+    )
+
 
     useEffect(() => {
         if (location !== null) {
@@ -44,9 +89,9 @@ const HomeHeader = () => {
     // }
 
     return (
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
             <View style={styles.outerStyle}>
-                <AssetImage data={require('../../assets/images/profile.jpg')}
+                <AssetImage data={user === null ? require('../../assets/images/profile.png') : user?.profile}
                     width={50}
                     height={50}
                     mode={'cover'}
@@ -58,11 +103,13 @@ const HomeHeader = () => {
                 </View>
             </View>
 
-            <View style={styles.message}>
-                <TouchableOpacity onPress={() => navigation.navigate('chat-page')}>
-                    <MaterialCommunityIcons name='message-reply-text' size={24} color={COLORS.secondary} />
-                </TouchableOpacity>
-            </View>
+            {user && (
+                <View style={styles.message}>
+                    <TouchableOpacity onPress={() => navigation.navigate('chat-list')}>
+                        <MaterialCommunityIcons name='message-reply-text' size={24} color={COLORS.secondary} />
+                    </TouchableOpacity>
+                </View>
+            )}
 
 
             {/* <Text style={{ fontSize: 36 }}>{time}</Text> */}
@@ -94,6 +141,6 @@ const styles = StyleSheet.create({
     },
     message: {
         marginTop: 15,
-        marginRight:15
+        marginRight: 15
     }
 })

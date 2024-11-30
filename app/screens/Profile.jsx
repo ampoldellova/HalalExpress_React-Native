@@ -20,11 +20,12 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   // const [user, setUser] = useState({});
-  const { user } = useSelector(state => state.user)
+  const [user, setUser] = useState({});
 
   const getProfile = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
+      console.log(token)
       if (token) {
         const config = {
           headers: {
@@ -33,8 +34,8 @@ const Profile = () => {
         };
 
         const response = await axios.get(`${baseUrl}/api/users/profile`, config);
-
-        console.log(response.data)
+        setUser(response.data)
+        // console.log(response.data)
 
         // setUser(response.data);
       } else {
@@ -48,14 +49,13 @@ const Profile = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-
-
       getProfile();
     }, [])
   )
 
   const handleLogout = async () => {
-    AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("id");
+    await AsyncStorage.removeItem("token");
     Alert.alert("Logout", "You have been logged out");
     dispatch(cleanUser());
   };
@@ -70,7 +70,7 @@ const Profile = () => {
   // }
   return (
     <ScrollView>
-      <View style={{ backgroundColor: COLORS.primary, height: SIZES.height}}>
+      <View style={{ backgroundColor: COLORS.primary, height: SIZES.height }}>
         <View
           style={{
             backgroundColor: COLORS.offwhite,
@@ -125,18 +125,18 @@ const Profile = () => {
 
           <View
             style={{
-              height: 140,
+              height: 92,
               backgroundColor: COLORS.lightWhite,
               margin: 10,
               borderRadius: 12,
             }}
           >
             <ProfileTile title={"Orders"} icon={"fast-food-outline"} font={1} />
-            <ProfileTile title={"Places"} icon={"heart"} font={2} />
+            {/* <ProfileTile title={"Places"} icon={"heart"} font={2} /> */}
             <ProfileTile title={"Payment History"} icon={"creditcard"} />
           </View>
 
-          <View
+          {/* <View
             style={{
               height: 140,
               backgroundColor: COLORS.lightWhite,
@@ -147,31 +147,8 @@ const Profile = () => {
             <ProfileTile title={"Coupons"} icon={"tago"} />
             <ProfileTile title={"My Store"} icon={"bag"} font={2} />
             <ProfileTile title={"History"} icon={"globe-outline"} font={1} />
-          </View>
+          </View> */}
 
-          {/* <RegistrationTile
-            heading={"Join the courier team"}
-            desc={
-              "Embark on a journey, deliver joy, and earn on your own schedule."
-            }
-          /> */}
-
-          <View
-            style={{
-              height: 140,
-              backgroundColor: COLORS.lightWhite,
-              margin: 10,
-              borderRadius: 12,
-            }}
-          >
-            <ProfileTile
-              title={"Shipping Address"}
-              icon={"location-outline"}
-              font={1}
-            />
-            <ProfileTile title={"Services Center"} icon={"customerservice"} />
-            <ProfileTile title={"Settings"} icon={"setting"} />
-          </View>
         </View>
       </View>
     </ScrollView>
