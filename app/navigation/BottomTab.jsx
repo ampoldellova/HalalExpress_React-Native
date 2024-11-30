@@ -12,6 +12,7 @@ import { LoginContext } from "../context/LoginContext";
 import LoginPage from "../screens/LoginPage";
 import 'react-native-gesture-handler';
 import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 
@@ -28,13 +29,12 @@ const BottomTab = () => {
   const { cartCount, setCartCount } = useContext(CartCountContext);
   const { login, setLogin } = useContext(LoginContext)
   const { user } = useSelector(state => state.user)
+  const navigation = useNavigation()
   // console.log(cartCount)
 
   // if(isCartLoading){
   //   setCartCount(count)
   // }
-  console.log(user)
-  
 
   return (
     <Tab.Navigator

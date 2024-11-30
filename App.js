@@ -21,6 +21,7 @@ import SignUp from './app/screens/SignUp';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import Chat from './app/screens/Chat';
+import LoginPage from './app/screens/LoginPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -106,6 +107,11 @@ export default function App() {
                     <Stack.Screen
                       name='restaurant'
                       component={Restaurant}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name='login'
+                      component={LoginPage}
                       options={{ headerShown: false }}
                     />
                     <Stack.Screen

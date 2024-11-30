@@ -27,7 +27,10 @@ module.exports = {
                     const newUser = new User({
                         username: user.username,
                         email: user.email,
-                        password: CryptoJS.AES.encrypt(user.password, process.env.SECRET).toString(),
+                        password: CryptoJS.AES.encrypt(
+                            user.password,
+                            process.env.SECRET
+                        ).toString(),
                         uid: userResponse.uid,
                         userType: 'Client'
                     })
