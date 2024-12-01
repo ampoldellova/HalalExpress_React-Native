@@ -11,8 +11,10 @@ const foodSchema = new mongoose.Schema({
         required: true,
     },
     category: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+        required: true,
+        autopopulate: true,
     },
     code: {
         type: String,
@@ -46,7 +48,7 @@ const foodSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    additives: [{ 
+    additives: [{
         id: {
             type: Number,
             required: true

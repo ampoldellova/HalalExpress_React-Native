@@ -30,7 +30,7 @@ const HomeHeader = () => {
 
                 const response = await axios.get(`${baseUrl}/api/users/profile`, config);
                 setUser(response.data)
-                console.log(token)
+                // console.log(token)
             } else {
                 console.log("Authentication token not found");
             }
@@ -77,7 +77,7 @@ const HomeHeader = () => {
     //         return "🌙 "
     //     }
     // }
-    console.log(user)
+    // console.log(user)
 
     return (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>

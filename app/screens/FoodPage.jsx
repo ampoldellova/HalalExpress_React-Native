@@ -72,7 +72,7 @@ const FoodPage = ({ route, navigation }) => {
 
         <View style={styles.container}>
           <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
-            <Text style={styles.title}>{item.title}</Text>
+            <Text style={[styles.title, { width: 250 }]}>{item.title}</Text>
             <Text style={styles.title}>${(item.price + totalPrice) * count}</Text>
           </View>
 
@@ -157,7 +157,7 @@ const FoodPage = ({ route, navigation }) => {
             </View>
           </View>
         </View>
-      </ScrollView>
+      </ScrollView >
     </View >
   )
 }

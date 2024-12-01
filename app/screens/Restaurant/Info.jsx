@@ -6,7 +6,7 @@ import FoodTile from '../../components/FoodTile';
 import uidata from '../../constants/uidata';
 import CategoryFoodComp from '../../components/CategoryFoodComp';
 
-const New = () => {
+const Info = () => {
   const navigation = useNavigation();
   const { restaurantObj, setRestaurantObj } = useContext(RestaurantContext)
   // console.log(uidata.foods.title)
@@ -29,6 +29,6 @@ const New = () => {
   )
 }
 
-export default New
+export default Info
 
 const styles = StyleSheet.create({})

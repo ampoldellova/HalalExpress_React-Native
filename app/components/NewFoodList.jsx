@@ -19,7 +19,7 @@ const NewFoodList = () => {
         try {
             const response = await axios.get(`${baseUrl}/api/foods/list`);
             setFoods(response.data);
-            console.log(response.data)
+            // console.log(response.data)
         } catch (error) {
             console.log("Error fetching foods:", error);
         }

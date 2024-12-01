@@ -33,11 +33,12 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: "regular",
         color: COLORS.black,
-        marginTop: 5
+        marginTop: 5,
+        width:120
     },
     small: {
         fontSize: 12,
         fontFamily: "regular",
-        color: COLORS.gray
+        color: COLORS.gray,
     }
 })

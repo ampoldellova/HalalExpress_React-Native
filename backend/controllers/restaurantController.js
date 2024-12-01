@@ -73,7 +73,7 @@ module.exports = {
                 return res.status(404).json({ status: false, message: "Restaurant not found" })
             }
 
-            res.status(200).json(restaurant)
+            res.status(200).json({ data: restaurant })
         } catch (error) {
             res.status(500).json({ status: false, message: "Error Retrieving Restaurant" })
         }

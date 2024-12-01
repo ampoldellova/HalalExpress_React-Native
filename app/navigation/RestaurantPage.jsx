@@ -4,7 +4,7 @@ import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { COLORS } from '../constants/theme';
 import Menu from '../screens/Restaurant/Menu';
 import Directions from '../screens/Restaurant/Directions';
-import New from '../screens/Restaurant/New';
+import Info from '../screens/Restaurant/Info';
 import 'react-native-gesture-handler';
 
 const FirstRoute = () => (
@@ -23,7 +23,7 @@ const ThirdRoute = () => (
 const renderScene = SceneMap({
     first: Menu,
     second: Directions,
-    third: New
+    third: Info
 });
 
 const RestaurantPage = () => {
@@ -33,7 +33,7 @@ const RestaurantPage = () => {
     const [routes] = React.useState([
         { key: 'first', title: 'Menu' },
         { key: 'second', title: 'Directions' },
-        { key: 'third', title: 'New' },
+        { key: 'third', title: 'Info' },
     ]);
 
     const renderTabBar = (props) => (
