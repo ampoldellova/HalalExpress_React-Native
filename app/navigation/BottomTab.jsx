@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import Home from "../screens/Home";
-import Search from "../screens/Search";
+import Search from "../screens/Search/Search";
 import { COLORS } from "../constants/theme";
 import Profile from "../screens/Profile";
 import Cart from "../screens/Cart";

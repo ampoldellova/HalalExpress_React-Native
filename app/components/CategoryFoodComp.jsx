@@ -23,7 +23,7 @@ const CategoryFoodComp = ({ item, onPress }) => {
         <View
           style={{ position: "absolute", right: 10, bottom: 10, backgroundColor: COLORS.secondary, borderRadius: 8 }}
         >
-          <Text style={[styles.restaurant, { color: COLORS.lightWhite, marginHorizontal: 5 }]}>{` \$ ${item.price}`}</Text>
+          <Text style={[styles.restaurant, { color: COLORS.lightWhite, marginHorizontal: 5 }]}>{` \₱ ${item.price}`}</Text>
         </View>
 
         <View style={styles.row}>
