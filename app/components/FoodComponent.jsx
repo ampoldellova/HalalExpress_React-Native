@@ -7,14 +7,15 @@ const FoodComponent = ({ item, onPress }) => {
     return (
         <TouchableOpacity style={styles.wrapper} onPress={onPress}>
             <NetworkImage
-                data={item.imageUrl[0]}
-                width={SIZES.width - 60}
+                data={item.imageUrl}
+                width={SIZES.width - 230}
                 height={SIZES.height / 5.8}
                 radius={16}
                 mode={'cover'}
             />
             <Text style={styles.heading}>{item.title}</Text>
-            <Text style={styles.small}>{item.time} - delivery time</Text>
+            <Text style={styles.small}>{item.restaurant.title}</Text>
+            <Text style={styles.small}>₱ {item.price}</Text>
         </TouchableOpacity>
     )
 }
@@ -31,7 +32,8 @@ const styles = StyleSheet.create({
     heading: {
         fontSize: 14,
         fontFamily: "regular",
-        color: COLORS.gray
+        color: COLORS.black,
+        marginTop: 5
     },
     small: {
         fontSize: 12,

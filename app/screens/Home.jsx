@@ -46,7 +46,7 @@ const Home = () => {
               setSelectedSection={setSelectedSection}
               setSelectedValue={setSelectedValue}
             />
-            <ChoicesList setSelectedChoice={setSelectedChoice} setSelectedSection={setSelectedSection} />
+            {/* <ChoicesList setSelectedChoice={setSelectedChoice} setSelectedSection={setSelectedSection} /> */}
             {selectedCategory !== null && selectedSection !== null ? (
               <View>
                 <Heading heading={`Browse ${selectedValue}`} onPress={() => { }} />
@@ -54,14 +54,14 @@ const Home = () => {
               </View>
             ) : (
               <View>
-                <Heading heading={'Nearby Restaurants'} onPress={() => { }} />
+                <Heading heading={'Restaurants'} onPress={() => { }} />
                 <NearbyRestaurants />
                 <Divider />
-                <Heading heading={'Try Something New'} onPress={() => { }} />
+                <Heading heading={'Our Food'} onPress={() => { }} />
                 <NewFoodList />
-                <Divider />
+                {/* <Divider />
                 <Heading heading={'Fastest Near You'} onPress={() => { }} />
-                <FastestNearYou />
+                <FastestNearYou /> */}
               </View>
             )}
           </ScrollView>

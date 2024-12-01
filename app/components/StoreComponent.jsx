@@ -15,7 +15,7 @@ const StoreComponent = ({ item, onPress }) => {
                 radius={16}
                 mode={'cover'}
             />
-            <Text styles={styles.heading}>{item.title}</Text>
+            {/* <Text>{item.title}</Text> */}<Text style={styles.heading}>{item.title}</Text>
             <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
                 <Text style={styles.small}>Delivery under:</Text>
                 <Text style={styles.small}>{item.time}</Text>
@@ -47,7 +47,8 @@ const styles = StyleSheet.create({
     heading: {
         fontSize: 14,
         fontFamily: "regular",
-        color: COLORS.gray
+        color: COLORS.black,
+        marginTop: 5
     },
     small: {
         fontSize: 12,

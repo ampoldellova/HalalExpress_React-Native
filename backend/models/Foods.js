@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const populate = require("mongoose-autopopulate");
 
 const foodSchema = new mongoose.Schema({
     title: {
@@ -24,7 +25,9 @@ const foodSchema = new mongoose.Schema({
     },
     restaurant: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Restaurant'
+        ref: 'Restaurant',
+        required: true,
+        autopopulate: true,
     },
     rating: {
         type: Number,
@@ -43,16 +46,25 @@ const foodSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    addittives: {
-        type: Array,
-        required: true
-    },
-    imageUrl: [
-        {
+    additives: [{ 
+        id: {
+            type: Number,
+            required: true
+        },
+        title: {
             type: String,
-            required: true,
+            required: true
+        },
+        price: {
+            type: Number,
+            required: true
         }
-    ]
+    }],
+    imageUrl: {
+        type: String,
+        required: true,
+    }
 });
 
-module.exports = mongoose.model('Food', foodSchema)
+foodSchema.plugin(populate);
+module.exports = mongoose.model('Food', foodSchema);

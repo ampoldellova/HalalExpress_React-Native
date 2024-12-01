@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     zIndex: 999,
     position: 'absolute',
-    top: SIZES.large,
+    top: SIZES.xxLarge,
   },
   sharebtn: {
     marginRight: 12,
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     zIndex: 999,
     right: 0,
     position: 'absolute',
-    top: SIZES.large,
+    top: SIZES.xxLarge,
   },
   restbtn: {
     borderColor: COLORS.primary,

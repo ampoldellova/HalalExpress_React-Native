@@ -1,7 +1,23 @@
 const Restaurant = require('../models/Restaurant');
+const ImageFile = require("../utils/imageFile");
 
 module.exports = {
+    getAllRestaurants: async (req, res) => {
+        try {
+            const restaurants = await Restaurant.find();
+            res.status(200).json(restaurants);
+        } catch (error) {
+            res.status(500).json({ error: "Error fetching restaurants" });
+        }
+    },
+
+
     addRestaurant: async (req, res) => {
+        // req.body.images = await ImageFile.uploadSingle({
+        //     imageFiles: req.files,
+        //     request: req,
+        // });
+
         const newRestaurant = new Restaurant(req.body)
 
         try {

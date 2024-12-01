@@ -11,14 +11,35 @@ module.exports = {
     },
 
     addFood: async (req, res) => {
-        const newFood = new Food(req.body)
-
         try {
+            // Ensure the data matches the schema
+            if (req.body.additives && Array.isArray(req.body.additives)) {
+                req.body.additives = req.body.additives.map(additive => ({
+                    ...additive,
+                    price: parseFloat(additive.price) // Convert price to a number
+                }));
+            }
+
+            // Create a new Food document
+            const newFood = new Food(req.body);
+
+            // Save the new food item
             await newFood.save();
 
-            res.status(200).json({ status: true, message: "Food item added successfully" })
+            // Respond with success
+            res.status(200).json({
+                status: true,
+                message: "Food item added successfully",
+                data: newFood
+            });
         } catch (error) {
-            res.status(500).json({ status: false, message: error.message })
+            // Log the error and respond with failure
+            console.error("Error adding food item:", error);
+            res.status(500).json({
+                status: false,
+                message: "Failed to add food item",
+                error: error.message
+            });
         }
     },
 
