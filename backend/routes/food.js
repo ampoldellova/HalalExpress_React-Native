@@ -3,6 +3,7 @@ const foodController = require('../controllers/foodController')
 const { verifyVendor } = require('../middleware/verifyToken')
 
 router.post('/', verifyVendor, foodController.addFood)
+router.get("/list", foodController.getAllFoods)
 router.post('/tags/:id', verifyVendor, foodController.addFoodTag)
 router.post('/type/:id', verifyVendor, foodController.addFoodType)
 router.get('/:id', foodController.getFoodById)

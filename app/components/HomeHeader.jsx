@@ -16,21 +16,11 @@ const HomeHeader = () => {
     const { address, setAddress } = useContext(UserReversedGeoCode);
     const { location, setLocation } = useContext(UserLocationContext);
     const navigation = useNavigation();
-    const [user, setUser] = useState("");
-
-    // useEffect(() => {
-    //     const fetchUser = async () => {
-    //         const token = await AsyncStorage.getItem("token");
-    //         setUser(token)
-    //     }
-    //     fetchUser();
-    // }, []);
-    // console.log(user)
+    const [user, setUser] = useState(null);
 
     const getProfile = async () => {
         try {
             const token = await AsyncStorage.getItem("token");
-            console.log(token)
             if (token) {
                 const config = {
                     headers: {
@@ -40,9 +30,7 @@ const HomeHeader = () => {
 
                 const response = await axios.get(`${baseUrl}/api/users/profile`, config);
                 setUser(response.data)
-                // console.log(response.data)
-
-                // setUser(response.data);
+                console.log(token)
             } else {
                 console.log("Authentication token not found");
             }
@@ -54,6 +42,7 @@ const HomeHeader = () => {
 
     useFocusEffect(
         React.useCallback(() => {
+            setUser(null)
             getProfile();
         }, [])
     )
@@ -75,6 +64,7 @@ const HomeHeader = () => {
         setTime(greetings)
     };
 
+
     // const getTimeOfDay = () => {
     //     const now = new Date();
     //     const hour = now.getHours();
@@ -87,6 +77,7 @@ const HomeHeader = () => {
     //         return "🌙 "
     //     }
     // }
+    console.log(user)
 
     return (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>

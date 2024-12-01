@@ -1,6 +1,15 @@
 const Food = require('../models/Foods')
 
 module.exports = {
+    getAllFoods: async (req, res) => {
+        try {
+            const foods = await Food.find();
+            res.status(200).json(foods);
+        } catch (error) {
+            res.status(500).json({ error: "Error fetching foods" });
+        }
+    },
+
     addFood: async (req, res) => {
         const newFood = new Food(req.body)
 

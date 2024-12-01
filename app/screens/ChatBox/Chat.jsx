@@ -10,11 +10,13 @@ import { auth, database } from '../../../config/firebase';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import baseUrl from '../../../assets/common/baseUrl';
+import { useLocalSearchParams } from 'expo-router';
 
-const Chat = () => {
+const Chat = ({ route }) => {
     const [messages, setMessages] = useState([]);
     const navigation = useNavigation();
     const [user, setUser] = useState({});
+    const item = route.params.item;
 
     // const onSignOut = () => {
     //     signOut(auth).catch(error => console.log(error));
@@ -22,7 +24,7 @@ const Chat = () => {
     const getProfile = async () => {
         try {
             const token = await AsyncStorage.getItem("token");
-            console.log(token)
+            // console.log(token)
             if (token) {
                 const config = {
                     headers: {
@@ -68,7 +70,7 @@ const Chat = () => {
     useLayoutEffect(() => {
         const collectionRef = collection(database, 'chats');
         const q = query(collectionRef, orderBy('createdAt', 'desc'));
-    
+
         const unsubscribe = onSnapshot(q, snapshot => {
             setMessages(
                 snapshot.docs.map(doc => ({
@@ -79,7 +81,7 @@ const Chat = () => {
                 }))
             );
         });
-    
+
         return unsubscribe;
     }, []);
 

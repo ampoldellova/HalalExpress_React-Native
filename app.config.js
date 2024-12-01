@@ -48,12 +48,12 @@ export default {
     ],
     "extra": {
       "firebase": {
-        "apiKey": "AIzaSyDwOyieKzXVKxAsLq66k72S7a6fPOn5Abs",
-        "authDomain": "halalexpress-7e67e.firebaseapp.com",
-        "projectId": "halalexpress-7e67e",
-        "storageBucket": "halalexpress-7e67e.firebasestorage.app",
-        "messagingSenderId": "318811896092",
-        "appId": "1:318811896092:web:25697ebbd12fbab04a62d9",
+        "apiKey": "AIzaSyChi4RK2bphEVRwJ_Ma_GNmr2sljXEXeJM",
+        "authDomain": "halalexpress-86dbb.firebaseapp.com",
+        "projectId": "halalexpress-86dbb",
+        "storageBucket": "halalexpress-86dbb.firebasestorage.app",
+        "messagingSenderId": "239431572065",
+        "appId": "1:239431572065:web:d9ec84ad5922158044a820",
       },
       "eas": {
         "projectId": "4be65fdd-c591-4c21-8038-bd667af23781"

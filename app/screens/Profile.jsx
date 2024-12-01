@@ -86,6 +86,7 @@ const Profile = () => {
               {
                 opacity: 0.7,
               },
+              
             ]}
           />
           <View style={styles.profile}>
