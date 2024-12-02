@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react'
-import { GiftedChat } from 'react-native-gifted-chat'
+import { GiftedChat, InputToolbar } from 'react-native-gifted-chat'
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { COLORS, SIZES } from "../../constants/theme";
 import { collection, addDoc, orderBy, query, onSnapshot } from 'firebase/firestore';
@@ -8,12 +8,14 @@ import { database } from '../../../config/firebase';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import baseUrl from '../../../assets/common/baseUrl';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 const ChatRoom = ({ route }) => {
     const [messages, setMessages] = useState([]);
     const navigation = useNavigation();
     const [user, setUser] = useState({});
     const receiver = route.params;
+    const [text, setText] = useState("");
     // console.log(receiver)
 
     const getProfile = async () => {
@@ -36,6 +38,35 @@ const ChatRoom = ({ route }) => {
         }
     };
 
+    const renderInputToolbar = (props) => (
+        <InputToolbar
+            {...props}
+            containerStyle={styles.inputToolbar}
+            renderComposer={(composerProps) => (
+                <TextInput
+                    {...composerProps}
+                    style={styles.textInput}
+                    placeholder="Type your message here..."
+                    placeholderTextColor="#888"
+                    value={text}
+                    onChangeText={setText}
+                />
+            )}
+            renderSend={(sendProps) => (
+                <TouchableOpacity
+                    style={styles.sendButton}
+                    onPress={() => {
+                        if (text.trim()) {
+                            sendProps.onSend({ text: text.trim() }, true);
+                            setText(""); // Clear input
+                        }
+                    }}
+                >
+                    <FontAwesome name="send" size={24} color={COLORS.primary} />
+                </TouchableOpacity>
+            )}
+        />
+    );
 
     useFocusEffect(
         React.useCallback(() => {
@@ -86,6 +117,7 @@ const ChatRoom = ({ route }) => {
         return unsubscribe;
     }, [user, receiver]);
 
+
     const onSend = useCallback((messages = []) => {
         const { _id, createdAt, text, user } = messages[0];
         setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
@@ -103,6 +135,7 @@ const ChatRoom = ({ route }) => {
         <GiftedChat
             messages={messages}
             onSend={messages => onSend(messages)}
+            renderInputToolbar={renderInputToolbar}
             user={{
                 _id: user._id,
                 name: user.username,
@@ -139,6 +172,30 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '400',
         color: '#858585',
+    },
+    inputToolbar: {
+        padding: 10,
+    },
+    textInput: {
+        flex: 1,
+        height: 40,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: COLORS.primary,
+        paddingHorizontal: 10,
+        backgroundColor: COLORS.white,
+        color: '#000',
+    },
+    sendButton: {
+        paddingVertical: 8,
+        paddingHorizontal: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    sendText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 
 })
