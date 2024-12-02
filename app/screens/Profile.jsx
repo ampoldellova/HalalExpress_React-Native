@@ -69,12 +69,12 @@ const Profile = () => {
   //   return <LoadingScreen />;
   // }
   return (
-    <ScrollView>
+    // <ScrollView>
       <View style={{ backgroundColor: COLORS.primary, height: SIZES.height }}>
         <View
           style={{
             backgroundColor: COLORS.offwhite,
-            height: SIZES.height - 19,
+            height: SIZES.height - 50,
             borderBottomEndRadius: 30,
             borderBottomStartRadius: 30,
           }}
@@ -152,7 +152,7 @@ const Profile = () => {
 
         </View>
       </View>
-    </ScrollView>
+    // </ScrollView>
   );
 };
 
@@ -174,6 +174,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginHorizontal: 20,
-    marginTop: 60,
+    marginTop: 10,
   },
 });

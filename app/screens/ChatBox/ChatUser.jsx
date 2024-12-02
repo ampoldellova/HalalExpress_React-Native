@@ -14,7 +14,7 @@ const ChatUser = ({ user, onPress }) => {
             />
             <View>
                 <Text style={styles.profileName}>{user.username}</Text>
-                <Text style={styles.profileHandle}>{user.email}</Text>
+                {/* <Text style={styles.profileHandle}>{user.email}</Text> */}
             </View>
         </TouchableOpacity>
     )
@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 15
     },
     profileAvatar: {
-        width: 60,
-        height: 60,
+        width: 30,
+        height: 30,
         borderRadius: 9999,
         marginRight: 12,
     },
