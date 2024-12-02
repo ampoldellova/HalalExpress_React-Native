@@ -2,17 +2,12 @@ import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'reac
 import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react'
 import { GiftedChat } from 'react-native-gifted-chat'
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { AntDesign } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../../constants/theme";
 import { collection, addDoc, orderBy, query, onSnapshot } from 'firebase/firestore';
-import { signOut } from 'firebase/auth';
-import { auth, database } from '../../../config/firebase';
+import { database } from '../../../config/firebase';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import baseUrl from '../../../assets/common/baseUrl';
-import { StatusBar } from 'expo-status-bar';
-import MessageList from './MessageList';
-import Feather from '@expo/vector-icons/Feather';
 
 const ChatRoom = ({ route }) => {
     const [messages, setMessages] = useState([]);
@@ -72,28 +67,35 @@ const ChatRoom = ({ route }) => {
         const q = query(collectionRef, orderBy('createdAt', 'desc'));
 
         const unsubscribe = onSnapshot(q, snapshot => {
-            setMessages(
-                snapshot.docs.map(doc => ({
+            const filteredMessages = snapshot.docs
+                .map(doc => ({
                     _id: doc.id,
                     createdAt: doc.data().createdAt?.toDate() || new Date(),
                     text: doc.data().text,
                     user: doc.data().user,
+                    receiverId: doc.data().receiverId,
                 }))
-            );
+                .filter(msg =>
+                    (msg.user._id === user._id && msg.receiverId === receiver._id) ||
+                    (msg.user._id === receiver._id && msg.receiverId === user._id)
+                );
+
+            setMessages(filteredMessages);
         });
 
         return unsubscribe;
-    }, []);
+    }, [user, receiver]);
 
     const onSend = useCallback((messages = []) => {
+        const { _id, createdAt, text, user } = messages[0];
         setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
 
-        const { _id, createdAt, text, user } = messages[0];
         addDoc(collection(database, 'chats'), {
             _id,
             createdAt,
             text,
-            user
+            user,
+            receiverId: receiver._id
         });
     }, []);
 
@@ -138,5 +140,5 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         color: '#858585',
     },
-    
+
 })

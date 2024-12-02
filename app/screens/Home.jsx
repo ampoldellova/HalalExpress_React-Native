@@ -14,59 +14,97 @@ import NewFoodList from "../components/NewFoodList";
 import FastestNearYou from "../components/FastestNearYou";
 import HomeCategories from "../components/HomeCategories";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import baseUrl from "../../assets/common/baseUrl";
+import axios from "axios";
+import { useFocusEffect } from "@react-navigation/native";
+import Loader from "../components/Loader/Loader";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [selectedSection, setSelectedSection] = useState(null)
   const [selectedValue, setSelectedValue] = useState(null)
-  const [selectedChoice, setSelectedChoice] = useState(null)
   const [refreshing, setRefreshing] = React.useState(false);
+  const [restaurants, setRestaurants] = useState([]);
+  const [restaurantsLoaded, setRestaurantsLoaded] = useState(false);
+  const [foods, setFoods] = useState([]);
+  const [foodsLoaded, setFoodsLoaded] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
+  const getRestaurants = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/api/restaurant/list`);
+      setRestaurants(response.data);
+      setRestaurantsLoaded(true);
+    } catch (error) {
+      console.log("Error fetching restaurants:", error);
+    }
+  };
+
+
+  const getFoods = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/api/foods/list`);
+      setFoods(response.data);
+      setFoodsLoaded(true);
+    } catch (error) {
+      console.log("Error fetching foods:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (restaurantsLoaded && foodsLoaded) {
+      setLoading(false);
+    }
+  }, [restaurantsLoaded, foodsLoaded]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setLoading(true);
+      setRestaurantsLoaded(false);
+      setFoodsLoaded(false);
+      getRestaurants();
+      getFoods();
+    }, [])
+  );
+
+  // const onRefresh = React.useCallback(() => {
+  //   setRefreshing(true);
+  //   setTimeout(() => {
+  //     setRefreshing(false);
+  //   }, 2000);
+  // }, []);
 
   return (
     <SafeAreaView>
-      <View style={pages.viewOne}>
-        <View style={pages.viewTwo}>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={{ borderBottomEndRadius: 30, borderBottomStartRadius: 30 }}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-          >
-            <HomeHeader />
-            <CategoryList
-              setSelectedCategory={setSelectedCategory}
-              setSelectedSection={setSelectedSection}
-              setSelectedValue={setSelectedValue}
-            />
-            {/* <ChoicesList setSelectedChoice={setSelectedChoice} setSelectedSection={setSelectedSection} /> */}
-            {selectedCategory !== null && selectedSection !== null ? (
-              <View>
-                <Heading heading={`Browse ${selectedValue}`} onPress={() => { }} />
-                <HomeCategories />
-              </View>
-            ) : (
-              <View>
-                <Heading heading={'Restaurants'} onPress={() => { }} />
-                <NearbyRestaurants />
-                <Divider />
-                <Heading heading={'Our Food'} onPress={() => { }} />
-                <NewFoodList />
-                {/* <Divider />
-                <Heading heading={'Fastest Near You'} onPress={() => { }} />
-                <FastestNearYou /> */}
-              </View>
-            )}
-          </ScrollView>
+      {loading ? <Loader /> : (
+        <View style={pages.viewOne}>
+          <View style={pages.viewTwo}>
+            <ScrollView>
+              <HomeHeader />
+              <CategoryList
+                setSelectedCategory={setSelectedCategory}
+                setSelectedSection={setSelectedSection}
+                setSelectedValue={setSelectedValue}
+              />
+              {/* <ChoicesList setSelectedChoice={setSelectedChoice} setSelectedSection={setSelectedSection} /> */}
+              {selectedCategory !== null && selectedSection !== null ? (
+                <View>
+                  <Heading heading={`Browse ${selectedValue}`} onPress={() => { }} />
+                  <HomeCategories />
+                </View>
+              ) : (
+                <View>
+                  <Heading heading={'Restaurants'} onPress={() => { }} />
+                  <NearbyRestaurants restaurants={restaurants} />
+                  <Divider />
+                  <Heading heading={'Our Food'} onPress={() => { }} />
+                  <NewFoodList foods={foods} />
+                </View>
+              )}
+            </ScrollView>
+          </View>
         </View>
-      </View>
+      )}
     </SafeAreaView >
   );
 };

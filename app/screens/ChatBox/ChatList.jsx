@@ -7,7 +7,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import baseUrl from '../../../assets/common/baseUrl';
-import { router } from 'expo-router';
 import ChatUser from './ChatUser';
 
 const ChatList = () => {
@@ -57,6 +56,7 @@ const ChatList = () => {
 
     return (
         <SafeAreaView>
+            <Text style={styles.text}>Chats</Text>
             <View style={styles.searchContainer}>
 
                 <View style={styles.searchWrapper}>
@@ -88,6 +88,13 @@ const ChatList = () => {
 export default ChatList
 
 const styles = StyleSheet.create({
+    text: {
+        marginLeft: 16,
+        fontSize: 18,
+        fontFamily: 'bold',
+        marginBottom: '-10',
+        marginTop: 10
+    },
     searchContainer: {
         flexDirection: "row",
         justifyContent: "center",

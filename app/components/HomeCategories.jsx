@@ -12,16 +12,18 @@ const HomeCategories = () => {
     );
 
     return (
-        <View style={{ marginLeft: 12, marginBottom: 12 }}>
-            <FlatList
-                data={uidata.foods}
-                showsHorizontalScrollIndicator={false}
-                keyExtractor={(item) => item._id}
-                style={{ marginTop: 10 }}
-                scrollEnabled={false}
-                renderItem={renderCategoryItem}
-            />
-        </View>
+        <>
+            <View style={{ marginLeft: 12, marginBottom: 12 }}>
+                <FlatList
+                    data={uidata.foods}
+                    showsHorizontalScrollIndicator={false}
+                    keyExtractor={(item) => item._id}
+                    style={{ marginTop: 10 }}
+                    scrollEnabled={false}
+                    renderItem={renderCategoryItem}
+                />
+            </View>
+        </>
     )
 }
 
