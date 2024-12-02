@@ -33,7 +33,6 @@ const Home = () => {
     <SafeAreaView>
       <View style={pages.viewOne}>
         <View style={pages.viewTwo}>
-          <HomeHeader />
           <ScrollView
             showsVerticalScrollIndicator={false}
             style={{ borderBottomEndRadius: 30, borderBottomStartRadius: 30 }}
@@ -41,6 +40,7 @@ const Home = () => {
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
           >
+            <HomeHeader />
             <CategoryList
               setSelectedCategory={setSelectedCategory}
               setSelectedSection={setSelectedSection}

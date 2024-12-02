@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react'
 import { GiftedChat } from 'react-native-gifted-chat'
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -10,21 +10,20 @@ import { auth, database } from '../../../config/firebase';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import baseUrl from '../../../assets/common/baseUrl';
-import { useLocalSearchParams } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import MessageList from './MessageList';
+import Feather from '@expo/vector-icons/Feather';
 
-const Chat = ({ route }) => {
+const ChatRoom = ({ route }) => {
     const [messages, setMessages] = useState([]);
     const navigation = useNavigation();
     const [user, setUser] = useState({});
-    const item = route.params.item;
+    const receiver = route.params;
+    // console.log(receiver)
 
-    // const onSignOut = () => {
-    //     signOut(auth).catch(error => console.log(error));
-    // };
     const getProfile = async () => {
         try {
             const token = await AsyncStorage.getItem("token");
-            // console.log(token)
             if (token) {
                 const config = {
                     headers: {
@@ -34,9 +33,6 @@ const Chat = ({ route }) => {
 
                 const response = await axios.get(`${baseUrl}/api/users/profile`, config);
                 setUser(response.data)
-                // console.log(response.data)
-
-                // setUser(response.data);
             } else {
                 console.log("Authentication token not found");
             }
@@ -52,20 +48,24 @@ const Chat = ({ route }) => {
         }, [])
     )
 
-    // useLayoutEffect(() => {
-    //     navigation.setOptions({
-    //         headerRight: () => (
-    //             <TouchableOpacity
-    //                 style={{
-    //                     marginRight: 10
-    //                 }}
-    //                 onPress={onSignOut}
-    //             >
-    //                 <AntDesign name="logout" size={24} color={COLORS.secondary} />
-    //             </TouchableOpacity>
-    //         )
-    //     })
-    // }, [navigation]);
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerTitle: () => (
+                <View style={styles.wrapper}>
+                    <Image
+                        source={{
+                            uri: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80',
+                        }}
+                        style={styles.receiverAvatar}
+                    />
+                    <View>
+                        <Text style={styles.receiverName}>{receiver.username}</Text>
+                        <Text style={styles.receiverEmail}>{receiver.email}</Text>
+                    </View>
+                </View>
+            )
+        })
+    })
 
     useLayoutEffect(() => {
         const collectionRef = collection(database, 'chats');
@@ -113,6 +113,30 @@ const Chat = ({ route }) => {
     )
 }
 
-export default Chat
+export default ChatRoom
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    wrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        marginLeft: '-20'
+    },
+    receiverAvatar: {
+        width: 40,
+        height: 40,
+        borderRadius: 9999,
+        marginRight: 12,
+    },
+    receiverName: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: '#292929',
+    },
+    receiverEmail: {
+        fontSize: 16,
+        fontWeight: '400',
+        color: '#858585',
+    },
+    
+})

@@ -25,7 +25,7 @@ const Menu = () => {
                     },
                 };
 
-                const response = await axios.get(`${baseUrl}/api/users/profile`, config);
+                const response = await axios.get(`${baseUrl}/api/restaurant/byId`, config);
                 setUser(response.data)
             } else {
                 console.log("Authentication token not found");

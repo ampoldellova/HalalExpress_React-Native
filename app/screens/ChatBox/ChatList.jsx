@@ -76,25 +76,11 @@ const ChatList = () => {
 
             <FlatList
                 data={filteredUsers}
-                // keyExtractor={(item) => item._id.toString()}
+                keyExtractor={(item) => item._id.toString()}
                 renderItem={renderItem}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 100 }}
             />
-
-            {/* <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
-                {filteredUsers.map((user, i) => (
-                    // <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={() => navigation.navigate('chat-page', user)}>
-                    //     <ChatUser key={i} user={user} onPress={() => navigation.navigate('chat-page', user)} />
-                    // </TouchableOpacity>
-                    <FlatList data={user}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        style={{ marginTop: 5, rowGap: 10 }}
-                        scrollEnabled
-                        renderUsers={renderUsers} />
-                ))}
-            </ScrollView> */}
         </SafeAreaView>
     )
 }
