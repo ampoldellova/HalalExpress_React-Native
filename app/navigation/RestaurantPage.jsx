@@ -26,9 +26,9 @@ const renderScene = SceneMap({
     third: Info
 });
 
-const RestaurantPage = () => {
+const RestaurantPage = ({ item }) => {
     const layout = useWindowDimensions();
-
+    console.log(item)
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
         { key: 'first', title: 'Menu' },
@@ -39,11 +39,11 @@ const RestaurantPage = () => {
     const renderTabBar = (props) => (
         <TabBar
             {...props}
-            indicatorStyle={{ backgroundColor: COLORS.lightWhite }} 
-            style={{ backgroundColor: COLORS.primary }} 
-            labelStyle={{ fontWeight: 'bold' }} 
-            activeColor={COLORS.secondary} 
-            inactiveColor={COLORS.lightWhite} 
+            indicatorStyle={{ backgroundColor: COLORS.lightWhite }}
+            style={{ backgroundColor: COLORS.primary }}
+            labelStyle={{ fontWeight: 'bold' }}
+            activeColor={COLORS.secondary}
+            inactiveColor={COLORS.lightWhite}
         />
     );
 

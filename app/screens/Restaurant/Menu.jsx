@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native'
-import React, { useContext } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import React, { useContext, useState } from 'react'
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native'
 import { RestaurantContext } from '../../context/RestaurantContext'
 import uidata from '../../constants/uidata'
 import FoodTile from '../../components/FoodTile'
@@ -10,35 +10,16 @@ import axios from 'axios'
 import baseUrl from '../../../assets/common/baseUrl'
 
 const Menu = () => {
+    const route = useRoute();
     const navigation = useNavigation();
     const { restaurantObj, setRestaurantObj } = useContext(RestaurantContext)
-    // console.log(uidata.foods.title)
-
-    const getRestaurantFood = async () => {
-        try {
-            const token = await AsyncStorage.getItem("token");
-            console.log(token)
-            if (token) {
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${JSON.parse(token)}`,
-                    },
-                };
-
-                const response = await axios.get(`${baseUrl}/api/restaurant/byId`, config);
-                setUser(response.data)
-            } else {
-                console.log("Authentication token not found");
-            }
-        } catch (error) {
-            console.log("Error fetching profile:", error);
-        }
-    };
-
+    const [restaurantFood, setRestaurantFood] = useState([]);
+    const item = route.params;
+    // console.log(item.foods)
     return (
         <View style={{ marginTop: 5, marginBottom: 50 }}>
             <FlatList
-                data={uidata.foods}
+                data={item.foods}
                 showsVerticalScrollIndicator={false}
                 style={{ marginTop: 5 }}
                 scrollEnabled

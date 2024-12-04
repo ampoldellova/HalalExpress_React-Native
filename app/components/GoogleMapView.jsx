@@ -85,7 +85,11 @@ const GoogleMapView = ({ placeList }) => {
                 showsUserLocation={true}
                 region={mapRegion}
             >
-                <Marker title='My location' coordinate={mapRegion} style={{}} />
+                <Marker
+                    title='My location'
+                    coordinate={mapRegion}
+                    icon={require('../../assets/images/location.png')}
+                />
 
                 {placeList.map(
                     (item, index) => index <= 1 && <PlaceMarker key={index} coordinates={item} />
@@ -109,8 +113,16 @@ const styles = StyleSheet.create({
     map: {
         width: "100%",
         height: "100%",
-        borderRadius: 12
-    }
+        borderRadius: 12,
+        flex: 1
+    },
+    customMarker: {
+        height: 'auto',
+        width: 'auto'
+    },
+    markerText: {
+        fontSize: 30
+    },
 })
 
 // const config = {

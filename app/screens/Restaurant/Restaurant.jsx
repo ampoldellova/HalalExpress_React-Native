@@ -15,7 +15,6 @@ const Restaurant = ({ navigation }) => {
     const [distanceTime, setDistanceTime] = useState({})
     const { location, setLocation } = useContext(UserLocationContext)
     const item = route.params;
-
     useEffect(() => {
         GoogleApiServices.calculateDistanceAndTime(
             item.coords.latitude,
@@ -56,7 +55,7 @@ const Restaurant = ({ navigation }) => {
                         <RatingInput
                             rating={Number(item.rating)}
                             size={22}
-                            // color={COLORS.primary}
+                        // color={COLORS.primary}
                         />
                         <TouchableOpacity style={styles.ratingBtn} onPress={() => navigation.navigate('rating')}>
                             <Text style={styles.btnText}>Rate this store</Text>
@@ -84,7 +83,7 @@ const Restaurant = ({ navigation }) => {
                 </View>
             </View>
             <View style={{ height: SIZES.height / 1.5 }}>
-                <RestaurantPage />
+                <RestaurantPage item={item} />
             </View>
         </View>
     )

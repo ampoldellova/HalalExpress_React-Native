@@ -74,7 +74,7 @@ const Profile = () => {
         <View
           style={{
             backgroundColor: COLORS.offwhite,
-            height: SIZES.height - 50,
+            height: SIZES.height - 19,
             borderBottomEndRadius: 30,
             borderBottomStartRadius: 30,
           }}
@@ -174,6 +174,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginHorizontal: 20,
-    marginTop: 10,
+    marginTop: 50,
   },
 });
