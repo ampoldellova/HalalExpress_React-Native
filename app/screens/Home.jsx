@@ -20,13 +20,14 @@ import { useFocusEffect } from "@react-navigation/native";
 import Loader from "../components/Loader/Loader";
 
 const Home = () => {
-  const [selectedCategory, setSelectedCategory] = useState(null)
-  const [selectedSection, setSelectedSection] = useState(null)
-  const [selectedValue, setSelectedValue] = useState(null)
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedSection, setSelectedSection] = useState(null);
+  const [selectedValue, setSelectedValue] = useState(null);
   const [refreshing, setRefreshing] = React.useState(false);
   const [restaurants, setRestaurants] = useState([]);
   const [restaurantsLoaded, setRestaurantsLoaded] = useState(false);
   const [foods, setFoods] = useState([]);
+  const [filteredFoods, setFilteredFoods] = useState([]);
   const [foodsLoaded, setFoodsLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -40,11 +41,11 @@ const Home = () => {
     }
   };
 
-
   const getFoods = async () => {
     try {
       const response = await axios.get(`${baseUrl}/api/foods/list`);
       setFoods(response.data);
+      setFilteredFoods(response.data); // Initialize filteredFoods with all foods
       setFoodsLoaded(true);
     } catch (error) {
       console.log("Error fetching foods:", error);
@@ -57,6 +58,16 @@ const Home = () => {
     }
   }, [restaurantsLoaded, foodsLoaded]);
 
+  // Filter foods when the selected category changes
+  useEffect(() => {
+    if (selectedCategory) {
+      const filtered = foods.filter(food => food.category._id === selectedCategory);
+      setFilteredFoods(filtered);
+    } else {
+      setFilteredFoods(foods); // Show all foods if no category is selected
+    }
+  }, [selectedCategory, foods]);
+
   useFocusEffect(
     React.useCallback(() => {
       setLoading(true);
@@ -67,16 +78,11 @@ const Home = () => {
     }, [])
   );
 
-  // const onRefresh = React.useCallback(() => {
-  //   setRefreshing(true);
-  //   setTimeout(() => {
-  //     setRefreshing(false);
-  //   }, 2000);
-  // }, []);
-
   return (
     <SafeAreaView>
-      {loading ? <Loader /> : (
+      {loading ? (
+        <Loader />
+      ) : (
         <View style={pages.viewOne}>
           <View style={pages.viewTwo}>
             <ScrollView>
@@ -86,11 +92,10 @@ const Home = () => {
                 setSelectedSection={setSelectedSection}
                 setSelectedValue={setSelectedValue}
               />
-              {/* <ChoicesList setSelectedChoice={setSelectedChoice} setSelectedSection={setSelectedSection} /> */}
-              {selectedCategory !== null && selectedSection !== null ? (
+              {selectedCategory ? (
                 <View>
-                  <Heading heading={`Browse ${selectedValue}`} onPress={() => { }} />
-                  <HomeCategories />
+                  <Heading heading={`Foods in ${selectedValue}`} onPress={() => { }} />
+                  <HomeCategories foods={filteredFoods} />
                 </View>
               ) : (
                 <View>
@@ -98,18 +103,19 @@ const Home = () => {
                   <NearbyRestaurants restaurants={restaurants} />
                   <Divider />
                   <Heading heading={'Our Food'} onPress={() => { }} />
-                  <NewFoodList foods={foods} />
+                  <NewFoodList foods={filteredFoods} />
                 </View>
               )}
             </ScrollView>
           </View>
         </View>
       )}
-    </SafeAreaView >
+    </SafeAreaView>
   );
 };
 
 export default Home;
+
 
 const styles = StyleSheet.create({
 

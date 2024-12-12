@@ -4,7 +4,7 @@ import uidata from '../constants/uidata'
 import CategoryFoodComp from './CategoryFoodComp'
 import { useNavigation } from '@react-navigation/native'
 
-const HomeCategories = () => {
+const HomeCategories = ({ foods }) => {
     const navigation = useNavigation();
 
     const renderCategoryItem = ({ item }) => (
@@ -15,7 +15,7 @@ const HomeCategories = () => {
         <>
             <View style={{ marginLeft: 12, marginBottom: 12 }}>
                 <FlatList
-                    data={uidata.foods}
+                    data={foods}
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item) => item._id}
                     style={{ marginTop: 10 }}
