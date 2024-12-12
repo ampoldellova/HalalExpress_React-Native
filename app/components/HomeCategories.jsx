@@ -8,7 +8,7 @@ const HomeCategories = ({ foods }) => {
     const navigation = useNavigation();
 
     const renderCategoryItem = ({ item }) => (
-        <CategoryFoodComp item={item} onPress={() => { }} />
+        <CategoryFoodComp item={item} onPress={() => navigation.navigate('food-nav', item)} />
     );
 
     return (
