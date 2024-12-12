@@ -14,6 +14,7 @@ const NearbyRestaurants = ({ restaurants }) => {
                 data={restaurants}
                 horizontal
                 showsHorizontalScrollIndicator={false}
+                keyExtractor={(item) => item._id}
                 style={{ marginTop: 5, rowGap: 10 }}
                 scrollEnabled
                 renderItem={({ item }) => (

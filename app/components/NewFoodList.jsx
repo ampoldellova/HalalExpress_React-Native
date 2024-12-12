@@ -11,6 +11,7 @@ const NewFoodList = ({ foods }) => {
             <FlatList
                 data={foods}
                 horizontal
+                keyExtractor={(item) => item._id}
                 showsHorizontalScrollIndicator={false}
                 style={{ marginTop: 5, rowGap: 10 }}
                 scrollEnabled
