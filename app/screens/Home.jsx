@@ -43,14 +43,18 @@ const Home = () => {
 
   const getFoods = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/api/foods/list`);
+      const response = await axios.get(
+        `${baseUrl}/api/foods/list`,
+        selectedCategory ? { params: { category: selectedCategory } } : {}
+      );
       setFoods(response.data);
-      setFilteredFoods(response.data); // Initialize filteredFoods with all foods
+      setFilteredFoods(response.data);
       setFoodsLoaded(true);
     } catch (error) {
       console.log("Error fetching foods:", error);
     }
   };
+
 
   useEffect(() => {
     if (restaurantsLoaded && foodsLoaded) {
@@ -58,13 +62,13 @@ const Home = () => {
     }
   }, [restaurantsLoaded, foodsLoaded]);
 
-  // Filter foods when the selected category changes
+
   useEffect(() => {
     if (selectedCategory) {
       const filtered = foods.filter(food => food.category._id === selectedCategory);
       setFilteredFoods(filtered);
     } else {
-      setFilteredFoods(foods); // Show all foods if no category is selected
+      setFilteredFoods(foods);
     }
   }, [selectedCategory, foods]);
 
@@ -73,10 +77,13 @@ const Home = () => {
       setLoading(true);
       setRestaurantsLoaded(false);
       setFoodsLoaded(false);
-      getRestaurants();
-      getFoods();
+
+      Promise.all([getRestaurants(), getFoods()])
+        .then(() => setLoading(false))
+        .catch((err) => console.error(err));
     }, [])
   );
+
 
   return (
     <SafeAreaView>
