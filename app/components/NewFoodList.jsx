@@ -17,7 +17,6 @@ const NewFoodList = ({ foods }) => {
                 renderItem={({ item }) => (
                     <FoodComponent item={item} onPress={() => navigation.navigate('food-nav', item)} />
                 )}
-                initialNumToRender={6}
             />
         </View>
     )

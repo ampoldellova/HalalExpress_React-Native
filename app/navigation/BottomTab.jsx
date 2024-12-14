@@ -24,17 +24,10 @@ const tabBarStyle = {
 };
 
 const BottomTab = () => {
-  // const {count, isCartLoading, error, refetch} =fetchCartCount();
-
   const { cartCount, setCartCount } = useContext(CartCountContext);
   const { login, setLogin } = useContext(LoginContext)
   const { user } = useSelector(state => state.user)
   const navigation = useNavigation()
-  // console.log(cartCount)
-
-  // if(isCartLoading){
-  //   setCartCount(count)
-  // }
 
   return (
     <Tab.Navigator
