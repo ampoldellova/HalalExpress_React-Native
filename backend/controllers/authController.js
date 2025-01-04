@@ -10,7 +10,7 @@ module.exports = {
         const user = req.body;
 
         const profilePath = req.file
-            ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
+            ? `${req.protocol}://${req.get('host')}/public/uploads/${req.file.filename}`
             : 'https://static-00.iconduck.com/assets.00/profile-default-icon-1024x1023-4u5mrj2v.png';
         // const profilePath = req.file ? req.file.path : null;
 

@@ -4,8 +4,6 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const app = express()
 const port = 6002
-const multer = require('multer')
-// const upload = multer({ dest: 'public/uploads/' })
 
 const authRouter = require('./routes/auth')
 const userRouter = require('./routes/user')
@@ -13,6 +11,9 @@ const restaurantRouter = require('./routes/restaurant')
 const categoryRouter = require('./routes/category')
 const foodRouter = require('./routes/food')
 const cartRouter = require('./routes/cart')
+
+// const multer = require('multer')
+// const upload = multer({ dest: 'public/uploads/' })
 // const storage = multer.diskStorage({
 //     destination: function (req, file, cb) {
 //         cb(null, 'public/uploads/')

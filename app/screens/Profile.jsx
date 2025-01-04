@@ -35,7 +35,7 @@ const Profile = () => {
 
         const response = await axios.get(`${baseUrl}/api/users/profile`, config);
         setUser(response.data)
-        console.log(user.profile)
+        console.log(user?.profile)
         // console.log(response.data)
 
         // setUser(response.data);
@@ -97,7 +97,8 @@ const Profile = () => {
               flexDirection: "row",
             }}
           >
-            <Image source={{ uri: user.profile }} style={{ height: 45, width: 45, borderRadius: 99, borderWidth: 1 }} />
+            {/* <Image source={{ uri: user.profile }} style={{ height: 45, width: 45, borderRadius: 99, borderWidth: 1 }} /> */}
+            <Image source={{ uri: user?.profile }} style={{ height: 45, width: 45, borderRadius: 99, borderWidth: 1 }} />
             {/* <NetworkImage
               source={user.profile}
               width={45}
