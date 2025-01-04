@@ -35,6 +35,7 @@ const Profile = () => {
 
         const response = await axios.get(`${baseUrl}/api/users/profile`, config);
         setUser(response.data)
+        console.log(user.profile)
         // console.log(response.data)
 
         // setUser(response.data);
@@ -68,76 +69,78 @@ const Profile = () => {
   // if (isProfileLoading) {
   //   return <LoadingScreen />;
   // }
+
   return (
     // <ScrollView>
-      <View style={{ backgroundColor: COLORS.primary, height: SIZES.height }}>
-        <View
-          style={{
-            backgroundColor: COLORS.offwhite,
-            height: SIZES.height - 19,
-            borderBottomEndRadius: 30,
-            borderBottomStartRadius: 30,
-          }}
-        >
-          <Image
-            source={{ uri: bkImg }}
-            style={[
-              StyleSheet.absoluteFillObject,
-              {
-                opacity: 0.7,
-              },
-              
-            ]}
-          />
-          <View style={styles.profile}>
-            <View
-              style={{
-                flexDirection: "row",
-              }}
-            >
-              <NetworkImage
-                data={user === null ? profile : user?.profile}
-                width={45}
-                height={45}
-                radius={99}
-              />
-              <View style={{ marginLeft: 10, marginTop: 3 }}>
-                <Text style={styles.text}>
-                  {user === null ? "username" : user?.username}
-                </Text>
-                <Text style={styles.email}>
-                  {user === null ? "email" : user?.email}
-                </Text>
-              </View>
-            </View>
+    <View style={{ backgroundColor: COLORS.primary, height: SIZES.height }}>
+      <View
+        style={{
+          backgroundColor: COLORS.offwhite,
+          height: SIZES.height - 19,
+          borderBottomEndRadius: 30,
+          borderBottomStartRadius: 30,
+        }}
+      >
+        <Image
+          source={{ uri: bkImg }}
+          style={[
+            StyleSheet.absoluteFillObject,
+            {
+              opacity: 0.7,
+            },
 
-            <TouchableOpacity onPress={handleLogout}>
-              <AntDesign name="logout" size={24} color="red" />
-            </TouchableOpacity>
-
-          </View>
-
-          <RegistrationTile
-            heading={"Register a restaurant"}
-            desc={
-              "Join our community and showcase your culinary delights to a wider audience."
-            }
-          />
-
+          ]}
+        />
+        <View style={styles.profile}>
           <View
             style={{
-              height: 92,
-              backgroundColor: COLORS.lightWhite,
-              margin: 10,
-              borderRadius: 12,
+              flexDirection: "row",
             }}
           >
-            <ProfileTile title={"Orders"} icon={"fast-food-outline"} font={1} />
-            {/* <ProfileTile title={"Places"} icon={"heart"} font={2} /> */}
-            <ProfileTile title={"Payment History"} icon={"creditcard"} />
+            <Image source={{ uri: user.profile }} style={{ height: 45, width: 45, borderRadius: 99, borderWidth: 1 }} />
+            {/* <NetworkImage
+              source={user.profile}
+              width={45}
+              height={45}
+              radius={99}
+            /> */}
+            <View style={{ marginLeft: 10, marginTop: 3 }}>
+              <Text style={styles.text}>
+                {user === null ? "username" : user?.username}
+              </Text>
+              <Text style={styles.email}>
+                {user === null ? "email" : user?.email}
+              </Text>
+            </View>
           </View>
 
-          {/* <View
+          <TouchableOpacity onPress={handleLogout}>
+            <AntDesign name="logout" size={24} color="red" />
+          </TouchableOpacity>
+
+        </View>
+
+        <RegistrationTile
+          heading={"Register a restaurant"}
+          desc={
+            "Join our community and showcase your culinary delights to a wider audience."
+          }
+        />
+
+        <View
+          style={{
+            height: 92,
+            backgroundColor: COLORS.lightWhite,
+            margin: 10,
+            borderRadius: 12,
+          }}
+        >
+          <ProfileTile title={"Orders"} icon={"fast-food-outline"} font={1} />
+          {/* <ProfileTile title={"Places"} icon={"heart"} font={2} /> */}
+          <ProfileTile title={"Payment History"} icon={"creditcard"} />
+        </View>
+
+        {/* <View
             style={{
               height: 140,
               backgroundColor: COLORS.lightWhite,
@@ -150,8 +153,8 @@ const Profile = () => {
             <ProfileTile title={"History"} icon={"globe-outline"} font={1} />
           </View> */}
 
-        </View>
       </View>
+    </View>
     // </ScrollView>
   );
 };

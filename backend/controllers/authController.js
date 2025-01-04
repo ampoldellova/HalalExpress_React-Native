@@ -2,10 +2,17 @@ const User = require('../models/User')
 const CryptoJS = require('crypto-js')
 const jwt = require('jsonwebtoken')
 const admin = require('firebase-admin')
+const multer = require('../middleware/multerConfig');
+const fs = require('fs')
 
 module.exports = {
     createUser: async (req, res) => {
         const user = req.body;
+
+        const profilePath = req.file
+            ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
+            : 'https://static-00.iconduck.com/assets.00/profile-default-icon-1024x1023-4u5mrj2v.png';
+        // const profilePath = req.file ? req.file.path : null;
 
         try {
             await admin.auth().getUserByEmail(user.email);
@@ -22,7 +29,7 @@ module.exports = {
                         disabled: false
                     })
 
-                    console.log(userResponse.uid);
+                    // console.log(userResponse.uid);
 
                     const newUser = new User({
                         username: user.username,
@@ -32,13 +39,15 @@ module.exports = {
                             process.env.SECRET
                         ).toString(),
                         uid: userResponse.uid,
-                        userType: 'Client'
+                        userType: 'Client',
+                        profile: profilePath || 'https://static-00.iconduck.com/assets.00/profile-default-icon-1024x1023-4u5mrj2v.png'
                     })
 
                     await newUser.save()
 
                     res.status(201).json({ status: true })
                 } catch (error) {
+                    if (req.file) fs.unlinkSync(req.file.path);
                     res.status(500).json({ status: false, error: "Error on creating user" })
                 }
             }

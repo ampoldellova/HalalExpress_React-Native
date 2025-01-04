@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const app = express()
 const port = 6002
+const multer = require('multer')
+// const upload = multer({ dest: 'public/uploads/' })
 
 const authRouter = require('./routes/auth')
 const userRouter = require('./routes/user')
@@ -11,6 +13,16 @@ const restaurantRouter = require('./routes/restaurant')
 const categoryRouter = require('./routes/category')
 const foodRouter = require('./routes/food')
 const cartRouter = require('./routes/cart')
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, 'public/uploads/')
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, file.originalname)
+//     }
+// })
+
+// const upload = multer({ storage})
 
 dotenv.config()
 
@@ -25,6 +37,7 @@ mongoose.connect(process.env.MONGO_URL).then(() => console.log('Database Connect
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/public/uploads", express.static(__dirname + "/public/uploads"));
 
 app.use('/', authRouter);
 app.use('/api/users', userRouter);
@@ -32,6 +45,10 @@ app.use('/api/restaurant', restaurantRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/foods', foodRouter)
 app.use('/api/cart', cartRouter)
+
+// app.post('/api/upload', upload.single('avatar'), function (req, res, next) {
+//     res.json(req.file);
+// })
 
 
 app.listen(process.env.PORT || port, () => console.log(`HalalExpress app listening on port ${process.env.PORT}!`))

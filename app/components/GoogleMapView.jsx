@@ -105,16 +105,17 @@ export default GoogleMapView
 
 const styles = StyleSheet.create({
     mapContainer: {
-        width: SIZES.width,
+        width: SIZES.width - 20,
         height: SIZES.height / 2.25,
         borderColor: COLORS.gray2,
-        borderWidth: 1
+        borderWidth: 1,
+        borderRadius: 10,
+        marginHorizontal: 10,
+        marginTop: 10
     },
     map: {
         width: "100%",
         height: "100%",
-        borderRadius: 12,
-        flex: 1
     },
     customMarker: {
         height: 'auto',
