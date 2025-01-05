@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Alert } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Alert, Modal, Pressable } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { COLORS, SIZES } from "../constants/theme";
 // import fetchProfile from "../hooks/fetchProfile";
@@ -21,6 +21,7 @@ const Profile = () => {
   const navigation = useNavigation();
   // const [user, setUser] = useState({});
   const [user, setUser] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
 
   const getProfile = async () => {
     try {
@@ -54,6 +55,10 @@ const Profile = () => {
     }, [])
   )
 
+  // const editProfile = async () => {
+  //   <EditProfile />
+  // }
+
   const handleLogout = async () => {
     await AsyncStorage.removeItem("id");
     await AsyncStorage.removeItem("token");
@@ -65,7 +70,7 @@ const Profile = () => {
   const profile =
     "https://d326fntlu7tb1e.cloudfront.net/uploads/b5065bb8-4c6b-4eac-a0ce-86ab0f597b1e-vinci_04.jpg";
   const bkImg =
-    "https://d326fntlu7tb1e.cloudfront.net/uploads/ab6356de-429c-45a1-b403-d16f7c20a0bc-bkImg-min.png";
+    "https://res.cloudinary.com/dwkmutbz3/image/upload/v1736086255/HalalExpress/rating_bk_ecbwkb.jpg";
   // if (isProfileLoading) {
   //   return <LoadingScreen />;
   // }
@@ -81,7 +86,7 @@ const Profile = () => {
           borderBottomStartRadius: 30,
         }}
       >
-        <Image
+        {/* <Image
           source={{ uri: bkImg }}
           style={[
             StyleSheet.absoluteFillObject,
@@ -90,8 +95,8 @@ const Profile = () => {
             },
 
           ]}
-        />
-        <View style={styles.profile}>
+        /> */}
+        <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.profile}>
           <View
             style={{
               flexDirection: "row",
@@ -119,7 +124,35 @@ const Profile = () => {
             <AntDesign name="logout" size={24} color="red" />
           </TouchableOpacity>
 
-        </View>
+        </TouchableOpacity>
+
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+        >
+          <View style={styles.modalBackground}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Image
+                  source={{ uri: user?.profile }}
+                  style={{
+                    height: 100,
+                    width: 100,
+                    borderRadius: 99,
+                    borderWidth: 1,
+                    borderColor: COLORS.gray2
+                  }}
+                />
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}>
+                  <Text style={styles.textStyle}>Hide Modal</Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </Modal>
 
         <RegistrationTile
           heading={"Register a restaurant"}
@@ -137,26 +170,11 @@ const Profile = () => {
           }}
         >
           <ProfileTile title={"Orders"} icon={"fast-food-outline"} font={1} />
-          {/* <ProfileTile title={"Places"} icon={"heart"} font={2} /> */}
           <ProfileTile title={"Payment History"} icon={"creditcard"} />
         </View>
 
-        {/* <View
-            style={{
-              height: 140,
-              backgroundColor: COLORS.lightWhite,
-              margin: 10,
-              borderRadius: 12,
-            }}
-          >
-            <ProfileTile title={"Coupons"} icon={"tago"} />
-            <ProfileTile title={"My Store"} icon={"bag"} font={2} />
-            <ProfileTile title={"History"} icon={"globe-outline"} font={1} />
-          </View> */}
-
       </View>
     </View>
-    // </ScrollView>
   );
 };
 
@@ -179,5 +197,56 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginHorizontal: 20,
     marginTop: 50,
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Black with 50% opacity
+    // justifyContent: 'center',
+    // alignItems: 'center',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    margin: 20,
+    // flex: 1,
+    // justifyContent: 'space-between',
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 20,
+    width: '80%',
+    height: '60%',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: COLORS.primary,
+  },
+  textStyle: {
+    color: 'white',
+    fontFamily: 'medium',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });
