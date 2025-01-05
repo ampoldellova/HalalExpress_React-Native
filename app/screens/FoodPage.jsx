@@ -49,7 +49,7 @@ const FoodPage = ({ route, navigation }) => {
       <ScrollView scrollEnabled>
 
         <View>
-          <Image source={{ uri: item.imageUrl[0] }}
+          <Image source={{ uri: item.imageUrl }}
             style={{
               width: SIZES.width,
               height: SIZES.height / 4,
@@ -57,10 +57,6 @@ const FoodPage = ({ route, navigation }) => {
             }} />
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backbtn}>
             <Ionicons name='chevron-back-circle' size={30} color={COLORS.primary} />
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => { }} style={styles.sharebtn}>
-            <MaterialCommunityIcons name='share-circle' size={30} color={COLORS.primary} />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => { }} style={{ position: 'absolute', bottom: 20, right: 0 }}>

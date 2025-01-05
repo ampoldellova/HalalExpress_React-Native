@@ -4,6 +4,7 @@ import {
   View,
   TouchableOpacity,
   FlatList,
+  Image,
 } from "react-native";
 import React from "react";
 import { COLORS, SIZES } from "../constants/theme";
@@ -14,11 +15,13 @@ const CategoryFoodComp = ({ item, onPress }) => {
   return (
     <TouchableOpacity style={styles.wrapper} onPress={onPress}>
       <View style={styles.innerRow}>
-        <NetworkImage
-          data={item.imageUrl[0]}
-          width={100}
-          height={100}
-          radius={16}
+        <Image
+          source={{ uri: item.imageUrl }}
+          style={{
+            width: 100,
+            height:100,
+            borderRadius: 15
+          }}
         />
         <View
           style={{ position: "absolute", right: 10, bottom: 10, backgroundColor: COLORS.secondary, borderRadius: 8 }}

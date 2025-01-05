@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import { COLORS, SIZES } from '../constants/theme'
@@ -8,14 +8,17 @@ import { RatingInput } from 'react-native-stock-star-rating'
 const StoreComponent = ({ item, onPress }) => {
     return (
         <TouchableOpacity style={styles.wrapper} onPress={onPress}>
-            <NetworkImage
-                data={item.imageUrl}
-                width={SIZES.width - 80}
-                height={SIZES.height / 5.8}
-                radius={16}
-                mode={'cover'}
+            <Image
+                source={{ uri: item.imageUrl }}
+                style={{
+                    width: SIZES.width - 80,
+                    height: SIZES.height / 5.8,
+                    borderRadius: 15,
+                    borderWidth: 1,
+                    borderColor: COLORS.gray2
+                }}
             />
-            {/* <Text>{item.title}</Text> */}<Text style={styles.heading}>{item.title}</Text>
+            <Text style={styles.heading}>{item.title}</Text>
             <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
                 <Text style={styles.small}>Delivery under:</Text>
                 <Text style={styles.small}>{item.time}</Text>

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import NetworkImage from './NetworkImage'
 import { COLORS, SIZES } from '../constants/theme'
@@ -6,13 +6,17 @@ import { COLORS, SIZES } from '../constants/theme'
 const FoodComponent = ({ item, onPress }) => {
     return (
         <TouchableOpacity style={styles.wrapper} onPress={onPress}>
-            <NetworkImage
-                data={item.imageUrl}
-                width={SIZES.width - 230}
-                height={SIZES.height / 5.8}
-                radius={16}
-                mode={'cover'}
+            <Image
+                source={{ uri: item.imageUrl }}
+                style={{
+                    width: SIZES.width - 230,
+                    height: SIZES.height / 5.8,
+                    borderRadius: 15,
+                    borderWidth: 1,
+                    borderColor: COLORS.gray2
+                }}
             />
+
             <Text style={styles.heading}>{item.title}</Text>
             <Text style={styles.small}>{item.restaurant.title}</Text>
             <Text style={styles.small}>₱ {item.price}</Text>
@@ -34,7 +38,7 @@ const styles = StyleSheet.create({
         fontFamily: "regular",
         color: COLORS.black,
         marginTop: 5,
-        width:120
+        width: 120
     },
     small: {
         fontSize: 12,

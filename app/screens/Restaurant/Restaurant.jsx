@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import RestaurantPage from '../../navigation/RestaurantPage'
 import NetworkImage from '../../components/NetworkImage'
@@ -39,16 +39,19 @@ const Restaurant = ({ navigation }) => {
                     <Ionicons name='chevron-back-circle' size={30} color={COLORS.primary} />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => { }} style={styles.sharebtn}>
+                {/* <TouchableOpacity onPress={() => { }} style={styles.sharebtn}>
                     <MaterialCommunityIcons name='share-circle' size={30} color={COLORS.primary} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
-                <NetworkImage
-                    data={item.imageUrl}
-                    height={SIZES.height / 3.4}
-                    width={SIZES.width}
-                    radius={20}
+                <Image
+                    source={{ uri: item.imageUrl }}
+                    style={{
+                        height: SIZES.height / 3.4,
+                        width: SIZES.width,
+                        borderRadius: 15
+                    }}
                 />
+
 
                 <View style={styles.rating}>
                     <View style={styles.innerRating}>
@@ -112,16 +115,17 @@ const styles = StyleSheet.create({
     btnText: {
         fontSize: 16,
         fontFamily: 'medium',
-        color: COLORS.primary
+        color: COLORS.white
     },
-    sharebtn: {
-        marginRight: 12,
-        alignItems: "center",
-        zIndex: 999,
-        right: 0,
-        position: 'absolute',
-        top: SIZES.xxLarge,
-    },
+    // sharebtn: {
+    //     marginRight: 12,
+    //     alignItems: "center",
+    //     zIndex: 999,
+    //     right: 0,
+    //     position: 'absolute',
+    //     top: SIZES.xxLarge,
+    //     color: COLORS.white
+    // },
     rating: {
         height: 50,
         justifyContent: "center",
@@ -138,8 +142,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 12
     },
     ratingBtn: {
-        borderColor: COLORS.primary,
-        borderWidth: 1,
+        backgroundColor: COLORS.primary,
         borderRadius: 9,
         padding: 6
     }
