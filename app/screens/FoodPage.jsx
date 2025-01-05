@@ -52,8 +52,8 @@ const FoodPage = ({ route, navigation }) => {
           <Image source={{ uri: item.imageUrl }}
             style={{
               width: SIZES.width,
-              height: SIZES.height / 4,
-              borderBottomRightRadius: 40
+              height: SIZES.height / 3.4,
+              borderRadius: 15
             }} />
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backbtn}>
             <Ionicons name='chevron-back-circle' size={30} color={COLORS.primary} />

@@ -13,7 +13,7 @@ const Info = () => {
 
   return (
     <View style={{ marginTop: 5, marginBottom: 50 }}>
-      <FlatList
+      {/* <FlatList
         data={uidata.foods}
         showsVerticalScrollIndicator={false}
         style={{ marginTop: 5 }}
@@ -24,7 +24,7 @@ const Info = () => {
             <CategoryFoodComp item={item} onPress={() => navigation.navigate('food-nav', item)} />
           </View>
         )}
-      />
+      /> */}
     </View>
   )
 }

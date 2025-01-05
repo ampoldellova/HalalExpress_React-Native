@@ -9,9 +9,9 @@ import {
 import React from "react";
 import { COLORS, SIZES } from "../constants/theme";
 import { RatingInput, Rating } from "react-native-stock-star-rating";
-import NetworkImage from "./NetworkImage";
 
 const CategoryFoodComp = ({ item, onPress }) => {
+  console.log(item.imageUrl)
   return (
     <TouchableOpacity style={styles.wrapper} onPress={onPress}>
       <View style={styles.innerRow}>
@@ -19,7 +19,7 @@ const CategoryFoodComp = ({ item, onPress }) => {
           source={{ uri: item.imageUrl }}
           style={{
             width: 100,
-            height:100,
+            height: 100,
             borderRadius: 15
           }}
         />
@@ -32,8 +32,6 @@ const CategoryFoodComp = ({ item, onPress }) => {
         <View style={styles.row}>
           <View>
             <Text style={styles.restaurant}>{item.title}</Text>
-
-
 
             <FlatList
               data={item.foodTags.slice(0, 3)}
