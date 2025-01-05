@@ -11,8 +11,14 @@ const restaurantSchema = new mongoose.Schema({
         required: true,
     },
     imageUrl: {
-        type: String,
-        required: true,
+        public_id: {
+            type: String,
+            default: 'HalalExpress/Profile/profile_nsvdbb'
+        },
+        url: {
+            type: String,
+            default: 'https://res.cloudinary.com/dwkmutbz3/image/upload/v1736011952/HalalExpress/Profile/profile_nsvdbb.png'
+        },
     },
     foods: [
         {
@@ -47,9 +53,14 @@ const restaurantSchema = new mongoose.Schema({
         required: false,
     },
     logoUrl: {
-        type: String,
-        required: true,
-        default: 'https://static-00.iconduck.com/assets.00/profile-default-icon-1024x1023-4u5mrj2v.png'
+        public_id: {
+            type: String,
+            default: 'HalalExpress/Profile/profile_nsvdbb'
+        },
+        url: {
+            type: String,
+            default: 'https://res.cloudinary.com/dwkmutbz3/image/upload/v1736011952/HalalExpress/Profile/profile_nsvdbb.png'
+        },
     },
     rating: {
         type: Number,

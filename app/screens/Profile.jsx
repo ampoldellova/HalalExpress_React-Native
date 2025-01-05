@@ -97,14 +97,14 @@ const Profile = () => {
               flexDirection: "row",
             }}
           >
-            {/* <Image source={{ uri: user.profile }} style={{ height: 45, width: 45, borderRadius: 99, borderWidth: 1 }} /> */}
-            <Image source={{ uri: user?.profile }} style={{ height: 45, width: 45, borderRadius: 99, borderWidth: 1 }} />
-            {/* <NetworkImage
-              source={user.profile}
-              width={45}
-              height={45}
-              radius={99}
-            /> */}
+            <Image
+              source={{ uri: user?.profile }}
+              style={{
+                height: 45,
+                width: 45,
+                borderRadius: 99,
+              }}
+            />
             <View style={{ marginLeft: 10, marginTop: 3 }}>
               <Text style={styles.text}>
                 {user === null ? "username" : user?.username}

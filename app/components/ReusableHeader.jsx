@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { COLORS, SIZES } from "../constants/theme";
 
@@ -10,31 +10,31 @@ const ReusableHeader = ({ title, backbtn }) => {
   const navigation = useNavigation();
   return (
     <View style={styles.outerStyle}>
-      {backbtn === false? (
+      {backbtn === false ? (
         <View></View>
-       
+
       ) : (
         <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={styles.backbtn}
-      >
-         <Ionicons
+          onPress={() => navigation.goBack()}
+          style={styles.backbtn}
+        >
+          <Ionicons
             name='chevron-back-circle'
             size={30}
             color={COLORS.primary}
-        />
-      </TouchableOpacity>
+          />
+        </TouchableOpacity>
       )}
-     
+
 
       <Text style={styles.heading}>{title}</Text>
-
-      <AssetImage
-        data={require("../../assets/images/profile.jpg")}
-        mode={"cover"}
-        width={30}
-        height={30}
-        radius={99}
+      <Image
+        source={{ uri: 'https://res.cloudinary.com/dwkmutbz3/image/upload/v1736011952/HalalExpress/Profile/profile_nsvdbb.png' }}
+        style={{
+          width: 30,
+          height: 30,
+          borderRadius: 99
+        }}
       />
     </View>
   );

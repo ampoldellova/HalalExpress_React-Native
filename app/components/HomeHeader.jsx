@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import AssetImage from './AssetImage'
 import { UserReversedGeoCode } from '../context/UserReversedGeoCode'
@@ -82,11 +82,13 @@ const HomeHeader = () => {
     return (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
             <View style={styles.outerStyle}>
-                <AssetImage data={user === null ? require('../../assets/images/profile.png') : user?.profile}
-                    width={50}
-                    height={50}
-                    mode={'cover'}
-                    radius={99}
+                <Image
+                    source={{ uri: user?.profile }}
+                    style={{
+                        width: 50,
+                        height: 50,
+                        borderRadius: 99,
+                    }}
                 />
                 <View style={styles.headerStyle}>
                     <Text style={styles.heading}>Delivering to:</Text>

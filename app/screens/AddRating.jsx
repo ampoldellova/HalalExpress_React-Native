@@ -20,7 +20,7 @@ const AddRating = () => {
     <SafeAreaView style={{ height: SIZES.height }}>
       <Image
         source={{
-          uri: "https://d326fntlu7tb1e.cloudfront.net/uploads/2d5faf00-e235-4a78-9688-ad4d3280ec03-rating_bk.jpg",
+          uri: "https://res.cloudinary.com/dwkmutbz3/image/upload/v1736086255/HalalExpress/rating_bk_ecbwkb.jpg",
         }}
         style={StyleSheet.absoluteFillObject}
         blurRadius={30}
@@ -30,12 +30,13 @@ const AddRating = () => {
       <View style={styles.container}>
         <View style={styles.ratingBox}>
           <View style={styles.image}>
-            <AssetImage
-              data={require("../../assets/images/profile.jpg")}
-              mode={"cover"}
-              width={70}
-              height={70}
-              radius={99}
+            <Image
+              source={{ uri: 'https://res.cloudinary.com/dwkmutbz3/image/upload/v1736011952/HalalExpress/Profile/profile_nsvdbb.png' }}
+              style={{
+                width: 30,
+                height: 30,
+                borderRadius: 99
+              }}
             />
           </View>
 
@@ -105,6 +106,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "medium",
     color: COLORS.lightWhite,
-    textAlign:'center'
+    textAlign: 'center'
   },
 });

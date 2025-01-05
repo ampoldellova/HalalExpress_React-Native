@@ -12,20 +12,8 @@ const categoryRouter = require('./routes/category')
 const foodRouter = require('./routes/food')
 const cartRouter = require('./routes/cart')
 
-// const multer = require('multer')
-// const upload = multer({ dest: 'public/uploads/' })
-// const storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         cb(null, 'public/uploads/')
-//     },
-//     filename: function (req, file, cb) {
-//         cb(null, file.originalname)
-//     }
-// })
-
-// const upload = multer({ storage})
-
 dotenv.config()
+require('./cloudinary')
 
 const admin = require('firebase-admin');
 const serviceAccount = require('./serviceAccount.json');
@@ -46,10 +34,5 @@ app.use('/api/restaurant', restaurantRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/foods', foodRouter)
 app.use('/api/cart', cartRouter)
-
-// app.post('/api/upload', upload.single('avatar'), function (req, res, next) {
-//     res.json(req.file);
-// })
-
 
 app.listen(process.env.PORT || port, () => console.log(`HalalExpress app listening on port ${process.env.PORT}!`))
