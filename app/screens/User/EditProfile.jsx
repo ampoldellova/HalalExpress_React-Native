@@ -113,7 +113,7 @@ const EditProfile = ({ navigation, route }) => {
                                 />
 
                                 <TextInput
-                                    placeholder="Username"
+                                    placeholder={user.username}
                                     onFocus={() => {
                                         setFieldTouched("username");
                                     }}
@@ -147,7 +147,7 @@ const EditProfile = ({ navigation, route }) => {
                                 />
 
                                 <TextInput
-                                    placeholder="Enter email"
+                                    placeholder={user.email}
                                     onFocus={() => {
                                         setFieldTouched("email");
                                     }}
@@ -181,7 +181,7 @@ const EditProfile = ({ navigation, route }) => {
                                 />
 
                                 <TextInput
-                                    placeholder="Enter phone number"
+                                    placeholder={user.phone}
                                     onFocus={() => {
                                         setFieldTouched("phone");
                                     }}
@@ -200,54 +200,8 @@ const EditProfile = ({ navigation, route }) => {
                             )}
                         </View>
 
-                        <View style={styles.wrapper}>
-                            <Text style={styles.label}>Password</Text>
-                            <View
-                                style={styles.inputWrapper(
-                                    touched.password ? COLORS.secondary : COLORS.offwhite
-                                )}
-                            >
-                                <MaterialCommunityIcons
-                                    name="lock-outline"
-                                    size={20}
-                                    color={COLORS.gray}
-                                    style={styles.iconStyle}
-                                />
-
-                                <TextInput
-                                    secureTextEntry={obsecureText}
-                                    placeholder="Password"
-                                    onFocus={() => {
-                                        setFieldTouched("password");
-                                    }}
-                                    onBlur={() => {
-                                        setFieldTouched("password", "");
-                                    }}
-                                    value={values.password}
-                                    onChangeText={handleChange("password")}
-                                    autoCapitalize="none"
-                                    autoCorrect={false}
-                                    style={{ flex: 1 }}
-                                />
-
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        setObsecureText(!obsecureText);
-                                    }}
-                                >
-                                    <MaterialCommunityIcons
-                                        name={obsecureText ? "eye-outline" : "eye-off-outline"}
-                                        size={18}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            {touched.password && errors.password && (
-                                <Text style={styles.errorMessage}>{errors.password}</Text>
-                            )}
-                        </View>
-
                         <Button
-                            title={"S I G N U P"}
+                            title={"E D I T   P R O F I L E"}
                             onPress={isValid ? handleSubmit : inValidForm}
                             loader={loader}
                             isValid={isValid}
@@ -279,7 +233,8 @@ const styles = StyleSheet.create({
     profile: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 20
+        marginVertical: 20,
+        marginTop: 60
     },
     wrapper: {
         marginBottom: 20,
