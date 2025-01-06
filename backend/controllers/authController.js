@@ -8,12 +8,6 @@ const fs = require('fs')
 module.exports = {
     createUser: async (req, res) => {
         const user = req.body;
-
-        const profilePath = req.file
-            ? `${req.protocol}://${req.get('host')}/public/uploads/${req.file.filename}`
-            : 'https://static-00.iconduck.com/assets.00/profile-default-icon-1024x1023-4u5mrj2v.png';
-        // const profilePath = req.file ? req.file.path : null;
-
         try {
             await admin.auth().getUserByEmail(user.email);
 
@@ -25,6 +19,7 @@ module.exports = {
                     const userResponse = await admin.auth().createUser({
                         email: user.email,
                         password: user.password,
+                        phone: user.phone,
                         emailVerified: false,
                         disabled: false
                     })
@@ -38,9 +33,9 @@ module.exports = {
                             user.password,
                             process.env.SECRET
                         ).toString(),
+                        phone: user.phone,
                         uid: userResponse.uid,
-                        userType: 'Client',
-                        profile: profilePath || 'https://static-00.iconduck.com/assets.00/profile-default-icon-1024x1023-4u5mrj2v.png'
+                        userType: 'Client'
                     })
 
                     await newUser.save()

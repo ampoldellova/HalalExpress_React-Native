@@ -15,18 +15,22 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import LoginPage from "./LoginPage";
 import { cleanUser } from "../../redux/UserReducer";
+import * as ImagePicker from "expo-image-picker"
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { TextInput } from "react-native-gesture-handler";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  // const [user, setUser] = useState({});
   const [user, setUser] = useState({});
+  const [image, setImage] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   const getProfile = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
-      // console.log(token)
       if (token) {
         const config = {
           headers: {
@@ -36,10 +40,10 @@ const Profile = () => {
 
         const response = await axios.get(`${baseUrl}/api/users/profile`, config);
         setUser(response.data)
-        console.log(user?.profile)
-        // console.log(response.data)
-
-        // setUser(response.data);
+        setImage(response.data.profile.url)
+        setName(response.data.name)
+        setEmail(response.data.email)
+        console.log(response.data)
       } else {
         console.log("Authentication token not found");
       }
@@ -48,6 +52,31 @@ const Profile = () => {
     }
   };
 
+  const setImageUpload = async (image) => {
+    const newImageUri = image.startsWith("file://")
+      ? image
+      : "file:///" + image.split("file:/").join("");
+    const formattedImage = {
+      uri: newImageUri,
+      type: mime.getType(newImageUri),
+      name: newImageUri.split("/").pop(),
+    };
+    console.log(formattedImage);
+    return formattedImage;
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
   useFocusEffect(
     React.useCallback(() => {
@@ -55,25 +84,12 @@ const Profile = () => {
     }, [])
   )
 
-  // const editProfile = async () => {
-  //   <EditProfile />
-  // }
-
   const handleLogout = async () => {
     await AsyncStorage.removeItem("id");
     await AsyncStorage.removeItem("token");
     Alert.alert("Logout", "You have been logged out");
     dispatch(cleanUser());
   };
-
-  // const { user, isProfileLoading, error, refetch } = fetchProfile();
-  const profile =
-    "https://d326fntlu7tb1e.cloudfront.net/uploads/b5065bb8-4c6b-4eac-a0ce-86ab0f597b1e-vinci_04.jpg";
-  const bkImg =
-    "https://res.cloudinary.com/dwkmutbz3/image/upload/v1736086255/HalalExpress/rating_bk_ecbwkb.jpg";
-  // if (isProfileLoading) {
-  //   return <LoadingScreen />;
-  // }
 
   return (
     // <ScrollView>
@@ -86,16 +102,6 @@ const Profile = () => {
           borderBottomStartRadius: 30,
         }}
       >
-        {/* <Image
-          source={{ uri: bkImg }}
-          style={[
-            StyleSheet.absoluteFillObject,
-            {
-              opacity: 0.7,
-            },
-
-          ]}
-        /> */}
         <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.profile}>
           <View
             style={{
@@ -103,7 +109,7 @@ const Profile = () => {
             }}
           >
             <Image
-              source={{ uri: user?.profile }}
+              source={{ uri: image }}
               style={{
                 height: 45,
                 width: 45,
@@ -123,7 +129,6 @@ const Profile = () => {
           <TouchableOpacity onPress={handleLogout}>
             <AntDesign name="logout" size={24} color="red" />
           </TouchableOpacity>
-
         </TouchableOpacity>
 
         <Modal
@@ -134,25 +139,30 @@ const Profile = () => {
           <View style={styles.modalBackground}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Image
-                  source={{ uri: user?.profile }}
-                  style={{
-                    height: 100,
-                    width: 100,
-                    borderRadius: 99,
-                    borderWidth: 1,
-                    borderColor: COLORS.gray2
-                  }}
-                />
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}>
-                  <Text style={styles.textStyle}>Hide Modal</Text>
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <AntDesign name="close" size={18} color={COLORS.gray2} />
                 </Pressable>
+                <TouchableOpacity onPress={pickImage}>
+                  <Image
+                    source={image && image !== ""
+                      ? { uri: image } : require("../../assets/images/profile.png")}
+                    style={{
+                      height: 100,
+                      width: 100,
+                      borderRadius: 99,
+                      borderWidth: 1,
+                      borderColor: COLORS.gray2,
+                    }}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
           </View>
         </Modal>
+
 
         <RegistrationTile
           heading={"Register a restaurant"}
@@ -200,9 +210,7 @@ const styles = StyleSheet.create({
   },
   modalBackground: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Black with 50% opacity
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   centeredView: {
     flex: 1,
@@ -211,8 +219,6 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    // flex: 1,
-    // justifyContent: 'space-between',
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 20,
@@ -228,25 +234,30 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
   buttonClose: {
-    backgroundColor: COLORS.primary,
+    position: 'absolute',
+    top: 10,
+    right: 10,
   },
-  textStyle: {
-    color: 'white',
-    fontFamily: 'medium',
-    textAlign: 'center',
+  wrapper: {
+    marginBottom: 20,
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
+  label: {
+    fontFamily: "regular",
+    fontSize: SIZES.xSmall,
+    marginBottom: 5,
+    marginEnd: 5,
+    textAlign: "right"
   },
+  inputWrapper: (borderColor) => ({
+    borderColor: borderColor,
+    backgroundColor: COLORS.lightWhite,
+    borderWidth: 1,
+    height: 50,
+    borderRadius: 12,
+    flexDirection: 'row',
+    paddingHorizontal: 15,
+    alignItems: "center"
+
+  }),
 });

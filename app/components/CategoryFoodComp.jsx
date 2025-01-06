@@ -16,7 +16,7 @@ const CategoryFoodComp = ({ item, onPress }) => {
     <TouchableOpacity style={styles.wrapper} onPress={onPress}>
       <View style={styles.innerRow}>
         <Image
-          source={{ uri: item.imageUrl }}
+          source={{ uri: item.imageUrl.url }}
           style={{
             width: 100,
             height: 100,

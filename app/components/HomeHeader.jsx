@@ -83,7 +83,11 @@ const HomeHeader = () => {
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
             <View style={styles.outerStyle}>
                 <Image
-                    source={{ uri: user?.profile }}
+                    source={{
+                        uri: user?.profile?.url
+                            ? user.profile.url
+                            : "https://res.cloudinary.com/dwkmutbz3/image/upload/v1736011952/HalalExpress/Profile/profile_nsvdbb.png",
+                    }}
                     style={{
                         width: 50,
                         height: 50,

@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const imageFile = require('../utils/imageFile')
 
 module.exports = {
     getUser: async (req, res) => {
@@ -15,7 +16,7 @@ module.exports = {
     getAllUsers: async (req, res) => {
         try {
             const userId = req.user.id;
-            const users = await User.find({ _id: { $ne: userId } }); 
+            const users = await User.find({ _id: { $ne: userId } });
             res.status(200).json(users);
         } catch (error) {
             res.status(500).json({ error: "Error fetching users" });
@@ -35,15 +36,44 @@ module.exports = {
     },
 
     updateUser: async (req, res) => {
-        const userId = req.user.id
-
         try {
-            const updatedUser = await User.findByIdAndUpdate(userId, {
-                $set: req.body
-            }, { new: true })
-            res.status(200).json({ status: true, message: "User Updated Successfully!" })
-        } catch (error) {
-            res.status(500).json({ message: 'Error Updating User' })
+            if (req.file) {
+                req.body.profile = await imageFile.uploadSingle({
+                    imageFiles: req.file,
+                    request: req,
+                });
+                await User.findByIdAndUpdate(
+                    req.params.id,
+                    {
+                        name: req.body.name,
+                        email: req.body.email,
+                        profile: req.body.profile,
+                    },
+                    {
+                        new: true,
+                        runValidators: true,
+                    }
+                );
+                res.status(201).json({ success: true, message: "User is Updated" });
+            } else {
+                await User.findByIdAndUpdate(req.params.id, req.body, {
+                    new: true,
+                    runValidators: true,
+                });
+                res.status(201).json({ success: true, message: "User is Updated" });
+            }
+        } catch (err) {
+            console.log(err);
         }
+        // const userId = req.user.id
+
+        // try {
+        //     const updatedUser = await User.findByIdAndUpdate(userId, {
+        //         $set: req.body
+        //     }, { new: true })
+        //     res.status(200).json({ status: true, message: "User Updated Successfully!" })
+        // } catch (error) {
+        //     res.status(500).json({ message: 'Error Updating User' })
+        // }
     }
 }

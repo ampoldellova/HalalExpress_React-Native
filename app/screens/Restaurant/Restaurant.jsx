@@ -44,7 +44,7 @@ const Restaurant = ({ navigation }) => {
                 </TouchableOpacity> */}
 
                 <Image
-                    source={{ uri: item.imageUrl }}
+                    source={{ uri: item.imageUrl.url }}
                     style={{
                         height: SIZES.height / 3.4,
                         width: SIZES.width,
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     // sharebtn: {
     //     marginRight: 12,
     //     alignItems: "center",
-    //     zIndex: 999,
+    //     zIndex: 999, 
     //     right: 0,
     //     position: 'absolute',
     //     top: SIZES.xxLarge,

@@ -49,7 +49,7 @@ const FoodPage = ({ route, navigation }) => {
       <ScrollView scrollEnabled>
 
         <View>
-          <Image source={{ uri: item.imageUrl }}
+          <Image source={{ uri: item.imageUrl.url }}
             style={{
               width: SIZES.width,
               height: SIZES.height / 3.4,

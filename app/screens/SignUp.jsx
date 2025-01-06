@@ -13,7 +13,7 @@ import styles from "./login.style";
 import LottieView from "lottie-react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants/theme";
 import { BackBtn, Button } from "../components";
 import { UserLocationContext } from "../context/UserLocationContext";
@@ -30,6 +30,12 @@ const validationSchema = Yup.object().shape({
     .required("Required"),
   username: Yup.string()
     .min(3, "Provide a valid username")
+    .required("Required"),
+  phone: Yup.string()
+    .matches(
+      /^(09\d{9}|639\d{9}|\+639\d{9})$/,
+      "Provide a valid Philippine phone number"
+    )
     .required("Required"),
 });
 
@@ -181,6 +187,7 @@ const SignUp = ({ navigation }) => {
             email: "",
             password: "",
             username: "",
+            phone: ""
           }}
           validationSchema={validationSchema}
           onSubmit={(values) => registerUser(values)}
@@ -261,6 +268,40 @@ const SignUp = ({ navigation }) => {
                 </View>
                 {touched.email && errors.email && (
                   <Text style={styles.errorMessage}>{errors.email}</Text>
+                )}
+              </View>
+
+              <View style={styles.wrapper}>
+                <Text style={styles.label}>Phone</Text>
+                <View
+                  style={styles.inputWrapper(
+                    touched.phone ? COLORS.secondary : COLORS.offwhite
+                  )}
+                >
+                  <AntDesign
+                    name="phone"
+                    size={20}
+                    color={COLORS.gray}
+                    style={styles.iconStyle}
+                  />
+
+                  <TextInput
+                    placeholder="Enter phone number"
+                    onFocus={() => {
+                      setFieldTouched("phone");
+                    }}
+                    onBlur={() => {
+                      setFieldTouched("phone", "");
+                    }}
+                    value={values.phone}
+                    onChangeText={handleChange("phone")}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    style={{ flex: 1 }}
+                  />
+                </View>
+                {touched.phone && errors.phone && (
+                  <Text style={styles.errorMessage}>{errors.phone}</Text>
                 )}
               </View>
 

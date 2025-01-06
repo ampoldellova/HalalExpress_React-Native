@@ -16,7 +16,7 @@ const CategoryItem = ({ category, selected }) => {
             borderColor: category.value == selected ? COLORS.secondary : 'transparent',
             shadowColor: SHADOWS.small
         }}>
-            <Image source={{ uri: category.imageUrl }} style={{ width: 30, height: 30 }} />
+            <Image source={{ uri: category.imageUrl.url }} style={{ width: 30, height: 30 }} />
             <Text style={{ fontSize: 13, fontFamily: 'regular' }}>{category.title}</Text>
         </View>
     )

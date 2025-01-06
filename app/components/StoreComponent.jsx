@@ -9,7 +9,7 @@ const StoreComponent = ({ item, onPress }) => {
     return (
         <TouchableOpacity style={styles.wrapper} onPress={onPress}>
             <Image
-                source={{ uri: item.imageUrl }}
+                source={{ uri: item.imageUrl.url }}
                 style={{
                     width: SIZES.width - 80,
                     height: SIZES.height / 5.8,
