@@ -5,7 +5,7 @@ import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import Home from "../screens/Home";
 import Search from "../screens/Search/Search";
 import { COLORS } from "../constants/theme";
-import Profile from "../screens/Profile";
+import Profile from "../screens/User/Profile";
 import Cart from "../screens/Cart/Cart";
 import { CartCountContext } from "../context/CartCountContext";
 import { LoginContext } from "../context/LoginContext";

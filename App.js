@@ -23,6 +23,7 @@ import store from './redux/store';
 import LoginPage from './app/screens/LoginPage';
 import ChatList from './app/screens/ChatBox/ChatList';
 import ChatRoom from './app/screens/ChatBox/ChatRoom';
+import EditProfile from './app/screens/User/EditProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -134,6 +135,11 @@ export default function App() {
                       name='chat-page'
                       component={ChatRoom}
                       options={{ headerTitle: "" }}
+                    />
+                    <Stack.Screen
+                      name='edit-profile-page'
+                      component={EditProfile}
+                      options={{ headerShown: false }}
                     />
                   </Stack.Navigator>
                 </NavigationContainer>

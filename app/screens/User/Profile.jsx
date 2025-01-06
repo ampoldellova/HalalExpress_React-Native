@@ -1,20 +1,20 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Alert, Modal, Pressable } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { COLORS, SIZES } from "../constants/theme";
+import { COLORS, SIZES } from "../../constants/theme";
 // import fetchProfile from "../hooks/fetchProfile";
-import { LoginContext } from "../context/LoginContext";
+import { LoginContext } from "../../context/LoginContext";
 
 import { AntDesign } from "@expo/vector-icons";
-import baseUrl from "../../assets/common/baseUrl";
-import NetworkImage from "../components/NetworkImage";
-import ProfileTile from "../components/ProfileTile";
-import RegistrationTile from "../components/RegistrationTile";
+import baseUrl from "../../../assets/common/baseUrl";
+import NetworkImage from "../../components/NetworkImage";
+import ProfileTile from "../../components/ProfileTile";
+import RegistrationTile from "../../components/RegistrationTile";
 import { useDispatch, useSelector } from "react-redux";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import LoginPage from "./LoginPage";
-import { cleanUser } from "../../redux/UserReducer";
+import LoginPage from "../LoginPage";
+import { cleanUser } from "../../../redux/UserReducer";
 import * as ImagePicker from "expo-image-picker"
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TextInput } from "react-native-gesture-handler";
@@ -26,6 +26,7 @@ const Profile = () => {
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   const getProfile = async () => {
@@ -43,6 +44,7 @@ const Profile = () => {
         setImage(response.data.profile.url)
         setName(response.data.name)
         setEmail(response.data.email)
+        setPhone(response.data.phone)
         console.log(response.data)
       } else {
         console.log("Authentication token not found");
@@ -102,7 +104,7 @@ const Profile = () => {
           borderBottomStartRadius: 30,
         }}
       >
-        <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.profile}>
+        <TouchableOpacity onPress={() => navigation.navigate('edit-profile-page', { user })} style={styles.profile}>
           <View
             style={{
               flexDirection: "row",
@@ -131,7 +133,7 @@ const Profile = () => {
           </TouchableOpacity>
         </TouchableOpacity>
 
-        <Modal
+        {/* <Modal
           animationType="fade"
           transparent={true}
           visible={modalVisible}
@@ -158,10 +160,13 @@ const Profile = () => {
                     }}
                   />
                 </TouchableOpacity>
+                <View>
+                  <TextInput placeholder={phone} />
+                </View>
               </View>
             </View>
           </View>
-        </Modal>
+        </Modal> */}
 
 
         <RegistrationTile
