@@ -14,6 +14,7 @@ const ChatRoom = ({ route }) => {
     const [messages, setMessages] = useState([]);
     const navigation = useNavigation();
     const [user, setUser] = useState({});
+    const [avatar, setAvatar] = useState("");
     const receiver = route.params;
     const [text, setText] = useState("");
     // console.log(receiver)
@@ -30,6 +31,8 @@ const ChatRoom = ({ route }) => {
 
                 const response = await axios.get(`${baseUrl}/api/users/profile`, config);
                 setUser(response.data)
+                setAvatar(response.data.profile.url)
+                console.log(response.data.profile.url)
             } else {
                 console.log("Authentication token not found");
             }
@@ -80,7 +83,7 @@ const ChatRoom = ({ route }) => {
                 <View style={styles.wrapper}>
                     <Image
                         source={{
-                            uri: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80',
+                            uri: receiver.profile.url,
                         }}
                         style={styles.receiverAvatar}
                     />
@@ -139,7 +142,7 @@ const ChatRoom = ({ route }) => {
             user={{
                 _id: user._id,
                 name: user.username,
-                avatar: user.profile
+                avatar: avatar
             }}
             messagesContainerStyle={{
                 backgroundColor: '#fff'

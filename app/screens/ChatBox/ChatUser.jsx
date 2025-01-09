@@ -8,7 +8,7 @@ const ChatUser = ({ user, onPress }) => {
             <Image
                 alt=""
                 source={{
-                    uri: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80',
+                    uri: user.profile.url,
                 }}
                 style={styles.profileAvatar}
             />
