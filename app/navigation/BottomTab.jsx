@@ -9,7 +9,7 @@ import Profile from "../screens/User/Profile";
 import Cart from "../screens/Cart/Cart";
 import { CartCountContext } from "../context/CartCountContext";
 import { LoginContext } from "../context/LoginContext";
-import LoginPage from "../screens/LoginPage";
+import LoginPage from "../screens/User/LoginPage";
 import 'react-native-gesture-handler';
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";

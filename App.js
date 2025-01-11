@@ -17,13 +17,13 @@ import { RestaurantContext } from './app/context/RestaurantContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LoginContext } from './app/context/LoginContext';
 import { CartCountContext } from './app/context/CartCountContext';
-import SignUp from './app/screens/SignUp';
 import { Provider } from 'react-redux';
 import store from './redux/store';
-import LoginPage from './app/screens/LoginPage';
 import ChatList from './app/screens/ChatBox/ChatList';
 import ChatRoom from './app/screens/ChatBox/ChatRoom';
 import EditProfile from './app/screens/User/EditProfile';
+import LoginPage from './app/screens/User/LoginPage';
+import SignUp from './app/screens/User/SignUp';
 
 const Stack = createNativeStackNavigator();
 

@@ -8,19 +8,18 @@ import {
   Alert,
 } from "react-native";
 import React, { useState, useRef, useContext } from "react";
-import { Button, BackBtn } from "../components";
+import { SafeAreaView } from "react-native-safe-area-context";
+import styles from "../login.style";
+import LottieView from "lottie-react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { COLORS, SIZES } from "../constants/theme";
-import styles from "./login.style";
-import LottieView from "lottie-react-native";
+import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
+import { COLORS, SIZES } from "../../constants/theme";
+import { BackBtn, Button } from "../../components";
+import { UserLocationContext } from "../../context/UserLocationContext";
+import baseUrl from "../../../assets/common/baseUrl";
+import { LoginContext } from "../../context/LoginContext";
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { LoginContext } from "../context/LoginContext";
-import baseUrl from "../../assets/common/baseUrl";
-import { useDispatch } from "react-redux";
-import { addUser } from "../../redux/UserReducer";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -29,12 +28,23 @@ const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("Provide a valid email address")
     .required("Required"),
+  username: Yup.string()
+    .min(3, "Provide a valid username")
+    .required("Required"),
+  phone: Yup.string()
+    .matches(
+      /^(09\d{9}|639\d{9}|\+639\d{9})$/,
+      "Provide a valid Philippine phone number"
+    )
+    .required("Required"),
 });
 
-const LoginPage = ({ navigation }) => {
-  const dispatch = useDispatch();
+const SignUp = ({ navigation }) => {
   const animation = useRef(null);
   const [loader, setLoader] = useState(false);
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const { location, setLocation } = useContext(UserLocationContext);
   const [obsecureText, setObsecureText] = useState(false);
   const { login, setLogin } = useContext(LoginContext)
 
@@ -52,64 +62,20 @@ const LoginPage = ({ navigation }) => {
     ]);
   };
 
-  // const login = async (values) => {
-  //   setLoader(true);
-  //   try {
-  //     await firebase
-  //       .auth()
-  //       .signInWithEmailAndPassword(values.email, values.password).then(() => navigation.navigate('home')).catch((error) => {
-  //         Alert.alert("Error Login", error.message, [
-  //           {
-  //             text: "Back",
-  //             onPress: () => {
-  //               setLoader(false);
-  //             },
-  //           },
-  //           {
-  //             text: "Continue",
-  //             onPress: () => {},
-  //           },
-  //           { defaultIndex: 1 },
-  //         ]);
-  //       });
-  //   } catch (error) {
-  //     Alert.alert("Error Login", error.message, [
-  //       {
-  //         text: "Back",
-  //         onPress: () => {
-  //           setLoader(false);
-  //         },
-  //       },
-  //       {
-  //         text: "Continue",
-  //         onPress: () => {},
-  //       },
-  //       { defaultIndex: 1 },
-  //     ]);
-  //   }
-  // };
-
-  const loginFunc = async (values) => {
+  const registerUser = async (values) => {
     setLoader(true);
 
     try {
-      const endpoint = `${baseUrl}/login`;
+      const endpoint = `${baseUrl}/register`;
       const data = values;
 
-      console.log(data);
-
       const response = await axios.post(endpoint, data);
-      if (response.status === 200) {
-        setLoader(false);
+      if (response.status === 201) {
         setLogin(true);
-        dispatch(
-          addUser(response.data)
-        )
 
-        console.log(response.data);
+        Alert.alert("Registered Sucessfully", "Please login your credentials ");
 
-        await AsyncStorage.setItem("id", JSON.stringify(response.data._id));
-        await AsyncStorage.setItem("token", JSON.stringify(response.data.userToken));
+        navigation.goBack()
 
       } else {
         setLogin(false);
@@ -147,6 +113,63 @@ const LoginPage = ({ navigation }) => {
       setLoader(false);
     }
   };
+
+  // const registerUser = async (values) => {
+  //   setEmail(values.email);
+  //   setUsername(values.username);
+  //   setLoader(true);
+  //   try {
+  //     await firebase
+  //       .auth()
+  //       .createUserWithEmailAndPassword(values.email, values.password)
+  //       .then(() => {
+  //         const uid = firebase.auth().currentUser.uid;
+  //         firebase
+  //           .firestore()
+  //           .collection("users")
+  //           .doc(firebase.auth().currentUser.uid)
+  //           .set({
+  //             email,
+  //             username,
+  //             uid,
+  //             coordinates,
+  //           })
+  //           .catch((error) => {
+  //             Alert.alert("Error Signing Up", error.message, [
+  //               {
+  //                 text: "Back",
+  //                 onPress: () => {
+  //                   setLoader(false);
+  //                 },
+  //               },
+  //               {
+  //                 text: "Continue",
+  //                 onPress: () => {},
+  //               },
+  //               { defaultIndex: 1 },
+  //             ]);
+  //           });
+  //       })
+  //       .then(() => {
+  //         navigation.navigate("login");
+  //       });
+  //   } catch (error) {
+  //     Alert.alert("Error Signing Up", error.message, [
+  //       {
+  //         text: "Back",
+  //         onPress: () => {
+  //           setLoader(false);
+  //         },
+  //       },
+  //       {
+  //         text: "Continue",
+  //         onPress: () => {},
+  //       },
+  //       { defaultIndex: 1 },
+  //     ]);
+  //   }
+  // };
+
   return (
     <ScrollView style={{ backgroundColor: COLORS.white }}>
       <View style={{ marginHorizontal: 20, marginTop: 50 }}>
@@ -154,16 +177,20 @@ const LoginPage = ({ navigation }) => {
         <LottieView
           autoPlay
           ref={animation}
-          style={{ width: "100%", height: SIZES.height / 3.2 }}
-          source={require("../../assets/anime/delivery.json")}
+          style={{ width: "100%", height: 300 }}
+          source={require("../../../assets/anime/delivery.json")}
         />
 
         <Text style={styles.titleLogin}>HalalExpress</Text>
-
         <Formik
-          initialValues={{ email: "", password: "" }}
+          initialValues={{
+            email: "",
+            password: "",
+            username: "",
+            phone: ""
+          }}
           validationSchema={validationSchema}
-          onSubmit={(values) => loginFunc(values)}
+          onSubmit={(values) => registerUser(values)}
         >
           {({
             handleChange,
@@ -176,6 +203,40 @@ const LoginPage = ({ navigation }) => {
             setFieldTouched,
           }) => (
             <View>
+              <View style={styles.wrapper}>
+                <Text style={styles.label}>Username</Text>
+                <View
+                  style={styles.inputWrapper(
+                    touched.username ? COLORS.secondary : COLORS.offwhite
+                  )}
+                >
+                  <MaterialCommunityIcons
+                    name="face-man-profile"
+                    size={20}
+                    color={COLORS.gray}
+                    style={styles.iconStyle}
+                  />
+
+                  <TextInput
+                    placeholder="Username"
+                    onFocus={() => {
+                      setFieldTouched("username");
+                    }}
+                    onBlur={() => {
+                      setFieldTouched("username", "");
+                    }}
+                    value={values.username}
+                    onChangeText={handleChange("username")}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    style={{ flex: 1 }}
+                  />
+                </View>
+                {touched.username && errors.username && (
+                  <Text style={styles.errorMessage}>{errors.username}</Text>
+                )}
+              </View>
+
               <View style={styles.wrapper}>
                 <Text style={styles.label}>Email</Text>
                 <View
@@ -207,6 +268,40 @@ const LoginPage = ({ navigation }) => {
                 </View>
                 {touched.email && errors.email && (
                   <Text style={styles.errorMessage}>{errors.email}</Text>
+                )}
+              </View>
+
+              <View style={styles.wrapper}>
+                <Text style={styles.label}>Phone</Text>
+                <View
+                  style={styles.inputWrapper(
+                    touched.phone ? COLORS.secondary : COLORS.offwhite
+                  )}
+                >
+                  <AntDesign
+                    name="phone"
+                    size={20}
+                    color={COLORS.gray}
+                    style={styles.iconStyle}
+                  />
+
+                  <TextInput
+                    placeholder="Enter phone number"
+                    onFocus={() => {
+                      setFieldTouched("phone");
+                    }}
+                    onBlur={() => {
+                      setFieldTouched("phone", "");
+                    }}
+                    value={values.phone}
+                    onChangeText={handleChange("phone")}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    style={{ flex: 1 }}
+                  />
+                </View>
+                {touched.phone && errors.phone && (
+                  <Text style={styles.errorMessage}>{errors.phone}</Text>
                 )}
               </View>
 
@@ -257,21 +352,11 @@ const LoginPage = ({ navigation }) => {
               </View>
 
               <Button
-                loader={loader}
-                title={"L O G I N"}
+                title={"S I G N U P"}
                 onPress={isValid ? handleSubmit : inValidForm}
+                loader={loader}
                 isValid={isValid}
               />
-
-              <Text
-                style={styles.registration}
-                onPress={() => {
-                  navigation.navigate("signUp");
-                }}
-              >
-                {" "}
-                Register{" "}
-              </Text>
             </View>
           )}
         </Formik>
@@ -280,4 +365,4 @@ const LoginPage = ({ navigation }) => {
   );
 };
 
-export default LoginPage;
+export default SignUp;

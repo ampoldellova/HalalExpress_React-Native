@@ -1,23 +1,15 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Alert, Modal, Pressable } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { COLORS, SIZES } from "../../constants/theme";
-// import fetchProfile from "../hooks/fetchProfile";
-import { LoginContext } from "../../context/LoginContext";
-
 import { AntDesign } from "@expo/vector-icons";
-import baseUrl from "../../../assets/common/baseUrl";
-import NetworkImage from "../../components/NetworkImage";
 import ProfileTile from "../../components/ProfileTile";
 import RegistrationTile from "../../components/RegistrationTile";
 import { useDispatch, useSelector } from "react-redux";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import LoginPage from "../LoginPage";
 import { cleanUser } from "../../../redux/UserReducer";
-import * as ImagePicker from "expo-image-picker"
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { TextInput } from "react-native-gesture-handler";
+import baseUrl from "../../../assets/common/baseUrl";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -27,7 +19,6 @@ const Profile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
 
   const getProfile = async () => {
     try {
@@ -54,32 +45,6 @@ const Profile = () => {
     }
   };
 
-  const setImageUpload = async (image) => {
-    const newImageUri = image.startsWith("file://")
-      ? image
-      : "file:///" + image.split("file:/").join("");
-    const formattedImage = {
-      uri: newImageUri,
-      type: mime.getType(newImageUri),
-      name: newImageUri.split("/").pop(),
-    };
-    console.log(formattedImage);
-    return formattedImage;
-  };
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      setImage(result.assets[0].uri);
-    }
-  };
-
   useFocusEffect(
     React.useCallback(() => {
       getProfile();
@@ -94,7 +59,6 @@ const Profile = () => {
   };
 
   return (
-    // <ScrollView>
     <View style={{ backgroundColor: COLORS.primary, height: SIZES.height }}>
       <View
         style={{
@@ -132,42 +96,6 @@ const Profile = () => {
             <AntDesign name="logout" size={24} color="red" />
           </TouchableOpacity>
         </TouchableOpacity>
-
-        {/* <Modal
-          animationType="fade"
-          transparent={true}
-          visible={modalVisible}
-        >
-          <View style={styles.modalBackground}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                  <AntDesign name="close" size={18} color={COLORS.gray2} />
-                </Pressable>
-                <TouchableOpacity onPress={pickImage}>
-                  <Image
-                    source={image && image !== ""
-                      ? { uri: image } : require("../../assets/images/profile.png")}
-                    style={{
-                      height: 100,
-                      width: 100,
-                      borderRadius: 99,
-                      borderWidth: 1,
-                      borderColor: COLORS.gray2,
-                    }}
-                  />
-                </TouchableOpacity>
-                <View>
-                  <TextInput placeholder={phone} />
-                </View>
-              </View>
-            </View>
-          </View>
-        </Modal> */}
-
 
         <RegistrationTile
           heading={"Register a restaurant"}

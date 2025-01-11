@@ -1,8 +1,9 @@
+const path = 'public/uploads/'
 const cloudinary = require('cloudinary')
 
 const uploadSingle = async ({ imageFile, request }) => {
 
-    const result = await cloudinary.v2.uploader.upload(imageFile, {
+    const result = await cloudinary.v2.uploader.upload(imageFile.path, {
         folder: `HalalExpress`,
     });
 

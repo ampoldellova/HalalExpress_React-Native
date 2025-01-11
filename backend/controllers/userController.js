@@ -36,7 +36,7 @@ module.exports = {
     },
 
     updateUser: async (req, res) => {
-        console.log(req.body)
+        console.log(req.file)
         try {
             if (req.file) {
                 req.body.profile = await imageFile.uploadSingle({
@@ -45,7 +45,6 @@ module.exports = {
                 });
                 await User.findByIdAndUpdate(
                     req.user.id,
-
                     {
                         username: req.body.username,
                         email: req.body.email,
