@@ -1,55 +1,31 @@
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
-import { COLORS, SIZES } from '../../constants/theme'
-import { Ionicons } from "@expo/vector-icons"
-import * as ImagePicker from "expo-image-picker"
-import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
-import { Formik } from "formik";
-import { BackBtn, Button } from '../../components'
-import * as Yup from "yup";
-// import styles from '../login.style'
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { COLORS, SIZES } from '../../constants/theme';
+import * as ImagePicker from 'expo-image-picker';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
+import { BackBtn, Button } from '../../components';
+import baseUrl from '../../../assets/common/baseUrl';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 
 const validationSchema = Yup.object().shape({
-    password: Yup.string()
-        .min(8, "Password must be at least 8 character")
-        .required("Required"),
-    email: Yup.string()
-        .email("Provide a valid email address")
-        .required("Required"),
-    username: Yup.string()
-        .min(3, "Provide a valid username")
-        .required("Required"),
+    username: Yup.string().min(3, 'Provide a valid username').required('Required'),
+    email: Yup.string().email('Provide a valid email address').required('Required'),
     phone: Yup.string()
-        .matches(
-            /^(09\d{9}|639\d{9}|\+639\d{9})$/,
-            "Provide a valid Philippine phone number"
-        )
-        .required("Required"),
+        .matches(/^(09\d{9}|639\d{9}|\+639\d{9})$/, 'Provide a valid Philippine phone number')
+        .required('Required'),
 });
 
 const EditProfile = ({ navigation, route }) => {
     const { user } = route.params;
-    const [obsecureText, setObsecureText] = useState(false);
     const [image, setImage] = useState(user.profile.url);
     const [loader, setLoader] = useState(false);
 
-    const inValidForm = () => {
-        Alert.alert("Invalid Form", "Please provide all required fields", [
-            {
-                text: "Cancel",
-                onPress: () => { },
-            },
-            {
-                text: "Continue",
-                onPress: () => { },
-            },
-            { defaultIndex: 1 },
-        ]);
-    };
-
     const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [1, 1],
             quality: 1,
@@ -60,49 +36,72 @@ const EditProfile = ({ navigation, route }) => {
         }
     };
 
+    const handleSubmitForm = async (values) => {
+        try {
+            setLoader(true);
+            const token = await AsyncStorage.getItem("token");
+            console.log(image)
+
+            const formData = new FormData();
+            if (image.startsWith("file://")) {
+                const filename = image.split('/').pop();
+                const fileType = filename.split('.').pop();
+                formData.append('profile', {
+                    uri: image,
+                    name: filename,
+                    type: `image/${fileType}`,
+                });
+            }
+
+            formData.append('username', values.username);
+            formData.append('email', values.email);
+            formData.append('phone', values.phone);
+
+            await axios.put(`${baseUrl}/api/users/`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${JSON.parse(token)}`,
+                },
+            });
+            Alert.alert('Success', 'Profile updated successfully!', [
+                { text: 'OK', onPress: () => navigation.goBack() },
+            ]);
+        } catch (error) {
+            console.error(error);
+            Alert.alert('Error', 'Failed to update profile. Please try again.');
+        } finally {
+            setLoader(false);
+        }
+    };
+
     return (
         <View style={{ marginHorizontal: 20, marginTop: 50 }}>
             <BackBtn onPress={() => navigation.goBack()} />
-            <View style={styles.profile}>
-                <TouchableOpacity onPress={pickImage}>
-                    <Image
-                        source={{ uri: image }}
-                        style={{
-                            height: 150,
-                            width: 150,
-                            borderRadius: 99,
-                            borderWidth: 1,
-                            borderColor: COLORS.gray2
-                        }}
-                    />
-                </TouchableOpacity>
-            </View>
             <Formik
                 initialValues={{
-                    email: "",
-                    password: "",
-                    username: "",
-                    phone: ""
+                    username: user.username || '',
+                    email: user.email || '',
+                    phone: user.phone || '',
                 }}
                 validationSchema={validationSchema}
-                onSubmit={(values) => registerUser(values)}
+                onSubmit={handleSubmitForm}
             >
-                {({
-                    handleChange,
-                    handleBlur,
-                    touched,
-                    handleSubmit,
-                    values,
-                    errors,
-                    isValid,
-                    setFieldTouched,
-                }) => (
+                {({ handleChange, handleBlur, touched, handleSubmit, values, errors, isValid }) => (
                     <View>
+                        {/* Username Field */}
+                        <View style={styles.profile}>
+                            <TouchableOpacity onPress={pickImage}>
+                                <Image
+                                    source={image ? { uri: image } : require('../../../assets/images/profile.png')}
+                                    style={styles.image}
+                                />
+                            </TouchableOpacity>
+                        </View>
                         <View style={styles.wrapper}>
                             <Text style={styles.label}>Username</Text>
                             <View
                                 style={styles.inputWrapper(
-                                    touched.username ? COLORS.secondary : COLORS.offwhite
+                                    touched.email ? COLORS.secondary : COLORS.offwhite
                                 )}
                             >
                                 <MaterialCommunityIcons
@@ -113,25 +112,19 @@ const EditProfile = ({ navigation, route }) => {
                                 />
 
                                 <TextInput
-                                    placeholder={user.username}
-                                    onFocus={() => {
-                                        setFieldTouched("username");
-                                    }}
-                                    onBlur={() => {
-                                        setFieldTouched("username", "");
-                                    }}
+                                    style={styles.input}
+                                    placeholder="Enter username"
+                                    onChangeText={handleChange('username')}
+                                    onBlur={handleBlur('username')}
                                     value={values.username}
-                                    onChangeText={handleChange("username")}
-                                    autoCapitalize="none"
-                                    autoCorrect={false}
-                                    style={{ flex: 1 }}
                                 />
+                                {touched.username && errors.username && (
+                                    <Text style={styles.errorMessage}>{errors.username}</Text>
+                                )}
                             </View>
-                            {touched.username && errors.username && (
-                                <Text style={styles.errorMessage}>{errors.username}</Text>
-                            )}
                         </View>
 
+                        {/* Email Field */}
                         <View style={styles.wrapper}>
                             <Text style={styles.label}>Email</Text>
                             <View
@@ -145,32 +138,26 @@ const EditProfile = ({ navigation, route }) => {
                                     color={COLORS.gray}
                                     style={styles.iconStyle}
                                 />
-
                                 <TextInput
-                                    placeholder={user.email}
-                                    onFocus={() => {
-                                        setFieldTouched("email");
-                                    }}
-                                    onBlur={() => {
-                                        setFieldTouched("email", "");
-                                    }}
+                                    style={styles.input}
+                                    placeholder="Enter email"
+                                    onChangeText={handleChange('email')}
+                                    onBlur={handleBlur('email')}
                                     value={values.email}
-                                    onChangeText={handleChange("email")}
-                                    autoCapitalize="none"
-                                    autoCorrect={false}
-                                    style={{ flex: 1 }}
+                                    keyboardType="email-address"
                                 />
+                                {touched.email && errors.email && (
+                                    <Text style={styles.errorMessage}>{errors.email}</Text>
+                                )}
                             </View>
-                            {touched.email && errors.email && (
-                                <Text style={styles.errorMessage}>{errors.email}</Text>
-                            )}
                         </View>
 
+                        {/* Phone Field */}
                         <View style={styles.wrapper}>
                             <Text style={styles.label}>Phone</Text>
                             <View
                                 style={styles.inputWrapper(
-                                    touched.phone ? COLORS.secondary : COLORS.offwhite
+                                    touched.email ? COLORS.secondary : COLORS.offwhite
                                 )}
                             >
                                 <AntDesign
@@ -179,62 +166,47 @@ const EditProfile = ({ navigation, route }) => {
                                     color={COLORS.gray}
                                     style={styles.iconStyle}
                                 />
-
                                 <TextInput
-                                    placeholder={user.phone}
-                                    onFocus={() => {
-                                        setFieldTouched("phone");
-                                    }}
-                                    onBlur={() => {
-                                        setFieldTouched("phone", "");
-                                    }}
+                                    style={styles.input}
+                                    placeholder="Enter phone"
+                                    onChangeText={handleChange('phone')}
+                                    onBlur={handleBlur('phone')}
                                     value={values.phone}
-                                    onChangeText={handleChange("phone")}
-                                    autoCapitalize="none"
-                                    autoCorrect={false}
-                                    style={{ flex: 1 }}
+                                    keyboardType="phone-pad"
                                 />
+                                {touched.phone && errors.phone && (
+                                    <Text style={styles.errorMessage}>{errors.phone}</Text>
+                                )}
                             </View>
-                            {touched.phone && errors.phone && (
-                                <Text style={styles.errorMessage}>{errors.phone}</Text>
-                            )}
                         </View>
 
+                        {/* Submit Button */}
                         <Button
-                            title={"E D I T   P R O F I L E"}
-                            onPress={isValid ? handleSubmit : inValidForm}
-                            loader={loader}
+                            title="Update Profile"
+                            onPress={handleSubmit}
                             isValid={isValid}
+                            loader={loader}
                         />
                     </View>
                 )}
             </Formik>
         </View>
-    )
-}
+    );
+};
 
-export default EditProfile
+export default EditProfile;
 
 const styles = StyleSheet.create({
-    cover: {
-        height: SIZES.height / 2.4,
-        width: SIZES.width,
-        marginBottom: SIZES.xxLarge
-
-    },
-
-    titleLogin: {
-        marginVertical: 20,
-        marginHorizontal: 60,
-        fontFamily: "bold",
-        fontSize: 35,
-        color: COLORS.primary,
-    },
     profile: {
-        justifyContent: 'center',
         alignItems: 'center',
         marginVertical: 20,
-        marginTop: 60
+    },
+    image: {
+        height: 150,
+        width: 150,
+        borderRadius: 75,
+        borderWidth: 1,
+        borderColor: COLORS.gray2,
     },
     wrapper: {
         marginBottom: 20,
@@ -267,4 +239,4 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         fontSize: SIZES.xSmall
     },
-})
+});

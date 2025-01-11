@@ -36,18 +36,21 @@ module.exports = {
     },
 
     updateUser: async (req, res) => {
+        console.log(req.body)
         try {
             if (req.file) {
                 req.body.profile = await imageFile.uploadSingle({
-                    imageFiles: req.file,
+                    imageFile: req.file,
                     request: req,
                 });
                 await User.findByIdAndUpdate(
-                    req.params.id,
+                    req.user.id,
+
                     {
-                        name: req.body.name,
+                        username: req.body.username,
                         email: req.body.email,
                         profile: req.body.profile,
+                        phone: req.body.phone
                     },
                     {
                         new: true,
@@ -56,7 +59,7 @@ module.exports = {
                 );
                 res.status(201).json({ success: true, message: "User is Updated" });
             } else {
-                await User.findByIdAndUpdate(req.params.id, req.body, {
+                await User.findByIdAndUpdate(req.user.id, req.body, {
                     new: true,
                     runValidators: true,
                 });
@@ -65,15 +68,5 @@ module.exports = {
         } catch (err) {
             console.log(err);
         }
-        // const userId = req.user.id
-
-        // try {
-        //     const updatedUser = await User.findByIdAndUpdate(userId, {
-        //         $set: req.body
-        //     }, { new: true })
-        //     res.status(200).json({ status: true, message: "User Updated Successfully!" })
-        // } catch (error) {
-        //     res.status(500).json({ message: 'Error Updating User' })
-        // }
     }
 }
