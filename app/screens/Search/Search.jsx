@@ -7,14 +7,19 @@ import styles from "../search.style";
 import LottieView from "lottie-react-native";
 import baseUrl from "../../../assets/common/baseUrl";
 import axios from "axios";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import SearchedFood from "./SearchedFood";
+import SearchedRestaurant from "./SearchedRestaurant"; // Component for restaurant results
 
 const Search = () => {
   const [foods, setFoods] = useState([]);
+  const [restaurants, setRestaurants] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
+  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [searchKey, setSearchKey] = useState(""); // Tracks the search text
+  const [searchCategory, setSearchCategory] = useState("foods"); // "foods" or "restaurants"
   const animation = useRef(null);
+  const navigation = useNavigation();
 
   const getFoods = async () => {
     try {
@@ -26,20 +31,36 @@ const Search = () => {
     }
   };
 
+  const getRestaurants = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/api/restaurant/list`);
+      setRestaurants(response.data);
+      setFilteredRestaurants(response.data);
+      console.log(restaurants)
+    } catch (error) {
+      console.log("Error fetching restaurants:", error);
+    }
+  };
+
   const handleSearch = (keyword) => {
     setSearchKey(keyword); // Update the search key
     if (keyword.trim() === "") {
-      setFilteredFoods([]); // Reset filteredFoods when search is empty
+      setFilteredFoods(foods);
+      setFilteredRestaurants(restaurants);
     } else {
       const regex = new RegExp(keyword, "i");
-      const filteredItems = foods.filter((food) => regex.test(food.title) || regex.test(food.code));
-      setFilteredFoods(filteredItems);
+      if (searchCategory === "foods") {
+        setFilteredFoods(foods.filter((food) => regex.test(food.title) || regex.test(food.code)));
+      } else if (searchCategory === "restaurants") {
+        setFilteredRestaurants(restaurants.filter((restaurant) => regex.test(restaurant.title) || regex.test(restaurant.code)));
+      }
     }
   };
 
   useFocusEffect(
     React.useCallback(() => {
       getFoods();
+      getRestaurants();
     }, [])
   );
 
@@ -60,7 +81,7 @@ const Search = () => {
                 style={styles.input}
                 value={searchKey}
                 onChangeText={handleSearch}
-                placeholder="What do you want to eat?"
+                placeholder={`Search ${searchCategory === "foods" ? "foods" : "restaurants"}...`}
               />
             </View>
 
@@ -69,7 +90,28 @@ const Search = () => {
             </TouchableOpacity>
           </View>
 
-          {/* Show animation if search bar is empty */}
+          <View style={{ flexDirection: "row", justifyContent: "center", marginVertical: 10 }}>
+            <TouchableOpacity onPress={() => setSearchCategory("foods")}>
+              <Text style={{
+                color: searchCategory === "foods" ?
+                  COLORS.primary : COLORS.gray,
+                fontFamily: 'regular'
+              }}>
+                Foods
+              </Text>
+            </TouchableOpacity>
+            <Text style={{ marginHorizontal: 10 }}>|</Text>
+            <TouchableOpacity onPress={() => setSearchCategory("restaurants")}>
+              <Text style={{
+                color: searchCategory === "restaurants" ?
+                  COLORS.primary : COLORS.gray,
+                fontFamily: 'regular'
+              }}>
+                Restaurants
+              </Text>
+            </TouchableOpacity>
+          </View>
+
           {searchKey.trim() === "" ? (
             <View
               style={{
@@ -82,21 +124,24 @@ const Search = () => {
               <LottieView
                 autoPlay
                 ref={animation}
-                style={{ width: '100%', height: '100%' }}
+                style={{ width: "100%", height: "100%" }}
                 source={require("../../../assets/anime/cook.json")}
               />
             </View>
-          ) : filteredFoods.length === 0 ? (
-            // Display "No results found" if there are no matches
+          ) : searchCategory === "foods" && filteredFoods.length === 0 || searchCategory === "restaurants" && filteredRestaurants.length === 0 ? (
             <View style={{ justifyContent: "center", alignItems: "center", height: SIZES.height / 1.5 }}>
               <Text style={{ fontSize: 18, color: COLORS.gray }}>No results found</Text>
             </View>
           ) : (
-            // Display the searched items
             <ScrollView style={{ paddingBottom: 20 }}>
-              {filteredFoods.map((item, i) => (
-                <SearchedFood key={i} item={item} />
-              ))}
+              {searchCategory === "foods" &&
+                filteredFoods.map((item, i) => (
+                  <SearchedFood key={i} item={item} onPress={() => navigation.navigate("food-nav", item)} />
+                ))}
+              {searchCategory === "restaurants" &&
+                filteredRestaurants.map((item, i) => (
+                  <SearchedRestaurant key={i} item={item} onPress={() => navigation.navigate("restaurant-nav", item)} />
+                ))}
             </ScrollView>
           )}
         </View>
