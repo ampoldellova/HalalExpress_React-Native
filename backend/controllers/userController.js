@@ -36,7 +36,7 @@ module.exports = {
     },
 
     updateUser: async (req, res) => {
-        console.log(req.file)
+        // console.log(req.file)
         try {
             if (req.file) {
                 req.body.profile = await imageFile.uploadSingle({

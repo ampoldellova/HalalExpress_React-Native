@@ -10,15 +10,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { cleanUser } from "../../../redux/UserReducer";
 import baseUrl from "../../../assets/common/baseUrl";
+import Heading from "../../components/Heading";
+import UserRestaurants from "../../components/UserRestaurants";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [user, setUser] = useState({});
-  const [image, setImage] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [restaurants, setRestaurants] = useState([]);
 
   const getProfile = async () => {
     try {
@@ -32,11 +31,6 @@ const Profile = () => {
 
         const response = await axios.get(`${baseUrl}/api/users/profile`, config);
         setUser(response.data)
-        setImage(response.data.profile.url)
-        setName(response.data.name)
-        setEmail(response.data.email)
-        setPhone(response.data.phone)
-        console.log(response.data)
       } else {
         console.log("Authentication token not found");
       }
@@ -45,8 +39,33 @@ const Profile = () => {
     }
   };
 
+  const getRestaurantsByOwner = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(token)}`,
+          },
+        };
+
+        const response = await axios.get(`${baseUrl}/api/restaurant/owner/${user?._id}`, config);
+        setRestaurants(response.data);
+        console.log(restaurants)
+      } else {
+        console.log("Authentication token not found");
+      }
+    } catch (err) {
+      console.error("Error fetching user restaurants:", err);
+      setError(err.message || "Failed to fetch restaurants.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
+      getRestaurantsByOwner();
       getProfile();
     }, [])
   )
@@ -75,7 +94,7 @@ const Profile = () => {
             }}
           >
             <Image
-              source={{ uri: image }}
+              source={{ uri: user?.profile?.url }}
               style={{
                 height: 45,
                 width: 45,
@@ -97,25 +116,33 @@ const Profile = () => {
           </TouchableOpacity>
         </TouchableOpacity>
 
-        <RegistrationTile
-          heading={"Register a restaurant"}
-          desc={
-            "Join our community and showcase your culinary delights to a wider audience."
-          }
-        />
+        {user.userType === 'Client' && (
+          <View>
+            <RegistrationTile
+              heading={"Register a restaurant"}
+              desc={
+                "Join our community and showcase your culinary delights to a wider audience."
+              }
+            />
+            <View
+              style={{
+                height: 92,
+                backgroundColor: COLORS.lightWhite,
+                margin: 10,
+                borderRadius: 12,
+              }}
+            >
+              <ProfileTile title={"Orders"} icon={"fast-food-outline"} font={1} />
+              <ProfileTile title={"Payment History"} icon={"creditcard"} />
+            </View>
+          </View>
+        )}
 
-        <View
-          style={{
-            height: 92,
-            backgroundColor: COLORS.lightWhite,
-            margin: 10,
-            borderRadius: 12,
-          }}
-        >
-          <ProfileTile title={"Orders"} icon={"fast-food-outline"} font={1} />
-          <ProfileTile title={"Payment History"} icon={"creditcard"} />
-        </View>
-
+        {user.userType === 'Vendor' && (
+          <View>
+            <Heading heading={'Your Restaurants'} onPress={() => { }} />
+          </View>
+        )}
       </View>
     </View>
   );

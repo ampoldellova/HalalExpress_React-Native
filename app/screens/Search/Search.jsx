@@ -36,6 +36,7 @@ const Search = () => {
       const response = await axios.get(`${baseUrl}/api/restaurant/list`);
       setRestaurants(response.data);
       setFilteredRestaurants(response.data);
+      console.log(filteredRestaurants)
       console.log(restaurants)
     } catch (error) {
       console.log("Error fetching restaurants:", error);

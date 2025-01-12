@@ -11,13 +11,7 @@ module.exports = {
         }
     },
 
-
     addRestaurant: async (req, res) => {
-        // req.body.images = await ImageFile.uploadSingle({
-        //     imageFiles: req.files,
-        //     request: req,
-        // });
-
         const newRestaurant = new Restaurant(req.body)
 
         try {
@@ -105,5 +99,22 @@ module.exports = {
         } catch (error) {
             res.status(500).json({ status: false, message: "Error Finding Restaurants" })
         }
-    }
+    },
+
+    getRestaurantsByOwner: async (req, res) => {
+        console.log(req.params)
+        const { ownerId } = req.params;
+        try {
+            const restaurants = await Restaurant.find({ owner: ownerId });
+
+            if (!restaurants.length) {
+                return res.status(404).json({ status: false, message: "No restaurants found for this owner" });
+            }
+
+            res.status(200).json({ status: true, data: restaurants });
+        } catch (error) {
+            res.status(500).json({ status: false, message: "Error fetching restaurants by owner", error: error.message });
+        }
+    },
+
 }

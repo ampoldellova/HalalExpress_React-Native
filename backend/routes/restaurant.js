@@ -9,5 +9,6 @@ router.get('/byId/:id', restaurantController.getRestaurant)
 router.get('/:code', restaurantController.getRandomRestaurants)
 router.delete('/:id', verifyVendor, restaurantController.deleteRestaurant)
 router.patch('/:id', verifyVendor, restaurantController.serviceAvailability)
+router.get('/owner/:ownerId', verifyVendor, restaurantController.getRestaurantsByOwner);
 
 module.exports = router;

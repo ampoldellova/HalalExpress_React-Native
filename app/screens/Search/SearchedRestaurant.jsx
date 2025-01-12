@@ -14,7 +14,7 @@ const SearchedRestaurant = ({ item }) => {
             <Image
                 source={{ uri: item.imageUrl.url }}
                 style={{
-                    width: SIZES.width - 80,
+                    width: SIZES.width - 35,
                     height: SIZES.height / 5.8,
                     borderRadius: 15,
                     borderWidth: 1,
@@ -45,10 +45,10 @@ export default SearchedRestaurant
 
 const styles = StyleSheet.create({
     wrapper: {
-        marginRight: 15,
         borderColor: COLORS.lightWhite,
         padding: 8,
-        borderRadius: 16
+        borderRadius: 16,
+        marginHorizontal: 10
     },
     heading: {
         fontSize: 14,
