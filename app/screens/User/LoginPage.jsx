@@ -21,6 +21,7 @@ import { LoginContext } from "../../context/LoginContext";
 import baseUrl from "../../../assets/common/baseUrl";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../../redux/UserReducer";
+import { useNavigation } from "@react-navigation/native";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -106,10 +107,10 @@ const LoginPage = ({ navigation }) => {
           addUser(response.data)
         )
 
-        console.log(response.data);
-
         await AsyncStorage.setItem("id", JSON.stringify(response.data._id));
         await AsyncStorage.setItem("token", JSON.stringify(response.data.userToken));
+
+        navigation.navigate('Home')
 
       } else {
         setLogin(false);

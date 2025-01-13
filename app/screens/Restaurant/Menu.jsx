@@ -15,7 +15,7 @@ const Menu = () => {
     const { restaurantObj, setRestaurantObj } = useContext(RestaurantContext)
     const [restaurantFood, setRestaurantFood] = useState([]);
     const item = route.params;
-    // console.log(item.foods)
+    console.log(item)
     return (
         <View style={{ marginTop: 5, marginBottom: 50 }}>
             <FlatList

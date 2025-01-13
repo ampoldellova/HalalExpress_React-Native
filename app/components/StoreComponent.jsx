@@ -1,8 +1,6 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
 import { COLORS, SIZES } from '../constants/theme'
-import NetworkImage from './NetworkImage'
 import { RatingInput } from 'react-native-stock-star-rating'
 
 const StoreComponent = ({ item, onPress }) => {

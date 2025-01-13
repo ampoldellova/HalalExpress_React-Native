@@ -11,7 +11,7 @@ import axios from "axios";
 import { cleanUser } from "../../../redux/UserReducer";
 import baseUrl from "../../../assets/common/baseUrl";
 import Heading from "../../components/Heading";
-import UserRestaurants from "../../components/UserRestaurants";
+import UserRestaurants from "../../components/User/UserRestaurants";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -39,36 +39,12 @@ const Profile = () => {
     }
   };
 
-  const getRestaurantsByOwner = async () => {
-    try {
-      const token = await AsyncStorage.getItem("token");
-      if (token) {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(token)}`,
-          },
-        };
-
-        const response = await axios.get(`${baseUrl}/api/restaurant/owner/${user?._id}`, config);
-        setRestaurants(response.data);
-        console.log(restaurants)
-      } else {
-        console.log("Authentication token not found");
-      }
-    } catch (err) {
-      console.error("Error fetching user restaurants:", err);
-      setError(err.message || "Failed to fetch restaurants.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useFocusEffect(
     React.useCallback(() => {
-      getRestaurantsByOwner();
-      getProfile();
+      getProfile()
     }, [])
-  )
+  );
+
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem("id");
@@ -141,6 +117,7 @@ const Profile = () => {
         {user.userType === 'Vendor' && (
           <View>
             <Heading heading={'Your Restaurants'} onPress={() => { }} />
+            <UserRestaurants user={user} />
           </View>
         )}
       </View>
