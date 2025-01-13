@@ -4,6 +4,7 @@ import { COLORS, SIZES } from '../../constants/theme'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import baseUrl from '../../../assets/common/baseUrl';
 import axios from 'axios';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 const ServiceAvailability = ({ item }) => {
@@ -35,13 +36,16 @@ const ServiceAvailability = ({ item }) => {
     };
 
     return (
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20, width: SIZES.width - 38 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: SIZES.width - 38 }}>
+            <View style={{ flexDirection: 'column' }}>
+                <Ionicons name="restaurant" size={20} color={COLORS.gray} style={styles.icon} />
+            </View>
             <Text style={styles.isAvailable}>Service Availability</Text>
             <Switch
                 value={isAvailable}
                 onValueChange={toggleAvailability}
-                trackColor={{ false: COLORS.gray, true: COLORS.primary }}
-                thumbColor={isAvailable ? COLORS.primary : COLORS.gray}
+                trackColor={{ false: COLORS.red, true: COLORS.primary }}
+                thumbColor={isAvailable ? COLORS.primary : COLORS.red}
             />
         </View>
     )
@@ -50,9 +54,13 @@ const ServiceAvailability = ({ item }) => {
 export default ServiceAvailability
 
 const styles = StyleSheet.create({
+    icon: {
+        marginTop: 15
+    },
     isAvailable: {
         fontSize: 16,
         fontFamily: "regular",
         marginTop: 15,
+        left: -50
     }
 })

@@ -38,6 +38,7 @@ const UserRestaurantPage = () => {
                     <Text style={styles.address}>{coords.address}</Text>
                 </View>
             </View>
+            <Text style={styles.options}>Options</Text>
             <ServiceAvailability item={item} />
             <Divider />
         </View >
@@ -83,4 +84,9 @@ const styles = StyleSheet.create({
         color: COLORS.gray,
         left: 120,
     },
+    options: {
+        fontFamily: "bold",
+        fontSize: 18,
+        marginTop: 35
+    }
 })
