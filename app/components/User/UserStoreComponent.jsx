@@ -21,12 +21,12 @@ const UserStoreComponent = ({ item, onPress }) => {
                 <View style={{ flexDirection: 'column', marginLeft: 10 }}>
                     <Text style={styles.heading}>{item.title}</Text>
                     <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
-                        <Text style={styles.small}>Restaurant's Availability:</Text>
+                        <Text style={styles.small}>Service Availability:</Text>
                         <Text
                             style={[
                                 styles.small, {
                                     color: item.isAvailable ? 'green' : 'red',
-                                    marginLeft: 108
+                                    marginLeft: 135
                                 }
                             ]}
                         >

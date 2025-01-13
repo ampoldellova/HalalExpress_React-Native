@@ -40,24 +40,6 @@ const GoogleMapView = ({ placeList }) => {
             }
         }, [location, coordinates])
     )
-    // useEffect(() => {
-    //     if (location) {
-    //         setMapRegion({
-    //             latitude: location.coords.latitude,
-    //             longitude: location.coords.longitude,
-    //             latitudeDelta: 0.1,
-    //             longitudeDelta: 0.1,
-    //         });
-
-    //         fetchDirections(
-    //             placeList[0].latitude,
-    //             placeList[0].longitude,
-    //             location.coords.latitude,
-    //             location.coords.longitude,
-    //         )
-    //     }
-    // }, [location, coordinates])
-
 
     const fetchDirections = async (startLat, startLng, destinationLat, destinationLng) => {
         try {
@@ -74,8 +56,6 @@ const GoogleMapView = ({ placeList }) => {
             console.error("Error fetching directions:", error);
         }
     };
-
-
 
     return (
         <View style={styles.mapContainer}>

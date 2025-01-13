@@ -75,7 +75,7 @@ const EditProfile = ({ navigation, route }) => {
     };
 
     return (
-        <View style={{ marginHorizontal: 20, marginTop: 50 }}>
+        <View style={{ marginHorizontal: 20, marginTop: 50, backgroundColor: COLORS.offwhite }}>
             <BackBtn onPress={() => navigation.goBack()} />
             <Formik
                 initialValues={{

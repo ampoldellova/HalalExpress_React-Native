@@ -6,11 +6,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import baseUrl from '../../../assets/common/baseUrl'
 import axios from 'axios'
 import UserStoreComponent from './UserStoreComponent'
+import { RestaurantContext } from '../../context/RestaurantContext'
 
 const UserRestaurants = ({ user }) => {
     const route = useRoute();
     const navigation = useNavigation();
     const [restaurants, setRestaurants] = useState([]);
+    const { restaurantObj, setRestaurantObj } = useContext(RestaurantContext);
 
     const getRestaurantsByOwner = async () => {
         try {
@@ -51,7 +53,7 @@ const UserRestaurants = ({ user }) => {
                 style={{ marginTop: 5, rowGap: 10 }}
                 scrollEnabled
                 renderItem={({ item }) => (
-                    <UserStoreComponent item={item} onPress={() => { navigation.navigate('user-restaurant-page', item) }} />
+                    <UserStoreComponent item={item} onPress={() => { navigation.navigate('user-restaurant-page', item), setRestaurantObj(item) }} />
                 )} />
         </View>
     )
