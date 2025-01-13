@@ -5,6 +5,7 @@ import { COLORS, SIZES } from '../../constants/theme'
 import Divider from '../Divider'
 
 const UserStoreComponent = ({ item, onPress }) => {
+
     return (
         <TouchableOpacity onPress={onPress}>
             <View style={{ flexDirection: 'row' }}>
@@ -22,16 +23,18 @@ const UserStoreComponent = ({ item, onPress }) => {
                     <Text style={styles.heading}>{item.title}</Text>
                     <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
                         <Text style={styles.small}>Service Availability:</Text>
-                        <Text
-                            style={[
-                                styles.small, {
-                                    color: item.isAvailable ? 'green' : 'red',
-                                    marginLeft: 135
-                                }
-                            ]}
-                        >
-                            {item.isAvailable ? 'Open' : 'Close'}
-                        </Text>
+                        <View style={{ backgroundColor: item.isAvailable ? 'green' : 'red', borderRadius: 30, marginLeft: 118 }}>
+                            <Text
+                                style={[
+                                    styles.small, {
+                                        color: 'white',
+                                        marginHorizontal: 5
+                                    }
+                                ]}
+                            >
+                                {item.isAvailable ? 'Open' : 'Closed'}
+                            </Text>
+                        </View>
 
                     </View>
                     <View style={{ flexDirection: "row", justifyContent: 'space-between', pointerEvents: 'none' }}>
@@ -62,10 +65,12 @@ const styles = StyleSheet.create({
         color: COLORS.black,
         marginTop: 3,
     },
+    badge: {
+        borderRadius: 15
+    },
     small: {
         fontSize: 12,
         fontFamily: "regular",
         color: COLORS.gray,
-
     }
 })

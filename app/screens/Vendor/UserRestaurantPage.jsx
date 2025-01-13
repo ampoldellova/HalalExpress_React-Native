@@ -4,12 +4,9 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import BackBtn from '../../components/BackBtn'
 import { COLORS, SIZES } from '../../constants/theme'
 import { RestaurantContext } from '../../context/RestaurantContext'
-import baseUrl from '../../../assets/common/baseUrl'
-import axios from 'axios'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import Divider from '../../components/Divider'
-import ServiceAvailability from '../../components/Restaurant/ServiceAvailability'
-import ManageFood from '../../components/Restaurant/ManageFood'
+import ServiceAvailability from '../../components/Vendor/ServiceAvailability'
+import ManageFood from '../../components/Vendor/ManageFood'
+import Feather from '@expo/vector-icons/Feather';
 
 const UserRestaurantPage = () => {
     const navigation = useNavigation();
@@ -21,6 +18,7 @@ const UserRestaurantPage = () => {
     return (
         <View style={{ marginHorizontal: 20, marginTop: 30 }}>
             <BackBtn onPress={() => navigation.goBack()} />
+            <Text style={styles.heading}>Restaurant Page</Text>
             <View style={styles.imageContainer}>
                 <Image
                     source={{
@@ -39,10 +37,13 @@ const UserRestaurantPage = () => {
                     <Text style={styles.address}>{coords.address}</Text>
                 </View>
             </View>
+            <TouchableOpacity style={styles.editBtn} onPress={() => { }}>
+                <Feather name="edit" size={14} color="white" style={{ marginTop: 1 }} />
+                <Text style={styles.editTxt}>Edit Details</Text>
+            </TouchableOpacity>
             <Text style={styles.options}>Options</Text>
             <ServiceAvailability item={item} />
-            <ManageFood />
-            {/* <Divider /> */}
+            <ManageFood item={item.foods} />
         </View >
     )
 }
@@ -50,15 +51,37 @@ const UserRestaurantPage = () => {
 export default UserRestaurantPage
 
 const styles = StyleSheet.create({
+    heading: {
+        fontFamily: 'bold',
+        fontSize: 24,
+        textAlign: 'center',
+        marginTop: 10
+    },
     imageContainer: {
         position: 'relative',
-        marginTop: 10,
+        marginTop: 10
     },
     imageUrl: {
         height: SIZES.height / 5.8,
         width: SIZES.width - 38,
-        marginTop: 50,
         borderRadius: 15,
+    },
+    editBtn: {
+        position: 'absolute',
+        backgroundColor: COLORS.primary,
+        bottom: 228,
+        right: 5,
+        borderRadius: 9,
+        padding: 6,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    editTxt: {
+        textAlign: 'center',
+        fontFamily: 'medium',
+        color: 'white',
+        fontSize: 14,
+        marginLeft: 5
     },
     logoUrl: {
         position: 'absolute',

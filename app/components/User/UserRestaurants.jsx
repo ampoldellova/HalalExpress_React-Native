@@ -7,12 +7,14 @@ import baseUrl from '../../../assets/common/baseUrl'
 import axios from 'axios'
 import UserStoreComponent from './UserStoreComponent'
 import { RestaurantContext } from '../../context/RestaurantContext'
+import Loader from '../Loader/Loader'
 
 const UserRestaurants = ({ user }) => {
     const route = useRoute();
     const navigation = useNavigation();
     const [restaurants, setRestaurants] = useState([]);
     const { restaurantObj, setRestaurantObj } = useContext(RestaurantContext);
+    const [loading, setLoading] = useState(true);
 
     const getRestaurantsByOwner = async () => {
         try {
@@ -26,7 +28,7 @@ const UserRestaurants = ({ user }) => {
 
                 const response = await axios.get(`${baseUrl}/api/restaurant/owner/${user?._id}`, config);
                 setRestaurants(response.data.data);
-                console.log(restaurants)
+                setLoading(false)
             } else {
                 console.log("Authentication token not found");
             }
@@ -46,15 +48,19 @@ const UserRestaurants = ({ user }) => {
 
     return (
         <View style={{ marginLeft: 12 }}>
-            <FlatList
-                data={restaurants}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                style={{ marginTop: 5, rowGap: 10 }}
-                scrollEnabled
-                renderItem={({ item }) => (
-                    <UserStoreComponent item={item} onPress={() => { navigation.navigate('user-restaurant-page', item), setRestaurantObj(item) }} />
-                )} />
+            {loading ? (
+                <Loader />
+            ) : (
+                <FlatList
+                    data={restaurants}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    style={{ marginTop: 5, rowGap: 10 }}
+                    scrollEnabled
+                    renderItem={({ item }) => (
+                        <UserStoreComponent item={item} onPress={() => { navigation.navigate('user-restaurant-page', item), setRestaurantObj(item) }} />
+                    )} />
+            )}
         </View>
     )
 }

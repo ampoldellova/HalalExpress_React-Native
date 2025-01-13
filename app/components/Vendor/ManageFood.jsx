@@ -3,10 +3,12 @@ import React from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { COLORS } from '../../constants/theme';
 import Entypo from '@expo/vector-icons/Entypo';
+import { useNavigation } from '@react-navigation/native';
 
-const ManageFood = () => {
+const ManageFood = ({ item }) => {
+    const navigation = useNavigation();
     return (
-        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }} onPress={() => navigation.navigate('manage-food-page', item)}>
             <Ionicons name="fast-food" size={20} color={COLORS.gray} />
             <Text style={styles.text}>Manage Foods</Text>
             <Entypo name="chevron-thin-right" size={20} color={COLORS.gray} />
@@ -20,8 +22,6 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 16,
         fontFamily: "regular",
-        // marginLeft: 13
-        // marginTop: 15,
         left: -77
     }
 })

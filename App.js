@@ -24,7 +24,8 @@ import ChatRoom from './app/screens/ChatBox/ChatRoom';
 import EditProfile from './app/screens/User/EditProfile';
 import LoginPage from './app/screens/User/LoginPage';
 import SignUp from './app/screens/User/SignUp';
-import UserRestaurantPage from './app/screens/User/UserRestaurantPage';
+import UserRestaurantPage from './app/screens/Vendor/UserRestaurantPage';
+import ManageFoodPage from './app/screens/Vendor/ManageFoodPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -145,6 +146,11 @@ export default function App() {
                     <Stack.Screen
                       name='user-restaurant-page'
                       component={UserRestaurantPage}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name='manage-food-page'
+                      component={ManageFoodPage}
                       options={{ headerShown: false }}
                     />
                   </Stack.Navigator>

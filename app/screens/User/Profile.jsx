@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Alert, Modal, Pressable } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Alert, Modal, Pressable, SafeAreaView } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { COLORS, SIZES } from "../../constants/theme";
 import { AntDesign } from "@expo/vector-icons";
@@ -12,6 +12,7 @@ import { cleanUser } from "../../../redux/UserReducer";
 import baseUrl from "../../../assets/common/baseUrl";
 import Heading from "../../components/Heading";
 import UserRestaurants from "../../components/User/UserRestaurants";
+import Loader from "../../components/Loader/Loader";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -54,6 +55,7 @@ const Profile = () => {
   };
 
   return (
+
     <View style={{ backgroundColor: COLORS.primary, height: SIZES.height }}>
       <View
         style={{
@@ -77,7 +79,7 @@ const Profile = () => {
                 borderRadius: 99,
               }}
             />
-            <View style={{ marginLeft: 10, marginTop: 3 }}>
+            <View style={{ marginLeft: 5, marginTop: 3 }}>
               <Text style={styles.text}>
                 {user === null ? "username" : user?.username}
               </Text>
