@@ -8,6 +8,7 @@ import baseUrl from '../../../assets/common/baseUrl'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Divider from '../../components/Divider'
+import ServiceAvailability from '../../components/Restaurant/ServiceAvailability'
 
 const UserRestaurantPage = () => {
     const navigation = useNavigation();
@@ -15,35 +16,6 @@ const UserRestaurantPage = () => {
     const item = router.params;
     const { restaurantObj, setRestaurantObj } = useContext(RestaurantContext)
     const coords = restaurantObj.coords
-    const [isAvailable, setIsAvailable] = useState(false);
-
-    useEffect(() => {
-        setIsAvailable(item?.isAvailable);
-    }, [item?.isAvailable]);
-
-    console.log(isAvailable)
-    // Toggle service availability
-    const toggleAvailability = async () => {
-        try {
-            const token = await AsyncStorage.getItem("token");
-            if (token) {
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${JSON.parse(token)}`,
-                    },
-                };
-                const response = await axios.patch(`${baseUrl}/api/restaurant/${item._id}`, {}, config);
-                setIsAvailable(response.data.isAvailable);
-                Alert.alert('Success', response.data.message);
-            } else {
-                console.log("Authentication token not found");
-            }
-        } catch (error) {
-            Alert.alert('Error', error.response?.data?.message || 'Unable to toggle availability.');
-        }
-    };
-
-
 
     return (
         <View style={{ marginHorizontal: 20, marginTop: 30 }}>
@@ -66,16 +38,7 @@ const UserRestaurantPage = () => {
                     <Text style={styles.address}>{coords.address}</Text>
                 </View>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20, width: SIZES.width - 38 }}>
-                <Text style={styles.isAvailable}>Service Availability</Text>
-                <Switch
-                    // style={{ marginLeft: 100 }}
-                    value={isAvailable}
-                    onValueChange={toggleAvailability}
-                    trackColor={{ false: COLORS.gray, true: COLORS.primary }}
-                    thumbColor={isAvailable ? COLORS.primary : COLORS.gray}
-                />
-            </View>
+            <ServiceAvailability item={item} />
             <Divider />
         </View >
     )
@@ -120,9 +83,4 @@ const styles = StyleSheet.create({
         color: COLORS.gray,
         left: 120,
     },
-    isAvailable: {
-        fontSize: 16,
-        fontFamily: "regular",
-        marginTop: 15,
-    }
 })
