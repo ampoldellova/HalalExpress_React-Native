@@ -51,7 +51,7 @@ const UserRestaurants = ({ user }) => {
                 style={{ marginTop: 5, rowGap: 10 }}
                 scrollEnabled
                 renderItem={({ item }) => (
-                    <UserStoreComponent item={item} onPress={() => { }} />
+                    <UserStoreComponent item={item} onPress={() => { navigation.navigate('user-restaurant-page', item) }} />
                 )} />
         </View>
     )

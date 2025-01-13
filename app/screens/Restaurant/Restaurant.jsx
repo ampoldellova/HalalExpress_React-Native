@@ -26,11 +26,9 @@ const Restaurant = ({ navigation }) => {
                 setDistanceTime(result)
             }
         });
-        // console.log(distanceTime);
     }, [])
 
     const totalTime = distanceTime.duration + GoogleApiServices.extractNumbers(item.time)[0]
-    // console.log(totalTime)
 
     return (
         <View>
@@ -38,10 +36,6 @@ const Restaurant = ({ navigation }) => {
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backbtn}>
                     <Ionicons name='chevron-back-circle' size={30} color={COLORS.primary} />
                 </TouchableOpacity>
-
-                {/* <TouchableOpacity onPress={() => { }} style={styles.sharebtn}>
-                    <MaterialCommunityIcons name='share-circle' size={30} color={COLORS.primary} />
-                </TouchableOpacity> */}
 
                 <Image
                     source={{ uri: item.imageUrl.url }}
@@ -58,7 +52,6 @@ const Restaurant = ({ navigation }) => {
                         <RatingInput
                             rating={Number(item.rating)}
                             size={22}
-                        // color={COLORS.primary}
                         />
                         <TouchableOpacity style={styles.ratingBtn} onPress={() => navigation.navigate('rating')}>
                             <Text style={styles.btnText}>Rate this store</Text>

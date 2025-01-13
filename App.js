@@ -24,6 +24,7 @@ import ChatRoom from './app/screens/ChatBox/ChatRoom';
 import EditProfile from './app/screens/User/EditProfile';
 import LoginPage from './app/screens/User/LoginPage';
 import SignUp from './app/screens/User/SignUp';
+import UserRestaurantPage from './app/screens/User/UserRestaurantPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -139,6 +140,11 @@ export default function App() {
                     <Stack.Screen
                       name='edit-profile-page'
                       component={EditProfile}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name='user-restaurant-page'
+                      component={UserRestaurantPage}
                       options={{ headerShown: false }}
                     />
                   </Stack.Navigator>

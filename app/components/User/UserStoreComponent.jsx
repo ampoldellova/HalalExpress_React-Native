@@ -5,7 +5,6 @@ import { COLORS, SIZES } from '../../constants/theme'
 import Divider from '../Divider'
 
 const UserStoreComponent = ({ item, onPress }) => {
-    console.log(item.isAvailable)
     return (
         <TouchableOpacity onPress={onPress}>
             <View style={{ flexDirection: 'row' }}>
