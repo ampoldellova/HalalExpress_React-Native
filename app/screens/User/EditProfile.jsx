@@ -118,10 +118,10 @@ const EditProfile = ({ navigation, route }) => {
                                     onBlur={handleBlur('username')}
                                     value={values.username}
                                 />
-                                {touched.username && errors.username && (
-                                    <Text style={styles.errorMessage}>{errors.username}</Text>
-                                )}
                             </View>
+                            {touched.username && errors.username && (
+                                <Text style={styles.errorMessage}>{errors.username}</Text>
+                            )}
                         </View>
 
                         {/* Email Field */}
@@ -146,10 +146,10 @@ const EditProfile = ({ navigation, route }) => {
                                     value={values.email}
                                     keyboardType="email-address"
                                 />
-                                {touched.email && errors.email && (
-                                    <Text style={styles.errorMessage}>{errors.email}</Text>
-                                )}
                             </View>
+                            {touched.email && errors.email && (
+                                <Text style={styles.errorMessage}>{errors.email}</Text>
+                            )}
                         </View>
 
                         {/* Phone Field */}
@@ -174,10 +174,10 @@ const EditProfile = ({ navigation, route }) => {
                                     value={values.phone}
                                     keyboardType="phone-pad"
                                 />
-                                {touched.phone && errors.phone && (
-                                    <Text style={styles.errorMessage}>{errors.phone}</Text>
-                                )}
                             </View>
+                            {touched.phone && errors.phone && (
+                                <Text style={styles.errorMessage}>{errors.phone}</Text>
+                            )}
                         </View>
 
                         {/* Submit Button */}

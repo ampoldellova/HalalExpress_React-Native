@@ -114,62 +114,6 @@ const SignUp = ({ navigation }) => {
     }
   };
 
-  // const registerUser = async (values) => {
-  //   setEmail(values.email);
-  //   setUsername(values.username);
-  //   setLoader(true);
-  //   try {
-  //     await firebase
-  //       .auth()
-  //       .createUserWithEmailAndPassword(values.email, values.password)
-  //       .then(() => {
-  //         const uid = firebase.auth().currentUser.uid;
-  //         firebase
-  //           .firestore()
-  //           .collection("users")
-  //           .doc(firebase.auth().currentUser.uid)
-  //           .set({
-  //             email,
-  //             username,
-  //             uid,
-  //             coordinates,
-  //           })
-  //           .catch((error) => {
-  //             Alert.alert("Error Signing Up", error.message, [
-  //               {
-  //                 text: "Back",
-  //                 onPress: () => {
-  //                   setLoader(false);
-  //                 },
-  //               },
-  //               {
-  //                 text: "Continue",
-  //                 onPress: () => {},
-  //               },
-  //               { defaultIndex: 1 },
-  //             ]);
-  //           });
-  //       })
-  //       .then(() => {
-  //         navigation.navigate("login");
-  //       });
-  //   } catch (error) {
-  //     Alert.alert("Error Signing Up", error.message, [
-  //       {
-  //         text: "Back",
-  //         onPress: () => {
-  //           setLoader(false);
-  //         },
-  //       },
-  //       {
-  //         text: "Continue",
-  //         onPress: () => {},
-  //       },
-  //       { defaultIndex: 1 },
-  //     ]);
-  //   }
-  // };
-
   return (
     <ScrollView style={{ backgroundColor: COLORS.white }}>
       <View style={{ marginHorizontal: 20, marginTop: 50 }}>
