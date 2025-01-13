@@ -14,6 +14,7 @@ const FoodPage = ({ route, navigation }) => {
   const [restaurant, setRestaurant] = useState(1);
   const [count, setCount] = useState(1);
   const [preference, setPreference] = useState('');
+  console.log(item.restaurant._id)
   // const { cartCount, setCartCount } = useContext(CartCountContext);
 
   const handleAdditives = (newAdditives) => {
@@ -45,9 +46,8 @@ const FoodPage = ({ route, navigation }) => {
   }
 
   return (
-    <View style={{ backgroundColor: COLORS.lightWhite, height: SIZES.height }}>
+    <View style={{ backgroundColor: COLORS.offwhite, height: SIZES.height }}>
       <ScrollView scrollEnabled>
-
         <View>
           <Image source={{ uri: item.imageUrl.url }}
             style={{
@@ -61,7 +61,7 @@ const FoodPage = ({ route, navigation }) => {
 
           <TouchableOpacity onPress={() => { }} style={{ position: 'absolute', bottom: 20, right: 0 }}>
             <View style={styles.restbtn}>
-              <Text style={{ color: COLORS.lightWhite, fontFamily: 'bold' }}>Open the Store</Text>
+              <Text style={{ color: COLORS.lightWhite, fontFamily: 'medium' }}>Open the Store</Text>
             </View>
           </TouchableOpacity>
         </View>

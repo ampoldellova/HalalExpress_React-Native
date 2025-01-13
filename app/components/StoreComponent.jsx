@@ -16,7 +16,17 @@ const StoreComponent = ({ item, onPress }) => {
                     borderColor: COLORS.gray2
                 }}
             />
-            <Text style={styles.heading}>{item.title}</Text>
+            <View style={{ flexDirection: "row", marginTop: 5 }}>
+                <Image
+                    source={{ uri: item.logoUrl.url }}
+                    style={{
+                        width: 20,
+                        height: 20,
+                        borderRadius: 5,
+                    }}
+                />
+                <Text style={styles.heading}>{item.title}</Text>
+            </View>
             <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
                 <Text style={styles.small}>Delivery under:</Text>
                 <Text style={styles.small}>{item.time}</Text>
@@ -49,7 +59,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: "regular",
         color: COLORS.black,
-        marginTop: 5
+        marginTop: 2,
+        marginLeft:5
     },
     small: {
         fontSize: 12,

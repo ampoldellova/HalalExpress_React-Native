@@ -31,7 +31,7 @@ const Restaurant = ({ navigation }) => {
     const totalTime = distanceTime.duration + GoogleApiServices.extractNumbers(item.time)[0]
 
     return (
-        <View>
+        <View style={{ backgroundColor: COLORS.offwhite }}>
             <View>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backbtn}>
                     <Ionicons name='chevron-back-circle' size={30} color={COLORS.primary} />
