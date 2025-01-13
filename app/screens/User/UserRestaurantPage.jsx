@@ -9,6 +9,7 @@ import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Divider from '../../components/Divider'
 import ServiceAvailability from '../../components/Restaurant/ServiceAvailability'
+import ManageFood from '../../components/Restaurant/ManageFood'
 
 const UserRestaurantPage = () => {
     const navigation = useNavigation();
@@ -40,7 +41,8 @@ const UserRestaurantPage = () => {
             </View>
             <Text style={styles.options}>Options</Text>
             <ServiceAvailability item={item} />
-            <Divider />
+            <ManageFood />
+            {/* <Divider /> */}
         </View >
     )
 }
