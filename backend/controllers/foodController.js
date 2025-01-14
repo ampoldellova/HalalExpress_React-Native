@@ -3,10 +3,11 @@ const Food = require('../models/Foods')
 module.exports = {
     getAllFoods: async (req, res) => {
         try {
-            const foods = await Food.find();
+            const foods = await Food.find().populate('category').populate('restaurant');
             res.status(200).json(foods);
         } catch (error) {
             res.status(500).json({ error: "Error fetching foods" });
+            console.log(error)
         }
     },
 

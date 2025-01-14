@@ -5,6 +5,7 @@ import { COLORS, SIZES } from "../constants/theme";
 import { Ionicons, MaterialCommunityIcons, AntDesign } from "@expo/vector-icons"
 import BouncyCheckbox from "react-native-bouncy-checkbox"
 import Counter from '../components/Counter';
+import { useFocusEffect } from '@react-navigation/native';
 
 const FoodPage = ({ route, navigation }) => {
   const item = route.params.item;
@@ -14,8 +15,24 @@ const FoodPage = ({ route, navigation }) => {
   const [restaurant, setRestaurant] = useState(1);
   const [count, setCount] = useState(1);
   const [preference, setPreference] = useState('');
-  console.log(item.restaurant._id)
-  // const { cartCount, setCartCount } = useContext(CartCountContext);
+  const [food, setFood] = useState({});
+
+  // const getFoodDetail = async () => {
+  //   try {
+  //     const response = await axios.get(`${baseUrl}/api/foods/${item._id}`);
+  //     setFood(response.data)
+  //     console.log(food)
+  //   } catch (error) {
+  //     console.log("Error fetching foods:", error);
+  //   }
+  // };
+
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     getFoodDetail()
+  //   }, [])
+  // );
+
 
   const handleAdditives = (newAdditives) => {
     setAdditives((prevAdditives) => {
