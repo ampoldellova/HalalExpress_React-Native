@@ -45,116 +45,114 @@ const FoodPage = ({ route, navigation }) => {
   }
 
   return (
-    <View style={{ backgroundColor: COLORS.offwhite, height: SIZES.height }}>
-      <ScrollView scrollEnabled>
-        <View>
-          <Image source={{ uri: item.imageUrl.url }}
-            style={{
-              width: SIZES.width,
-              height: SIZES.height / 3.4,
-              borderRadius: 15
-            }} />
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backbtn}>
-            <Entypo name="chevron-small-left" size={30} color="white" />
-          </TouchableOpacity>
+    <ScrollView style={{ backgroundColor: COLORS.offwhite, height: SIZES.height }}>
+      <View>
+        <Image source={{ uri: item.imageUrl.url }}
+          style={{
+            width: SIZES.width,
+            height: SIZES.height / 3.4,
+            borderRadius: 15
+          }} />
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backbtn}>
+          <Entypo name="chevron-small-left" size={30} color="white" />
+        </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => { }} style={{ position: 'absolute', bottom: 20, right: 0 }}>
-            <View style={styles.restbtn}>
-              <Text style={{ color: COLORS.lightWhite, fontFamily: 'medium' }}>Open the Store</Text>
+        <TouchableOpacity onPress={() => { }} style={{ position: 'absolute', bottom: 20, right: 0 }}>
+          <View style={styles.restbtn}>
+            <Text style={{ color: COLORS.lightWhite, fontFamily: 'medium' }}>Open the Store</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.container}>
+        <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
+          <Text style={[styles.title, { width: 250 }]}>{item.title}</Text>
+          <Text style={styles.title}>${(item.price + totalPrice) * count}</Text>
+        </View>
+
+        <Text style={styles.small}>{item.description}</Text>
+
+        <FlatList
+          data={item.foodTags}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item) => item}
+          style={{ marginTop: 10 }}
+          horizontal
+          scrollEnabled
+          renderItem={({ item }) => (
+            <View style={styles.tags}>
+              <Text style={{ paddingHorizontal: 4, color: COLORS.lightWhite }}>
+                {item}
+              </Text>
             </View>
-          </TouchableOpacity>
+          )} />
+
+        <Text style={[styles.title, { marginBottom: 10, marginTop: 20 }]}> Additives and Toppings</Text>
+
+        <FlatList
+          data={item.additives}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => item.id}
+          style={{ marginTop: 10 }}
+          scrollEnabled={false}
+          renderItem={({ item }) => (
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+              <View style={{ flexDirection: 'row' }}>
+                <BouncyCheckbox
+                  size={20}
+                  unfillColor="#FFFFFF"
+                  fillColor={COLORS.primary}
+                  innerIconStyle={{ borderWidth: 1 }}
+                  onPress={() => {
+                    handleAdditives(item);
+                  }}
+                />
+                <Text style={styles.small}>{item.title}</Text>
+              </View>
+              <Text style={[styles.small]}>$ {item.price}</Text>
+            </View>
+
+          )} />
+
+        <Text style={[styles.title, { marginBottom: 10, marginTop: 20 }]}> Preferences</Text>
+
+        <View style={styles.input}>
+          <TextInput
+            placeholder='Add specific instructions'
+            value={preference} onChangeText={(value) => setPreference(value)}
+            autoCapitalize={false}
+            autoCorrect={false}
+            style={{ flex: 1 }} />
         </View>
 
-        <View style={styles.container}>
-          <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
-            <Text style={[styles.title, { width: 250 }]}>{item.title}</Text>
-            <Text style={styles.title}>${(item.price + totalPrice) * count}</Text>
-          </View>
-
-          <Text style={styles.small}>{item.description}</Text>
-
-          <FlatList
-            data={item.foodTags}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={(item) => item}
-            style={{ marginTop: 10 }}
-            horizontal
-            scrollEnabled
-            renderItem={({ item }) => (
-              <View style={styles.tags}>
-                <Text style={{ paddingHorizontal: 4, color: COLORS.lightWhite }}>
-                  {item}
-                </Text>
-              </View>
-            )} />
-
-          <Text style={[styles.title, { marginBottom: 10, marginTop: 20 }]}> Additives and Toppings</Text>
-
-          <FlatList
-            data={item.additives}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => item.id}
-            style={{ marginTop: 10 }}
-            scrollEnabled={false}
-            renderItem={({ item }) => (
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
-                <View style={{ flexDirection: 'row' }}>
-                  <BouncyCheckbox
-                    size={20}
-                    unfillColor="#FFFFFF"
-                    fillColor={COLORS.primary}
-                    innerIconStyle={{ borderWidth: 1 }}
-                    onPress={() => {
-                      handleAdditives(item);
-                    }}
-                  />
-                  <Text style={styles.small}>{item.title}</Text>
-                </View>
-                <Text style={[styles.small]}>$ {item.price}</Text>
-              </View>
-
-            )} />
-
-          <Text style={[styles.title, { marginBottom: 10, marginTop: 20 }]}> Preferences</Text>
-
-          <View style={styles.input}>
-            <TextInput
-              placeholder='Add specific instructions'
-              value={preference} onChangeText={(value) => setPreference(value)}
-              autoCapitalize={false}
-              autoCorrect={false}
-              style={{ flex: 1 }} />
-          </View>
-
-          <View style={{ flexDirection: 'row', justifyContent: "space-between", marginTop: 20 }}>
-            <Text style={[styles.title, { marginBottom: 10 }]}>Quantity</Text>
-            <Counter count={count} setCount={setCount} />
-          </View>
+        <View style={{ flexDirection: 'row', justifyContent: "space-between", marginTop: 20 }}>
+          <Text style={[styles.title, { marginBottom: 10 }]}>Quantity</Text>
+          <Counter count={count} setCount={setCount} />
         </View>
+      </View>
 
-        <View style={{ top: 110 }}>
-          <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-            <View style={styles.suspended}>
-              <View style={styles.cart}>
-                <View style={styles.cartRow}>
-                  <TouchableOpacity onPress={() => { }} style={styles.cartBtn}>
-                    <AntDesign name='pluscircleo' size={24} color={COLORS.lightWhite} />
-                  </TouchableOpacity>
+      <View style={{ top: 110 }}>
+        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+          <View style={styles.suspended}>
+            <View style={styles.cart}>
+              <View style={styles.cartRow}>
+                <TouchableOpacity onPress={() => { }} style={styles.cartBtn}>
+                  <AntDesign name='pluscircleo' size={24} color={COLORS.lightWhite} />
+                </TouchableOpacity>
 
-                  <TouchableOpacity onPress={() => navigation.navigate('order-page')} style={{ backgroundColor: COLORS.primary, paddingHorizontal: 80, borderRadius: 30 }}>
-                    <Text style={[styles.title, { color: COLORS.lightWhite, marginTop: 5, alignItems: "center" }]}>Order</Text>
-                  </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('order-page')} style={{ backgroundColor: COLORS.primary, paddingHorizontal: 80, borderRadius: 30 }}>
+                  <Text style={[styles.title, { color: COLORS.lightWhite, marginTop: 5, alignItems: "center" }]}>Order</Text>
+                </TouchableOpacity>
 
-                  <TouchableOpacity onPress={() => { }} style={styles.cartBtn}>
-                    <Text style={[styles.title, { color: COLORS.lightWhite, marginTop: 5, alignItems: "center" }]}>{0}</Text>
-                  </TouchableOpacity>
-                </View>
+                <TouchableOpacity onPress={() => { }} style={styles.cartBtn}>
+                  <Text style={[styles.title, { color: COLORS.lightWhite, marginTop: 5, alignItems: "center" }]}>{0}</Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
         </View>
-      </ScrollView >
-    </View >
+      </View>
+    </ScrollView >
   )
 }
 
