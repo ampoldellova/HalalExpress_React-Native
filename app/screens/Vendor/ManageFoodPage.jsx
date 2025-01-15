@@ -10,7 +10,7 @@ const ManageFoodPage = () => {
     const navigation = useNavigation();
 
     return (
-        <View style={{ marginLeft: 12, marginTop: 30 }}>
+        <View style={{ marginHorizontal: 20, marginTop: 30 }}>
             <BackBtn onPress={() => navigation.goBack()} />
             <Text style={styles.heading}>Manage Foods</Text>
             <FlatList

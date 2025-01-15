@@ -42,7 +42,7 @@ const UserRestaurantPage = () => {
                 <Text style={styles.editTxt}>Edit Details</Text>
             </TouchableOpacity>
             <Text style={styles.options}>Options</Text>
-            <ServiceAvailability item={item} />
+            <ServiceAvailability availability={item.isAvailable} id={item._id} />
             <ManageFood item={item.foods} />
         </View >
     )

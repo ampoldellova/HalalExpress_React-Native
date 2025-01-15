@@ -1,8 +1,9 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import BackBtn from '../BackBtn';
+import BackBtn from '../../components/BackBtn';
 import { COLORS, SIZES } from '../../constants/theme';
+import FoodAvailability from '../../components/Vendor/FoodAvailability';
 
 const VendorFoodPage = () => {
     const route = useRoute();
@@ -10,7 +11,7 @@ const VendorFoodPage = () => {
     const navigation = useNavigation();
 
     return (
-        <View style={{ marginLeft: 12, marginTop: 30 }}>
+        <View style={{ marginHorizontal: 20, marginTop: 30 }}>
             <BackBtn onPress={() => navigation.goBack()} />
             <Text style={styles.heading}>Food Details</Text>
             <Image
@@ -21,6 +22,9 @@ const VendorFoodPage = () => {
                 <Text style={styles.title}>{item.title}</Text>
             </View>
             <Text style={styles.small}>{item.description}</Text>
+            <Text style={styles.options}>Options</Text>
+            <FoodAvailability availability={item.isAvailable} id={item._id} />
+
         </View>
     )
 }
@@ -36,9 +40,9 @@ const styles = StyleSheet.create({
     },
     imageUrl: {
         height: SIZES.height / 5.8,
-        width: SIZES.width - 24,
+        width: SIZES.width - 38,
         borderRadius: 15,
-        marginTop: 10
+        marginTop: 10,
     },
     title: {
         fontFamily: 'medium',
@@ -51,4 +55,9 @@ const styles = StyleSheet.create({
         color: COLORS.gray,
         textAlign: "left",
     },
+    options: {
+        fontFamily: "bold",
+        fontSize: 18,
+        marginTop: 35
+    }
 })

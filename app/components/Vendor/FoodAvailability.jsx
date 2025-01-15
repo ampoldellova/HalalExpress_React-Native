@@ -1,20 +1,18 @@
 import { Alert, StyleSheet, Switch, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { COLORS, SIZES } from '../../constants/theme'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import baseUrl from '../../../assets/common/baseUrl';
 import axios from 'axios';
+import baseUrl from '../../../assets/common/baseUrl';
+import { COLORS, SIZES } from '../../constants/theme';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-
-const ServiceAvailability = ({ availability, id }) => {
+const FoodAvailability = ({ availability, id }) => {
     const [isAvailable, setIsAvailable] = useState(false);
 
     useEffect(() => {
         setIsAvailable(availability);
     }, [availability]);
-
-
+    console.log(id)
     const toggleAvailability = async () => {
         try {
             const token = await AsyncStorage.getItem("token");
@@ -24,8 +22,9 @@ const ServiceAvailability = ({ availability, id }) => {
                         Authorization: `Bearer ${JSON.parse(token)}`,
                     },
                 };
-                const response = await axios.patch(`${baseUrl}/api/restaurant/${id}`, {}, config);
+                const response = await axios.patch(`${baseUrl}/api/foods/${id}`, {}, config);
                 setIsAvailable(response.data.isAvailable);
+                console.log()
                 Alert.alert('Success', response.data.message);
             } else {
                 console.log("Authentication token not found");
@@ -40,7 +39,7 @@ const ServiceAvailability = ({ availability, id }) => {
             <View style={{ flexDirection: 'column' }}>
                 <Ionicons name="restaurant" size={20} color={COLORS.gray} style={styles.icon} />
             </View>
-            <Text style={styles.isAvailable}>Service Availability</Text>
+            <Text style={styles.isAvailable}>Food Availability</Text>
             <Switch
                 value={isAvailable}
                 onValueChange={toggleAvailability}
@@ -51,7 +50,7 @@ const ServiceAvailability = ({ availability, id }) => {
     )
 }
 
-export default ServiceAvailability
+export default FoodAvailability
 
 const styles = StyleSheet.create({
     icon: {

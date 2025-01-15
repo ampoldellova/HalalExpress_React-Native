@@ -12,8 +12,6 @@ const ManageFoodCard = ({ item, onPress }) => {
                     width: SIZES.width - 38,
                     height: SIZES.height / 5.8,
                     borderRadius: 15,
-                    borderWidth: 1,
-                    borderColor: COLORS.gray2
                 }}
             />
             <Text style={styles.heading}>{item.title}</Text>
@@ -28,7 +26,7 @@ const ManageFoodCard = ({ item, onPress }) => {
                             }
                         ]}
                     >
-                        {item.isAvailable ? 'Available' : 'Not Available'}
+                        {item?.isAvailable ? 'Available' : 'Not Available'}
                     </Text>
                 </View>
             </View>
@@ -51,11 +49,10 @@ export default ManageFoodCard
 
 const styles = StyleSheet.create({
     wrapper: {
-        marginRight: 15,
         borderColor: COLORS.lightWhite,
-        padding: 8,
         borderRadius: 16,
-        marginTop: 10
+        marginTop: 10,
+        marginBottom: 10
     },
     heading: {
         fontSize: 14,

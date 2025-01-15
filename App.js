@@ -26,7 +26,7 @@ import LoginPage from './app/screens/User/LoginPage';
 import SignUp from './app/screens/User/SignUp';
 import UserRestaurantPage from './app/screens/Vendor/UserRestaurantPage';
 import ManageFoodPage from './app/screens/Vendor/ManageFoodPage';
-import VendorFoodPage from './app/components/Vendor/VendorFoodPage';
+import VendorFoodPage from './app/screens/Vendor/VendorFoodPage';
 
 const Stack = createNativeStackNavigator();
 
