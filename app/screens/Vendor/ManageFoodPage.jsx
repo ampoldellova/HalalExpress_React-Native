@@ -1,27 +1,65 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { Alert, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native'
 import ManageFoodCard from '../../components/Vendor/ManageFoodCard'
 import { BackBtn } from '../../components'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import axios from 'axios'
+import baseUrl from '../../../assets/common/baseUrl'
+import Loader from '../../components/Loader/Loader'
 
 const ManageFoodPage = () => {
     const route = useRoute();
-    const item = route.params;
+    const restaurantId = route.params;
     const navigation = useNavigation();
+    const [foods, setFoods] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchRestaurantFoods = async () => {
+        try {
+            const token = await AsyncStorage.getItem("token");
+            if (token) {
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${JSON.parse(token)}`,
+                    },
+                };
+                const response = await axios.patch(`${baseUrl}/api/foods/restaurant/${restaurantId}`, {}, config);
+                setFoods(response.data);
+                setLoading(false)
+            } else {
+                console.log("Authentication token not found");
+            }
+        } catch (error) {
+            Alert.alert('Error', error.response?.data?.message || 'Unable to toggle availability.');
+        }
+    };
+
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchRestaurantFoods()
+        }, [])
+    );
 
     return (
-        <View style={{ marginHorizontal: 20, marginTop: 30 }}>
-            <BackBtn onPress={() => navigation.goBack()} />
-            <Text style={styles.heading}>Manage Foods</Text>
-            <FlatList
-                data={item}
-                showsHorizontalScrollIndicator={false}
-                scrollEnabled
-                style={{ marginBottom: 60 }}
-                renderItem={({ item }) => (
-                    <ManageFoodCard item={item} onPress={() => { navigation.navigate('vendor-food-page', item) }} />
-                )} />
-        </View>
+        <SafeAreaView>
+            {loading ? (
+                <Loader />
+            ) : (
+                <View style={{ marginHorizontal: 20, marginTop: 30 }}>
+                    <BackBtn onPress={() => navigation.goBack()} />
+                    <Text style={styles.heading}>Manage Foods</Text>
+                    <FlatList
+                        data={foods}
+                        showsHorizontalScrollIndicator={false}
+                        scrollEnabled
+                        style={{ marginBottom: 60 }}
+                        renderItem={({ item }) => (
+                            <ManageFoodCard item={item} onPress={() => { navigation.navigate('vendor-food-page', item) }} />
+                        )} />
+                </View>
+            )}
+        </SafeAreaView>
     )
 }
 

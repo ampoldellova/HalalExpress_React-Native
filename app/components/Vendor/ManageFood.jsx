@@ -5,10 +5,10 @@ import { COLORS } from '../../constants/theme';
 import Entypo from '@expo/vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
 
-const ManageFood = ({ item }) => {
+const ManageFood = ({ restaurantId }) => {
     const navigation = useNavigation();
     return (
-        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }} onPress={() => navigation.navigate('manage-food-page', item)}>
+        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }} onPress={() => navigation.navigate('manage-food-page', restaurantId)}>
             <Ionicons name="fast-food" size={20} color={COLORS.gray} />
             <Text style={styles.text}>Manage Foods</Text>
             <Entypo name="chevron-thin-right" size={20} color={COLORS.gray} />

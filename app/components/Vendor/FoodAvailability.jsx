@@ -12,7 +12,7 @@ const FoodAvailability = ({ availability, id }) => {
     useEffect(() => {
         setIsAvailable(availability);
     }, [availability]);
-    console.log(id)
+
     const toggleAvailability = async () => {
         try {
             const token = await AsyncStorage.getItem("token");
@@ -24,7 +24,6 @@ const FoodAvailability = ({ availability, id }) => {
                 };
                 const response = await axios.patch(`${baseUrl}/api/foods/${id}`, {}, config);
                 setIsAvailable(response.data.isAvailable);
-                console.log()
                 Alert.alert('Success', response.data.message);
             } else {
                 console.log("Authentication token not found");

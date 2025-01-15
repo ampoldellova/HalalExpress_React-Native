@@ -43,7 +43,7 @@ const UserRestaurantPage = () => {
             </TouchableOpacity>
             <Text style={styles.options}>Options</Text>
             <ServiceAvailability availability={item.isAvailable} id={item._id} />
-            <ManageFood item={item.foods} />
+            <ManageFood restaurantId={item._id} />
         </View >
     )
 }
