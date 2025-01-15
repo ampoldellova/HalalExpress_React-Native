@@ -2,7 +2,7 @@ import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpac
 import React, { useContext, useEffect, useState } from 'react'
 import { CartCountContext } from '../context/CartCountContext';
 import { COLORS, SIZES } from "../constants/theme";
-import { Ionicons, MaterialCommunityIcons, AntDesign } from "@expo/vector-icons"
+import { Entypo, AntDesign } from "@expo/vector-icons"
 import BouncyCheckbox from "react-native-bouncy-checkbox"
 import Counter from '../components/Counter';
 import { useFocusEffect } from '@react-navigation/native';
@@ -15,24 +15,6 @@ const FoodPage = ({ route, navigation }) => {
   const [restaurant, setRestaurant] = useState(1);
   const [count, setCount] = useState(1);
   const [preference, setPreference] = useState('');
-  const [food, setFood] = useState({});
-
-  // const getFoodDetail = async () => {
-  //   try {
-  //     const response = await axios.get(`${baseUrl}/api/foods/${item._id}`);
-  //     setFood(response.data)
-  //     console.log(food)
-  //   } catch (error) {
-  //     console.log("Error fetching foods:", error);
-  //   }
-  // };
-
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     getFoodDetail()
-  //   }, [])
-  // );
-
 
   const handleAdditives = (newAdditives) => {
     setAdditives((prevAdditives) => {
@@ -73,7 +55,7 @@ const FoodPage = ({ route, navigation }) => {
               borderRadius: 15
             }} />
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backbtn}>
-            <Ionicons name='chevron-back-circle' size={30} color={COLORS.primary} />
+            <Entypo name="chevron-small-left" size={30} color="white" />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => { }} style={{ position: 'absolute', bottom: 20, right: 0 }}>
@@ -116,20 +98,21 @@ const FoodPage = ({ route, navigation }) => {
             scrollEnabled={false}
             renderItem={({ item }) => (
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
-
-                <BouncyCheckbox
-                  size={20}
-                  unfillColor="#FFFFFF"
-                  fillColor={COLORS.primary}
-                  innerIconStyle={{ borderWidth: 1 }}
-                  // text={item.title}
-                  onPress={() => {
-                    handleAdditives(item);
-                  }}
-                />
-                <Text style={styles.small}>{item.title}</Text>
-                <Text style={styles.small}>$ {item.price}</Text>
+                <View style={{ flexDirection: 'row' }}>
+                  <BouncyCheckbox
+                    size={20}
+                    unfillColor="#FFFFFF"
+                    fillColor={COLORS.primary}
+                    innerIconStyle={{ borderWidth: 1 }}
+                    onPress={() => {
+                      handleAdditives(item);
+                    }}
+                  />
+                  <Text style={styles.small}>{item.title}</Text>
+                </View>
+                <Text style={[styles.small]}>$ {item.price}</Text>
               </View>
+
             )} />
 
           <Text style={[styles.title, { marginBottom: 10, marginTop: 20 }]}> Preferences</Text>
@@ -184,6 +167,8 @@ const styles = StyleSheet.create({
     zIndex: 999,
     position: 'absolute',
     top: SIZES.xxLarge,
+    backgroundColor: COLORS.primary,
+    borderRadius: 99
   },
   sharebtn: {
     marginRight: 12,
@@ -214,7 +199,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: 'regular',
     color: COLORS.gray,
-    textAlign: "justify"
+    textAlign: "left",
   },
   tags: {
     right: 10,

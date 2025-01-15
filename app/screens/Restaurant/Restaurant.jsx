@@ -4,7 +4,7 @@ import RestaurantPage from '../../navigation/RestaurantPage'
 import NetworkImage from '../../components/NetworkImage'
 import { SIZES, COLORS } from '../../constants/theme'
 import { useRoute } from '@react-navigation/native'
-import { Ionicons, MaterialCommunityIcons, AntDesign } from "@expo/vector-icons"
+import Entypo from '@expo/vector-icons/Entypo';
 import { RatingInput } from 'react-native-stock-star-rating'
 import GoogleApiServices from '../../hook/GoogleApiServices'
 import { UserLocationContext } from '../../context/UserLocationContext'
@@ -34,7 +34,7 @@ const Restaurant = ({ navigation }) => {
         <View style={{ backgroundColor: COLORS.offwhite }}>
             <View>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backbtn}>
-                    <Ionicons name='chevron-back-circle' size={30} color={COLORS.primary} />
+                    <Entypo name="chevron-small-left" size={30} color="white" />
                 </TouchableOpacity>
 
                 <Image
@@ -94,6 +94,8 @@ const styles = StyleSheet.create({
         zIndex: 999,
         position: 'absolute',
         top: SIZES.xxLarge,
+        backgroundColor: COLORS.primary,
+        borderRadius: 99
     },
     title: {
         fontSize: 22,

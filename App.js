@@ -26,6 +26,7 @@ import LoginPage from './app/screens/User/LoginPage';
 import SignUp from './app/screens/User/SignUp';
 import UserRestaurantPage from './app/screens/Vendor/UserRestaurantPage';
 import ManageFoodPage from './app/screens/Vendor/ManageFoodPage';
+import VendorFoodPage from './app/components/Vendor/VendorFoodPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -151,6 +152,11 @@ export default function App() {
                     <Stack.Screen
                       name='manage-food-page'
                       component={ManageFoodPage}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name='vendor-food-page'
+                      component={VendorFoodPage}
                       options={{ headerShown: false }}
                     />
                   </Stack.Navigator>
