@@ -245,8 +245,7 @@ const LoginPage = ({ navigation }) => {
                   navigation.navigate("signUp");
                 }}
               >
-                {" "}
-                Register{" "}
+                Don't have an account? Register
               </Text>
             </View>
           )}

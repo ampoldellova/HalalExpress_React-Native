@@ -7,6 +7,7 @@ import { RestaurantContext } from '../../context/RestaurantContext'
 import ServiceAvailability from '../../components/Vendor/ServiceAvailability'
 import ManageFood from '../../components/Vendor/ManageFood'
 import Feather from '@expo/vector-icons/Feather';
+import AddFood from '../../components/Vendor/AddFood'
 
 const UserRestaurantPage = () => {
     const navigation = useNavigation();
@@ -44,6 +45,7 @@ const UserRestaurantPage = () => {
             <Text style={styles.options}>Options</Text>
             <ServiceAvailability availability={item.isAvailable} id={item._id} />
             <ManageFood restaurantId={item._id} />
+            <AddFood />
         </View >
     )
 }
@@ -69,10 +71,10 @@ const styles = StyleSheet.create({
     editBtn: {
         position: 'absolute',
         backgroundColor: COLORS.primary,
-        bottom: 228,
+        bottom: 278,
         right: 5,
-        borderRadius: 9,
-        padding: 6,
+        borderRadius: 10,
+        padding: 8,
         flexDirection: 'row',
         justifyContent: 'space-between',
     },

@@ -24,7 +24,6 @@ const VendorFoodPage = () => {
             <Text style={styles.small}>{item.description}</Text>
             <Text style={styles.options}>Options</Text>
             <FoodAvailability availability={item.isAvailable} id={item._id} />
-
         </View>
     )
 }

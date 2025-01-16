@@ -22,6 +22,6 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 16,
         fontFamily: "regular",
-        left: -77
+        left: -75
     }
 })

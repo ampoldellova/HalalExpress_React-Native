@@ -8,9 +8,9 @@ const styles = StyleSheet.create({
       height: SIZES.height / 2.4,
       width: SIZES.width,
       marginBottom: SIZES.xxLarge
-     
+
    },
-   
+
    titleLogin: {
       marginVertical: 20,
       marginHorizontal: 60,
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
       fontSize: SIZES.xSmall
    },
    registration: {
-      marginTop: 20,
+      marginTop: 0,
       textAlign: "center",
    },
 });

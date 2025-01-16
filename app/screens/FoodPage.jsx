@@ -114,8 +114,7 @@ const FoodPage = ({ route, navigation }) => {
 
           )} />
 
-        <Text style={[styles.title, { marginBottom: 10, marginTop: 20 }]}> Preferences</Text>
-
+        <Text style={[styles.title, { marginBottom: 10, marginTop: 20 }]}>Preferences</Text>
         <View style={styles.input}>
           <TextInput
             placeholder='Add specific instructions'
