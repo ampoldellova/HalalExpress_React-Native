@@ -13,28 +13,23 @@ module.exports = {
 
     addFood: async (req, res) => {
         try {
-            // Ensure the data matches the schema
             if (req.body.additives && Array.isArray(req.body.additives)) {
                 req.body.additives = req.body.additives.map(additive => ({
                     ...additive,
-                    price: parseFloat(additive.price) // Convert price to a number
+                    price: parseFloat(additive.price)
                 }));
             }
 
-            // Create a new Food document
             const newFood = new Food(req.body);
 
-            // Save the new food item
             await newFood.save();
 
-            // Respond with success
             res.status(200).json({
                 status: true,
                 message: "Food item added successfully",
                 data: newFood
             });
         } catch (error) {
-            // Log the error and respond with failure
             console.error("Error adding food item:", error);
             res.status(500).json({
                 status: false,

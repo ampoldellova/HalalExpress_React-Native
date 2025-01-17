@@ -48,7 +48,6 @@ const Home = () => {
         selectedCategory ? { params: { category: selectedCategory } } : {}
       );
       setFoods(response.data);
-      console.log(response.data)
       setFilteredFoods(response.data);
       setFoodsLoaded(true);
     } catch (error) {

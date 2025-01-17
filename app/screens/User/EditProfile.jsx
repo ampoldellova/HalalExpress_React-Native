@@ -112,7 +112,7 @@ const EditProfile = ({ navigation, route }) => {
                                 />
 
                                 <TextInput
-                                    style={styles.input}
+                                    style={{ flex: 1 }}
                                     placeholder="Enter username"
                                     onChangeText={handleChange('username')}
                                     onBlur={handleBlur('username')}
@@ -139,7 +139,7 @@ const EditProfile = ({ navigation, route }) => {
                                     style={styles.iconStyle}
                                 />
                                 <TextInput
-                                    style={styles.input}
+                                    style={{ flex: 1 }}
                                     placeholder="Enter email"
                                     onChangeText={handleChange('email')}
                                     onBlur={handleBlur('email')}
@@ -167,7 +167,7 @@ const EditProfile = ({ navigation, route }) => {
                                     style={styles.iconStyle}
                                 />
                                 <TextInput
-                                    style={styles.input}
+                                    style={{ flex: 1 }}
                                     placeholder="Enter phone"
                                     onChangeText={handleChange('phone')}
                                     onBlur={handleBlur('phone')}
