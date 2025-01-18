@@ -28,6 +28,7 @@ import UserRestaurantPage from './app/screens/Vendor/UserRestaurantPage';
 import ManageFoodPage from './app/screens/Vendor/ManageFoodPage';
 import VendorFoodPage from './app/screens/Vendor/VendorFoodPage';
 import AddFoodPage from './app/screens/Vendor/AddFoodPage';
+import EditRestaurantPage from './app/screens/Vendor/EditRestaurantPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -163,6 +164,11 @@ export default function App() {
                     <Stack.Screen
                       name='add-food-page'
                       component={AddFoodPage}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name='edit-restaurant-page'
+                      component={EditRestaurantPage}
                       options={{ headerShown: false }}
                     />
                   </Stack.Navigator>

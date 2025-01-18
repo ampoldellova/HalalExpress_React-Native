@@ -8,6 +8,7 @@ import ServiceAvailability from '../../components/Vendor/ServiceAvailability'
 import ManageFood from '../../components/Vendor/ManageFood'
 import Feather from '@expo/vector-icons/Feather';
 import AddFood from '../../components/Vendor/AddFood'
+import EditRestaurantButton from '../../components/Vendor/EditRestaurantButton'
 
 const UserRestaurantPage = () => {
     const navigation = useNavigation();
@@ -38,14 +39,15 @@ const UserRestaurantPage = () => {
                     <Text style={styles.address}>{coords.address}</Text>
                 </View>
             </View>
-            <TouchableOpacity style={styles.editBtn} onPress={() => { }}>
+            {/* <TouchableOpacity style={styles.editBtn} onPress={() => { }}>
                 <Feather name="edit" size={14} color="white" style={{ marginTop: 1 }} />
                 <Text style={styles.editTxt}>Edit Details</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <Text style={styles.options}>Options</Text>
             <ServiceAvailability availability={item.isAvailable} id={item._id} />
             <ManageFood restaurantId={item._id} />
             <AddFood restaurantId={item._id} />
+            <EditRestaurantButton />
         </View >
     )
 }

@@ -8,8 +8,8 @@ import { useNavigation } from '@react-navigation/native';
 const AddFood = ({ restaurantId }) => {
     const navigation = useNavigation();
     return (
-        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }} onPress={() => navigation.navigate('add-food-page', restaurantId)}>
-            <AntDesign name="pluscircle" size={20} color={COLORS.gray} style={styles.icon} />
+        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 25 }} onPress={() => navigation.navigate('add-food-page', restaurantId)}>
+            <AntDesign name="pluscircle" size={20} color={COLORS.gray}  />
             <Text style={styles.text}>Add a food</Text>
             <Entypo name="chevron-thin-right" size={20} color={COLORS.gray} style={styles.icon} />
         </TouchableOpacity>
@@ -19,13 +19,9 @@ const AddFood = ({ restaurantId }) => {
 export default AddFood
 
 const styles = StyleSheet.create({
-    icon: {
-        marginTop: 15
-    },
     text: {
         fontSize: 16,
         fontFamily: "regular",
-        marginTop: 15,
         left: -88
     }
 })
