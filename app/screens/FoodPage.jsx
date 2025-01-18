@@ -19,12 +19,12 @@ const FoodPage = ({ route, navigation }) => {
   const handleAdditives = (newAdditives) => {
     setAdditives((prevAdditives) => {
       const exists = prevAdditives.some(
-        (additives) => additives.id === newAdditives.id
+        (additives) => additives._id === newAdditives._id
       );
 
       if (exists) {
         return prevAdditives.filter(
-          (additives) => additives.id !== newAdditives.id
+          (additives) => additives._id !== newAdditives._id
         )
       } else {
         return [...prevAdditives, newAdditives]

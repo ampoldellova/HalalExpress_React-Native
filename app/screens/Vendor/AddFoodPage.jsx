@@ -73,7 +73,6 @@ const validationSchema = Yup.object().shape({
     additives: Yup.array()
         .of(
             Yup.object().shape({
-                id: Yup.number().required('Additive ID is required'),
                 title: Yup.string().required('Additive name is required'),
                 price: Yup.number().required('Price is required'),
             })
@@ -91,7 +90,6 @@ const AddFoodPage = () => {
     const [loader, setLoader] = useState(false);
     const [image, setImage] = useState('');
     const [categories, setCategories] = useState([]);
-    const [additiveId, setAdditiveId] = useState(1);
 
     const addFoodForm = async (values) => {
         setLoader(true);
@@ -197,7 +195,7 @@ const AddFoodPage = () => {
                         description: '',
                         price: '',
                         additives: [{
-                            id: 1,
+                            id: '',
                             title: '',
                             price: '',
                         }],
@@ -217,7 +215,8 @@ const AddFoodPage = () => {
                         setFieldTouched,
                         setFieldValue
                     }) => (
-                        <View>
+                        < View >
+                            {console.log(errors)}
                             <Text style={styles.text}>Food Picture</Text>
                             <View style={{ position: 'relative' }}>
                                 <Image
@@ -484,16 +483,16 @@ const AddFoodPage = () => {
                                         )}
                                     </View>
                                 ))}
-
                                 <TouchableOpacity
                                     style={styles.btnStyle}
                                     onPress={() => {
-                                        const newAdditives = [...values.additives, { id: '', title: '', price: '' }];
+                                        const newAdditives = [...values.additives, { title: '', price: '' }];
                                         setFieldValue('additives', newAdditives);
                                     }}
                                 >
                                     <Text style={styles.btnTxt}>A D D   F I E L D</Text>
                                 </TouchableOpacity>
+
                             </View>
 
                             <Button
@@ -505,7 +504,7 @@ const AddFoodPage = () => {
                         </View>
                     )}
                 </Formik>
-            </View>
+            </View >
         </ScrollView >
     )
 }
@@ -553,7 +552,6 @@ const styles = StyleSheet.create({
     btnStyle: {
         height: 50,
         width: "100%",
-        marginTop: 10,
         backgroundColor: COLORS.primary,
         justifyContent: "center",
         alignItems: "center",
