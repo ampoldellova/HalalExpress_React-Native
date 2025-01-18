@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     editBtn: {
         position: 'absolute',
         backgroundColor: COLORS.primary,
-        bottom: 278,
+        bottom: 260,
         right: 5,
         borderRadius: 10,
         padding: 8,

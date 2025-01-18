@@ -11,7 +11,6 @@ import { COLORS, SIZES } from "../constants/theme";
 import { RatingInput, Rating } from "react-native-stock-star-rating";
 
 const CategoryFoodComp = ({ item, onPress }) => {
-  console.log(item.imageUrl)
   return (
     <TouchableOpacity style={styles.wrapper} onPress={onPress}>
       <View style={styles.innerRow}>
@@ -34,23 +33,22 @@ const CategoryFoodComp = ({ item, onPress }) => {
             <Text style={styles.restaurant}>{item.title}</Text>
 
             <FlatList
-              data={item.foodTags.slice(0, 3)}
+              data={item.foodTags.slice(0, 2)}
               showsVerticalScrollIndicator={false}
               keyExtractor={(item) => item}
-              style={{ marginTop: 5, marginBottom: 5 }}
+              style={{ marginTop: 5, marginBottom: 5}}
               horizontal
               scrollEnabled
               renderItem={({ item }) => (
                 <View
                   style={{
-                    right: 10,
-                    marginHorizontal: 10,
+                    marginHorizontal: 2,
                     backgroundColor: COLORS.gray2,
                     borderRadius: 8,
                   }}
                 >
                   <Text
-                    style={{ paddingHorizontal: 4, color: COLORS.lightWhite, fontFamily: "regular", fontSize: 11 }}
+                    style={{ marginHorizontal: 5, color: COLORS.lightWhite, fontFamily: "regular", fontSize: 11 }}
                   >
                     {item}
                   </Text>

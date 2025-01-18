@@ -91,6 +91,7 @@ const AddFoodPage = () => {
     const [loader, setLoader] = useState(false);
     const [image, setImage] = useState('');
     const [categories, setCategories] = useState([]);
+    const [additiveId, setAdditiveId] = useState(1);
 
     const addFoodForm = async (values) => {
         setLoader(true);
@@ -196,7 +197,7 @@ const AddFoodPage = () => {
                         description: '',
                         price: '',
                         additives: [{
-                            id: '1',
+                            id: 1,
                             title: '',
                             price: '',
                         }],
@@ -328,67 +329,6 @@ const AddFoodPage = () => {
                                 />
                             </View>
 
-
-                            {values.additives.map((additive, index) => (
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} key={index}>
-                                    <View style={[styles.wrapper, { width: SIZES.width - 160 }]}>
-                                        <Text style={styles.label}>Additives</Text>
-                                        <View style={styles.inputWrapper(touched.additives?.[index]?.title ? COLORS.secondary : COLORS.offwhite)}>
-                                            <Ionicons
-                                                style={styles.iconStyle}
-                                                color={COLORS.gray}
-                                                name="restaurant"
-                                                size={20}
-                                            />
-                                            <TextInput
-                                                style={{ flex: 1 }}
-                                                placeholderTextColor={COLORS.gray}
-                                                placeholder="Enter additive name"
-                                                onChangeText={text => {
-                                                    const newAdditives = [...values.additives];
-                                                    newAdditives[index].title = text;
-                                                    setFieldValue('additives', newAdditives);
-                                                }}
-                                                onFocus={() => setFieldTouched(`additives.${index}.title`)}
-                                                onBlur={() => setFieldTouched(`additives.${index}.title`, '')}
-                                                value={additive.title}
-                                            />
-                                        </View>
-                                        {touched.additives?.[index]?.title && errors.additives?.[index]?.title && (
-                                            <Text style={styles.errorMessage}>{errors.additives[index].title}</Text>
-                                        )}
-                                    </View>
-                                    <View style={[styles.wrapper, { width: SIZES.width - 250 }]}>
-                                        <Text style={styles.label}>Price</Text>
-                                        <View style={styles.inputWrapper(touched.additives?.[index]?.price ? COLORS.secondary : COLORS.offwhite)}>
-                                            <FontAwesome6
-                                                style={styles.iconStyle}
-                                                color={COLORS.gray}
-                                                name="peso-sign"
-                                                size={20}
-                                            />
-                                            <TextInput
-                                                style={{ flex: 1 }}
-                                                keyboardType='number-pad'
-                                                placeholderTextColor={COLORS.gray}
-                                                placeholder="Price"
-                                                onChangeText={text => {
-                                                    const newAdditives = [...values.additives];
-                                                    newAdditives[index].price = text;
-                                                    setFieldValue('additives', newAdditives);
-                                                }}
-                                                onFocus={() => setFieldTouched(`additives.${index}.price`)}
-                                                onBlur={() => setFieldTouched(`additives.${index}.price`, '')}
-                                                value={additive.price}
-                                            />
-                                        </View>
-                                        {touched.additives?.[index]?.price && errors.additives?.[index]?.price && (
-                                            <Text style={styles.errorMessage}>{errors.additives[index].price}</Text>
-                                        )}
-                                    </View>
-                                </View>
-                            ))}
-
                             <View style={styles.wrapper}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <Text style={styles.label}>Food Category</Text>
@@ -472,6 +412,90 @@ const AddFoodPage = () => {
                                 )}
                             </View>
 
+                            <Text style={[styles.text, { marginTop: 0 }]}>Food Additives</Text>
+                            <View style={{ borderRadius: 15, borderWidth: 0.5, borderColor: COLORS.primary, padding: 8, marginBottom: 20 }}>
+                                {values.additives.map((additive, index) => (
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} key={additive.id}>
+                                        <View style={[styles.wrapper, { width: SIZES.width - 165 }]}>
+                                            <Text style={styles.label}>Additives</Text>
+                                            <View style={styles.inputWrapper(touched.additives?.[index]?.title ? COLORS.secondary : COLORS.offwhite)}>
+                                                <Ionicons
+                                                    style={styles.iconStyle}
+                                                    color={COLORS.gray}
+                                                    name="fast-food"
+                                                    size={20}
+                                                />
+                                                <TextInput
+                                                    style={{ flex: 1 }}
+                                                    placeholderTextColor={COLORS.gray}
+                                                    placeholder="Additive name"
+                                                    onChangeText={text => {
+                                                        const newAdditives = [...values.additives];
+                                                        newAdditives[index].title = text;
+                                                        setFieldValue('additives', newAdditives);
+                                                    }}
+                                                    onFocus={() => setFieldTouched(`additives.${index}.title`)}
+                                                    onBlur={() => setFieldTouched(`additives.${index}.title`, '')}
+                                                    value={additive.title}
+                                                />
+                                            </View>
+                                            {touched.additives?.[index]?.title && errors.additives?.[index]?.title && (
+                                                <Text style={styles.errorMessage}>{errors.additives[index].title}</Text>
+                                            )}
+                                        </View>
+                                        <View style={[styles.wrapper, { width: SIZES.width - 260 }]}>
+                                            <Text style={styles.label}>Price</Text>
+                                            <View style={styles.inputWrapper(touched.additives?.[index]?.price ? COLORS.secondary : COLORS.offwhite)}>
+                                                <FontAwesome6
+                                                    style={styles.iconStyle}
+                                                    color={COLORS.gray}
+                                                    name="peso-sign"
+                                                    size={20}
+                                                />
+                                                <TextInput
+                                                    style={{ flex: 1 }}
+                                                    keyboardType='number-pad'
+                                                    placeholderTextColor={COLORS.gray}
+                                                    placeholder="Price"
+                                                    onChangeText={text => {
+                                                        const newAdditives = [...values.additives];
+                                                        newAdditives[index].price = text;
+                                                        setFieldValue('additives', newAdditives);
+                                                    }}
+                                                    onFocus={() => setFieldTouched(`additives.${index}.price`)}
+                                                    onBlur={() => setFieldTouched(`additives.${index}.price`, '')}
+                                                    value={additive.price}
+                                                />
+                                            </View>
+                                            {touched.additives?.[index]?.price && errors.additives?.[index]?.price && (
+                                                <Text style={styles.errorMessage}>{errors.additives[index].price}</Text>
+                                            )}
+                                        </View>
+                                        {values.additives.length > 1 && (
+                                            <TouchableOpacity
+                                                style={{ position: 'absolute', right: 0, top: 0 }}
+                                                onPress={() => {
+                                                    const newAdditives = values.additives.filter((_, i) => i !== index);
+                                                    setFieldValue('additives', newAdditives);
+                                                }}
+                                            >
+                                                <Text style={{ fontSize: 8 }}>❌</Text>
+                                            </TouchableOpacity>
+                                        )}
+                                    </View>
+                                ))}
+
+                                <TouchableOpacity
+                                    style={styles.btnStyle}
+                                    onPress={() => {
+                                        const newAdditives = [...values.additives, { id: '', title: '', price: '' }];
+                                        setFieldValue('additives', newAdditives);
+                                    }}
+                                >
+                                    <Text style={styles.btnTxt}>A D D   F I E L D</Text>
+                                </TouchableOpacity>
+                            </View>
+
                             <Button
                                 loader={loader}
                                 title={"S U B M I T"}
@@ -525,6 +549,20 @@ const styles = StyleSheet.create({
         fontSize: SIZES.xSmall,
         marginBottom: 5,
         marginEnd: 5,
+    },
+    btnStyle: {
+        height: 50,
+        width: "100%",
+        marginTop: 10,
+        backgroundColor: COLORS.primary,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 12,
+    },
+    btnTxt: {
+        fontFamily: "bold",
+        color: COLORS.white,
+        fontSize: 18,
     },
     inputWrapper: (borderColor) => ({
         borderColor: borderColor,

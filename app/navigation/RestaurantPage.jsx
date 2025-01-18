@@ -28,7 +28,6 @@ const renderScene = SceneMap({
 
 const RestaurantPage = ({ item }) => {
     const layout = useWindowDimensions();
-    console.log(item)
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
         { key: 'first', title: 'Menu' },

@@ -20,14 +20,6 @@ const restaurantSchema = new mongoose.Schema({
             default: 'https://res.cloudinary.com/dwkmutbz3/image/upload/v1736011952/HalalExpress/Profile/profile_nsvdbb.png'
         },
     },
-    foods: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Food',
-            required: true,
-            autopopulate: true,
-        }
-    ],
     pickup: {
         type: Boolean,
         required: false,

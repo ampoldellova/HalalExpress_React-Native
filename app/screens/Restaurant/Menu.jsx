@@ -12,14 +12,38 @@ import baseUrl from '../../../assets/common/baseUrl'
 const Menu = () => {
     const route = useRoute();
     const navigation = useNavigation();
-    const { restaurantObj, setRestaurantObj } = useContext(RestaurantContext)
-    const [restaurantFood, setRestaurantFood] = useState([]);
+    const [foods, setFoods] = useState([]);
     const item = route.params;
-    console.log(item)
+
+    const fetchRestaurantFoods = async () => {
+        try {
+            const token = await AsyncStorage.getItem("token");
+            if (token) {
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${JSON.parse(token)}`,
+                    },
+                };
+                const response = await axios.patch(`${baseUrl}/api/foods/restaurant/${item._id}`, {}, config);
+                setFoods(response.data);
+                setLoading(false)
+            } else {
+                console.log("Authentication token not found");
+            }
+        } catch (error) {
+            Alert.alert('Error', error.response?.data?.message || 'Unable to toggle availability.');
+        }
+    };
+
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchRestaurantFoods()
+        }, [])
+    );
     return (
         <View style={{ marginTop: 5, marginBottom: 50 }}>
             <FlatList
-                data={item.foods}
+                data={foods}
                 showsVerticalScrollIndicator={false}
                 style={{ marginTop: 5 }}
                 scrollEnabled
