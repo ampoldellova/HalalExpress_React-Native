@@ -40,7 +40,7 @@ const LoginPage = ({ navigation }) => {
   const { login, setLogin } = useContext(LoginContext)
 
   const inValidForm = () => {
-    Alert.alert("Login Error ", "Oops, Error logging in try again with correct credentials");
+    Alert.alert("Login Error 🚨", "Oops, Error logging in try again with correct credentials");
   };
 
   // const login = async (values) => {
@@ -105,16 +105,11 @@ const LoginPage = ({ navigation }) => {
       } else {
         setLogin(false);
 
-        Alert.alert("Error Logging in ", "Please provide valid credentials ", [
-          {
-            text: "Cancel",
-            onPress: () => { },
-          },
+        Alert.alert("Error Logging in 🚨", "Please provide valid credentials ", [
           {
             text: "Continue",
             onPress: () => { },
           },
-          { defaultIndex: 1 },
         ]);
       }
     } catch (error) {

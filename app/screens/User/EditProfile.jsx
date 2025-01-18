@@ -62,12 +62,12 @@ const EditProfile = ({ navigation, route }) => {
                     Authorization: `Bearer ${JSON.parse(token)}`,
                 },
             });
-            Alert.alert('Success', 'Profile updated successfully!', [
+            Alert.alert('Success ✅', 'Profile updated successfully!', [
                 { text: 'OK', onPress: () => navigation.goBack() },
             ]);
         } catch (error) {
             console.error(error);
-            Alert.alert('Error', 'Failed to update profile. Please try again.');
+            Alert.alert('Error ❌', 'Failed to update profile. Please try again.');
         } finally {
             setLoader(false);
         }

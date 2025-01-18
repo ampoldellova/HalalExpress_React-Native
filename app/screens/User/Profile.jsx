@@ -18,7 +18,6 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [user, setUser] = useState({});
-  const [restaurants, setRestaurants] = useState([]);
 
   const getProfile = async () => {
     try {

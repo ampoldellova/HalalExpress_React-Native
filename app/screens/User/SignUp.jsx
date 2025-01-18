@@ -70,14 +70,14 @@ const SignUp = ({ navigation }) => {
       if (response.status === 201) {
         setLogin(true);
 
-        Alert.alert("Registered Sucessfully", "Please login your credentials ");
+        Alert.alert("Registered Sucessfully ✅", "Please login your credentials ");
 
         navigation.goBack()
 
       } else {
         setLogin(false);
 
-        Alert.alert("Error Logging in ", "Please provide valid credentials ", [
+        Alert.alert("Error Logging in 🚨", "Please provide valid credentials ", [
           {
             text: "Cancel",
             onPress: () => { },
@@ -92,7 +92,7 @@ const SignUp = ({ navigation }) => {
     } catch (error) {
       setLogin(false);
       Alert.alert(
-        "Error ",
+        "Error ❌",
         "Oops, Error logging in try again with correct credentials",
         [
           {
