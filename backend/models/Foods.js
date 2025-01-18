@@ -49,11 +49,6 @@ const foodSchema = new mongoose.Schema({
         required: true
     },
     additives: [{
-        // id: {
-        //     type: Number,
-        //     required: true
-        //     default: 1
-        // },
         title: {
             type: String,
             required: true

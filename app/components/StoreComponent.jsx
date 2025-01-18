@@ -26,6 +26,10 @@ const StoreComponent = ({ item, onPress }) => {
                     }}
                 />
                 <Text style={styles.heading}>{item.title}</Text>
+                <View style={{ flex: 1 }} />
+                <View style={{ backgroundColor: item.isAvailable ? 'green' : 'red', borderRadius: 30 }}>
+                    <Text style={[styles.small, { color: 'white', marginHorizontal: 5, marginTop: 3 }]}>{item.isAvailable ? 'Open' : 'Closed'}</Text>
+                </View>
             </View>
             <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
                 <Text style={styles.small}>Delivery under:</Text>
@@ -60,7 +64,7 @@ const styles = StyleSheet.create({
         fontFamily: "regular",
         color: COLORS.black,
         marginTop: 2,
-        marginLeft:5
+        marginLeft: 5
     },
     small: {
         fontSize: 12,

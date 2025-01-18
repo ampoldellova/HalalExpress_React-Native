@@ -8,6 +8,7 @@ import CategoryFoodComp from '../../components/CategoryFoodComp'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import baseUrl from '../../../assets/common/baseUrl'
+import ClosedWindow from '../../components/Vendor/ClosedWindow'
 
 const Menu = () => {
     const route = useRoute();
@@ -40,9 +41,11 @@ const Menu = () => {
             fetchRestaurantFoods()
         }, [])
     );
+    console.log(item.isAvailable)
     return (
         <View style={{ marginTop: 5, marginBottom: 50 }}>
-            <FlatList
+            {item.isAvailable ? (
+                <FlatList
                 data={foods}
                 showsVerticalScrollIndicator={false}
                 style={{ marginTop: 5 }}
@@ -54,6 +57,9 @@ const Menu = () => {
                     </View>
                 )}
             />
+            ) : (
+                <ClosedWindow />
+            )}
         </View>
     )
 }
