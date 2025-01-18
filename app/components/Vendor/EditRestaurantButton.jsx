@@ -4,10 +4,10 @@ import React from 'react'
 import { COLORS } from '../../constants/theme'
 import { useNavigation } from '@react-navigation/native'
 
-const EditRestaurantButton = () => {
+const EditRestaurantButton = ({ details }) => {
     const navigation = useNavigation();
     return (
-        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 25 }} onPress={() => navigation.navigate('edit-restaurant-page')}>
+        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 25 }} onPress={() => navigation.navigate('edit-restaurant-page', details)}>
             <MaterialIcons name="edit-document" size={20} color={COLORS.gray} />
             <Text style={styles.text}>Edit Restaurant Details</Text>
             <Entypo name="chevron-thin-right" size={20} color={COLORS.gray} />

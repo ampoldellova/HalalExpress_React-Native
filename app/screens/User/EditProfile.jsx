@@ -8,7 +8,7 @@ import axios from 'axios';
 import { BackBtn, Button } from '../../components';
 import baseUrl from '../../../assets/common/baseUrl';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 
 const validationSchema = Yup.object().shape({
     username: Yup.string().min(3, 'Provide a valid username').required('Required'),
@@ -85,15 +85,29 @@ const EditProfile = ({ navigation, route }) => {
                 validationSchema={validationSchema}
                 onSubmit={handleSubmitForm}
             >
-                {({ handleChange, handleBlur, touched, handleSubmit, values, errors, isValid }) => (
+                {({
+                    handleChange,
+                    handleBlur,
+                    touched,
+                    handleSubmit,
+                    values,
+                    errors,
+                    isValid,
+                    setFieldTouched
+                }) => (
                     <View>
-                        {/* Username Field */}
                         <View style={styles.profile}>
-                            <TouchableOpacity onPress={pickImage}>
-                                <Image
-                                    source={image ? { uri: image } : require('../../../assets/images/profile.png')}
-                                    style={styles.image}
+                            <Image
+                                source={image ? { uri: image } : require('../../../assets/images/profile.png')}
+                                style={styles.image}
+                            />
+                            <TouchableOpacity onPress={pickImage} style={styles.imageUpload}>
+                                <Entypo
+                                    color='white'
+                                    name="camera"
+                                    size={24}
                                 />
+                                <Text style={{ color: 'white', fontFamily: 'regular' }}>Edit Photo</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.wrapper}>
@@ -114,7 +128,8 @@ const EditProfile = ({ navigation, route }) => {
                                     style={{ flex: 1 }}
                                     placeholder="Enter username"
                                     onChangeText={handleChange('username')}
-                                    onBlur={handleBlur('username')}
+                                    onFocus={() => { setFieldTouched('username', '') }}
+                                    onBlur={() => { setFieldTouched('username') }}
                                     value={values.username}
                                 />
                             </View>
@@ -141,7 +156,8 @@ const EditProfile = ({ navigation, route }) => {
                                     style={{ flex: 1 }}
                                     placeholder="Enter email"
                                     onChangeText={handleChange('email')}
-                                    onBlur={handleBlur('email')}
+                                    onFocus={() => { setFieldTouched('email', '') }}
+                                    onBlur={() => { setFieldTouched('email') }}
                                     value={values.email}
                                     keyboardType="email-address"
                                 />
@@ -169,7 +185,8 @@ const EditProfile = ({ navigation, route }) => {
                                     style={{ flex: 1 }}
                                     placeholder="Enter phone"
                                     onChangeText={handleChange('phone')}
-                                    onBlur={handleBlur('phone')}
+                                    onFocus={() => { setFieldTouched('phone', '') }}
+                                    onBlur={() => { setFieldTouched('phone') }}
                                     value={values.phone}
                                     keyboardType="phone-pad"
                                 />
@@ -199,14 +216,26 @@ const styles = StyleSheet.create({
     profile: {
         alignItems: 'center',
         marginVertical: 20,
+        position: 'relative',
     },
     image: {
         height: 150,
         width: 150,
-        borderRadius: 75,
+        borderRadius: 99,
         borderWidth: 1,
         borderColor: COLORS.gray2,
         marginTop: 30
+    },
+    imageUpload: {
+        position: 'absolute',
+        height: 75,
+        width: 150,
+        borderBottomLeftRadius: 99,
+        borderBottomRightRadius: 99,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     wrapper: {
         marginBottom: 20,

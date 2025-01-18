@@ -39,15 +39,11 @@ const UserRestaurantPage = () => {
                     <Text style={styles.address}>{coords.address}</Text>
                 </View>
             </View>
-            {/* <TouchableOpacity style={styles.editBtn} onPress={() => { }}>
-                <Feather name="edit" size={14} color="white" style={{ marginTop: 1 }} />
-                <Text style={styles.editTxt}>Edit Details</Text>
-            </TouchableOpacity> */}
             <Text style={styles.options}>Options</Text>
             <ServiceAvailability availability={item.isAvailable} id={item._id} />
             <ManageFood restaurantId={item._id} />
             <AddFood restaurantId={item._id} />
-            <EditRestaurantButton />
+            <EditRestaurantButton details={item} />
         </View >
     )
 }

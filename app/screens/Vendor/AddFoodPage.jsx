@@ -532,7 +532,8 @@ const styles = StyleSheet.create({
     }),
     imageUpload: {
         position: 'absolute',
-        bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        bottom: 0, 
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         height: 75,
         width: SIZES.width - 38,
         borderBottomLeftRadius: 15,
