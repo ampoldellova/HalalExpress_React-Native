@@ -126,7 +126,7 @@ const AddFoodPage = () => {
             await axios.post(`${baseUrl}/api/foods/`, formData, config)
             setLoader(false);
             Alert.alert(
-                "Food Added",
+                "Success ✅",
                 "Food has been added to your menu",
                 [
                     {
@@ -142,16 +142,11 @@ const AddFoodPage = () => {
     }
 
     const inValidForm = () => {
-        Alert.alert("Invalid Form", "Please provide all required fields", [
-            {
-                text: "Cancel",
-                onPress: () => { },
-            },
+        Alert.alert("Invalid Form 🚨", "Please provide all required fields", [
             {
                 text: "Continue",
                 onPress: () => { },
             },
-            { defaultIndex: 1 },
         ]);
     };
 
