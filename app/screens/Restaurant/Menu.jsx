@@ -49,7 +49,7 @@ const Menu = () => {
                 scrollEnabled
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
-                    <View style={{ left: 12 }}>
+                    <View style={{ alignItems: 'center' }}>
                         <CategoryFoodComp item={item} onPress={() => navigation.navigate('food-nav', item)} />
                     </View>
                 )}
