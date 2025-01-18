@@ -1,14 +1,56 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import BackBtn from '../../components/BackBtn';
 import { COLORS, SIZES } from '../../constants/theme';
 import FoodAvailability from '../../components/Vendor/FoodAvailability';
+import Entypo from '@expo/vector-icons/Entypo';
+import DeleteButton from '../../components/DeleteButton';
+import baseUrl from '../../../assets/common/baseUrl';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const VendorFoodPage = () => {
+    const [loader, setLoader] = useState(false);
+    const [isValid, setIsValid] = useState(true);
     const route = useRoute();
     const item = route.params
     const navigation = useNavigation();
+
+    const consentForm = async () => {
+        Alert.alert('Warning ⚠️', 'Are you sure you want to delete this food item?', [
+            {
+                text: 'Cancel',
+                onPress: () => { },
+            },
+            {
+                text: 'OK',
+                onPress: () => deleteFood()
+            }
+        ]);
+    }
+
+    const deleteFood = async () => {
+        setLoader(true);
+        try {
+            const token = await AsyncStorage.getItem("token");
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${JSON.parse(token)}`,
+                }
+            }
+            await axios.delete(`${baseUrl}/api/foods/${item._id}`, config);
+            Alert.alert('Success ✅', 'Food item deleted successfully!', [
+                {
+                    text: 'OK',
+                    onPress: () => navigation.goBack()
+                }]);
+            setLoader(false);
+            setIsValid(false);
+        } catch (error) {
+            console.log(error.response.data.message);
+        }
+    }
 
     return (
         <View style={{ marginHorizontal: 20, marginTop: 30 }}>
@@ -24,9 +66,7 @@ const VendorFoodPage = () => {
             <Text style={styles.small}>{item.description}</Text>
             <Text style={styles.options}>Options</Text>
             <FoodAvailability availability={item.isAvailable} id={item._id} />
-            <TouchableOpacity onPress={() => { }}>
-                <Text>Delete Food item</Text>
-            </TouchableOpacity>
+            <DeleteButton title="D E L E T E   F O O D" loader={loader} isValid={isValid} onPress={() => consentForm()} />
         </View>
     )
 }
@@ -61,5 +101,14 @@ const styles = StyleSheet.create({
         fontFamily: "bold",
         fontSize: 18,
         marginTop: 35
+    },
+    icon: {
+        marginTop: 15
+    },
+    deleteBtn: {
+        fontSize: 16,
+        fontFamily: "regular",
+        marginTop: 15,
+        left: -50
     }
 })
