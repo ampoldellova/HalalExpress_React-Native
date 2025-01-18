@@ -42,9 +42,6 @@ const validationSchema = Yup.object().shape({
 const SignUp = ({ navigation }) => {
   const animation = useRef(null);
   const [loader, setLoader] = useState(false);
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const { location, setLocation } = useContext(UserLocationContext);
   const [obsecureText, setObsecureText] = useState(false);
   const { login, setLogin } = useContext(LoginContext)
 
@@ -138,7 +135,6 @@ const SignUp = ({ navigation }) => {
         >
           {({
             handleChange,
-            handleBlur,
             touched,
             handleSubmit,
             values,

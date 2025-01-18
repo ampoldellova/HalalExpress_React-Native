@@ -5,10 +5,10 @@ import { COLORS } from '../../constants/theme';
 import Entypo from '@expo/vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
 
-const AddFood = () => {
+const AddFood = ({ restaurantId }) => {
     const navigation = useNavigation();
     return (
-        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }} onPress={() => navigation.navigate('add-food-page')}>
+        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }} onPress={() => navigation.navigate('add-food-page', restaurantId)}>
             <AntDesign name="pluscircle" size={20} color={COLORS.gray} style={styles.icon} />
             <Text style={styles.text}>Add a food</Text>
             <Entypo name="chevron-thin-right" size={20} color={COLORS.gray} style={styles.icon} />

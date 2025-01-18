@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import BackBtn from '../../components/BackBtn';
@@ -24,6 +24,9 @@ const VendorFoodPage = () => {
             <Text style={styles.small}>{item.description}</Text>
             <Text style={styles.options}>Options</Text>
             <FoodAvailability availability={item.isAvailable} id={item._id} />
+            <TouchableOpacity onPress={() => { }}>
+                <Text>Delete Food item</Text>
+            </TouchableOpacity>
         </View>
     )
 }

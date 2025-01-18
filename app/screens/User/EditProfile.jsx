@@ -40,7 +40,6 @@ const EditProfile = ({ navigation, route }) => {
         try {
             setLoader(true);
             const token = await AsyncStorage.getItem("token");
-            console.log(image)
 
             const formData = new FormData();
             if (image.startsWith("file://")) {
@@ -75,7 +74,7 @@ const EditProfile = ({ navigation, route }) => {
     };
 
     return (
-        <View style={{ marginHorizontal: 20, marginTop: 50, backgroundColor: COLORS.offwhite }}>
+        <View style={{ marginHorizontal: 20, marginTop: 50 }}>
             <BackBtn onPress={() => navigation.goBack()} />
             <Formik
                 initialValues={{
@@ -207,6 +206,7 @@ const styles = StyleSheet.create({
         borderRadius: 75,
         borderWidth: 1,
         borderColor: COLORS.gray2,
+        marginTop: 30
     },
     wrapper: {
         marginBottom: 20,

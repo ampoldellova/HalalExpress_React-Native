@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const foodController = require('../controllers/foodController')
 const { verifyVendor } = require('../middleware/verifyToken')
+const upload = require('../utils/multer')
 
-router.post('/', verifyVendor, foodController.addFood)
+router.post('/', verifyVendor, upload.single('imageUrl'), foodController.addFood)
 router.get("/list", foodController.getAllFoods)
 router.post('/tags/:id', verifyVendor, foodController.addFoodTag)
 router.post('/type/:id', verifyVendor, foodController.addFoodType)

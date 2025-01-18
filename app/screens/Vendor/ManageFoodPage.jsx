@@ -53,7 +53,7 @@ const ManageFoodPage = () => {
                         data={foods}
                         showsHorizontalScrollIndicator={false}
                         scrollEnabled
-                        style={{ marginBottom: 60 }}
+                        style={{ marginBottom: 100 }}
                         renderItem={({ item }) => (
                             <ManageFoodCard item={item} onPress={() => { navigation.navigate('vendor-food-page', item) }} />
                         )} />

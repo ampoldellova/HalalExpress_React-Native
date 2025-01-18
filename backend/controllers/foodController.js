@@ -1,4 +1,5 @@
 const Food = require('../models/Foods')
+const imageFile = require('../utils/imageFile')
 
 module.exports = {
     getAllFoods: async (req, res) => {
@@ -13,6 +14,14 @@ module.exports = {
 
     addFood: async (req, res) => {
         try {
+            req.body.imageUrl = await imageFile.uploadSingle({
+                imageFile: req.file,
+                request: req,
+            });
+
+            req.body.foodTags = JSON.parse(req.body.foodTags);
+            req.body.additives = JSON.parse(req.body.additives);
+
             if (req.body.additives && Array.isArray(req.body.additives)) {
                 req.body.additives = req.body.additives.map(additive => ({
                     ...additive,

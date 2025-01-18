@@ -1,262 +1,491 @@
-import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { BackBtn, Button } from '../../components'
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { COLORS, SIZES } from '../../constants/theme';
 import { AntDesign, Entypo, Ionicons, MaterialIcons, FontAwesome6 } from '@expo/vector-icons';
 import { Dropdown, MultiSelect } from 'react-native-element-dropdown';
-
-const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-    { label: 'Item 5', value: '5' },
-    { label: 'Item 6', value: '6' },
-    { label: 'Item 7', value: '7' },
-    { label: 'Item 8', value: '8' },
-];
+import { Formik } from 'formik';
+import * as ImagePicker from 'expo-image-picker';
+import * as Yup from "yup";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import baseUrl from '../../../assets/common/baseUrl';
 
 const foodTags = [
-    { label: 'Chicken Shawarma', value: '1' },
-    { label: 'Beef Kebab', value: '2' },
-    { label: 'Lamb Biryani', value: '3' },
-    { label: 'Falafel', value: '4' },
-    { label: 'Hummus', value: '5' },
-    { label: 'Tabbouleh', value: '6' },
-    { label: 'Grilled Salmon', value: '7' },
-    { label: 'Vegetable Samosa', value: '8' },
-    { label: 'Chicken Tikka', value: '9' },
-    { label: 'Dates', value: '10' },
-    { label: 'Halal Pepperoni Pizza', value: '11' },
-    { label: 'Mango Lassi', value: '12' },
-    { label: 'Baklava', value: '13' },
-    { label: 'Shish Tawook', value: '14' },
-    { label: 'Halal Beef Burger', value: '15' },
-    { label: 'Dessert', value: '16' },
-    { label: 'Sweet', value: '17' },
-    { label: 'Cold', value: '18' },
-    { label: 'Ice Cream', value: '19' },
-    { label: 'Fruity', value: '20' },
-    { label: 'Burger', value: '21' },
-    { label: 'Savory', value: '22' },
-    { label: 'Beef', value: '23' },
-    { label: 'Cheesy', value: '24' },
-    { label: 'Pizza', value: '25' },
-    { label: 'Italian', value: '26' },
-    { label: 'Pasta', value: '27' },
-    { label: 'Chicken', value: '28' },
-    { label: 'Asian', value: '29' },
-    { label: 'Rice', value: '30' },
-    { label: 'Seafood', value: '31' },
-    { label: 'Spanish', value: '32' },
-    { label: 'Beverage', value: '33' },
-    { label: 'Smoothie', value: '34' },
-    { label: 'Curry', value: '35' },
-    { label: 'Indian', value: '36' },
-    { label: 'Spicy', value: '37' },
-    { label: 'Chocolate', value: '38' },
-    { label: 'Baked', value: '39' }
+    { label: 'Chicken Shawarma', value: 'Chicken Shawarma' },
+    { label: 'Beef Kebab', value: 'Beef Kebab' },
+    { label: 'Lamb Biryani', value: 'Lamb Biryani' },
+    { label: 'Falafel', value: 'Falafel' },
+    { label: 'Hummus', value: 'Hummus' },
+    { label: 'Tabbouleh', value: 'Tabbouleh' },
+    { label: 'Grilled Salmon', value: 'Grilled Salmon' },
+    { label: 'Vegetable Samosa', value: 'Vegetable Samosa' },
+    { label: 'Chicken Tikka', value: 'Chicken Tikka' },
+    { label: 'Dates', value: 'Dates' },
+    { label: 'Halal Pepperoni Pizza', value: 'Halal Pepperoni Pizza' },
+    { label: 'Mango Lassi', value: 'Mango Lassi' },
+    { label: 'Baklava', value: 'Baklava' },
+    { label: 'Shish Tawook', value: 'Shish Tawook' },
+    { label: 'Halal Beef Burger', value: 'Halal Beef Burger' },
+    { label: 'Dessert', value: 'Dessert' },
+    { label: 'Sweet', value: 'Sweet' },
+    { label: 'Cold', value: 'Cold' },
+    { label: 'Ice Cream', value: 'Ice Cream' },
+    { label: 'Fruity', value: 'Fruity' },
+    { label: 'Burger', value: 'Burger' },
+    { label: 'Savory', value: 'Savory' },
+    { label: 'Beef', value: 'Beef' },
+    { label: 'Cheesy', value: 'Cheesy' },
+    { label: 'Pizza', value: 'Pizza' },
+    { label: 'Italian', value: 'Italian' },
+    { label: 'Pasta', value: 'Pasta' },
+    { label: 'Chicken', value: 'Chicken' },
+    { label: 'Asian', value: 'Asian' },
+    { label: 'Rice', value: 'Rice' },
+    { label: 'Seafood', value: 'Seafood' },
+    { label: 'Spanish', value: 'Spanish' },
+    { label: 'Beverage', value: 'Beverage' },
+    { label: 'Smoothie', value: 'Smoothie' },
+    { label: 'Curry', value: 'Curry' },
+    { label: 'Indian', value: 'Indian' },
+    { label: 'Spicy', value: 'Spicy' },
+    { label: 'Chocolate', value: 'Chocolate' },
+    { label: 'Baked', value: 'Baked' }
 ];
+
+const validationSchema = Yup.object().shape({
+    title: Yup.string()
+        .required('Food Name is required'),
+    foodTags: Yup.array()
+        .min(1, 'At least one food tag is required')
+        .required('Food tags are required'),
+    category: Yup.string()
+        .required('Food Category is required'),
+    code: Yup.string()
+        .required('Food Code is required'),
+    restaurant: Yup.string()
+        .required('Restaurant is required'),
+    description: Yup.string()
+        .required('Food Description is required'),
+    price: Yup.number().
+        required('Price is required'),
+    additives: Yup.array()
+        .of(
+            Yup.object().shape({
+                id: Yup.number().required('Additive ID is required'),
+                title: Yup.string().required('Additive name is required'),
+                price: Yup.number().required('Price is required'),
+            })
+        )
+        .optional(),
+    imageUrl: Yup.string()
+        .required('Food Picture is required'),
+});
 
 
 const AddFoodPage = () => {
+    const route = useRoute();
+    const restaurantId = route.params;
     const navigation = useNavigation();
-    const [value, setValue] = useState(null);
-    const [isFocus, setIsFocus] = useState(false);
-    const [selected, setSelected] = useState([]);
+    const [loader, setLoader] = useState(false);
+    const [image, setImage] = useState('');
+    const [categories, setCategories] = useState([]);
+
+    const addFoodForm = async (values) => {
+        setLoader(true);
+        try {
+            const token = await AsyncStorage.getItem("token");
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${JSON.parse(token)}`,
+                },
+            }
+
+            const formData = new FormData();
+            if (image.startsWith("file://")) {
+                const filename = image.split('/').pop();
+                const fileType = filename.split('.').pop();
+                formData.append('imageUrl', {
+                    uri: image,
+                    name: filename,
+                    type: `image/${fileType}`,
+                });
+            }
+
+            formData.append('title', values.title);
+            formData.append('foodTags', JSON.stringify(values.foodTags));
+            formData.append('category', values.category);
+            formData.append('code', values.code);
+            formData.append('restaurant', values.restaurant);
+            formData.append('description', values.description);
+            formData.append('price', values.price);
+            formData.append('additives', JSON.stringify(values.additives));
+
+            await axios.post(`${baseUrl}/api/foods/`, formData, config)
+            setLoader(false);
+            Alert.alert(
+                "Food Added",
+                "Food has been added to your menu",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => navigation.navigate('manage-food-page', restaurantId),
+                    },
+                ]
+            );
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const inValidForm = () => {
+        Alert.alert("Invalid Form", "Please provide all required fields", [
+            {
+                text: "Cancel",
+                onPress: () => { },
+            },
+            {
+                text: "Continue",
+                onPress: () => { },
+            },
+            { defaultIndex: 1 },
+        ]);
+    };
+
+
+    const pickImage = async (setFieldValue) => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1,
+        });
+        if (!result.cancelled) {
+            setFieldValue('imageUrl', result.assets[0].uri);
+            setImage(result.assets[0].uri);
+        }
+    };
+
+    const getCategories = async () => {
+        try {
+            const response = await axios.get(`${baseUrl}/api/category`);
+            setCategories(response.data);
+            console.log(categories)
+        } catch (error) {
+            console.log("Error fetching categories:", error);
+        }
+    };
+
+
+    useFocusEffect(
+        React.useCallback(() => {
+            getCategories();
+        }, [])
+    );
 
     return (
         <ScrollView style={{ marginTop: 30 }}>
             <View style={{ marginHorizontal: 20 }}>
                 <BackBtn onPress={() => navigation.goBack()} />
                 <Text style={styles.heading}>Add a Food</Text>
-                <Text style={styles.text}>Food Picture</Text>
-                <View style={{ position: 'relative' }}>
-                    <Image source={require('../../../assets/images/rating_bk.jpg')} style={styles.image} />
-                    <TouchableOpacity style={styles.imageUpload}>
-                        <Entypo name="camera" size={24} color='white' />
-                        <Text style={{ color: 'white', fontFamily: 'regular' }}>Upload a photo</Text>
-                    </TouchableOpacity>
-                </View>
+                <Formik
+                    initialValues={{
+                        title: '',
+                        foodTags: [],
+                        category: '',
+                        code: '',
+                        restaurant: restaurantId,
+                        description: '',
+                        price: '',
+                        additives: [{
+                            id: '1',
+                            title: '',
+                            price: '',
+                        }],
+                        imageUrl: '',
+                    }}
+                    validationSchema={validationSchema}
+                    onSubmit={(values) => addFoodForm(values)}
+                >
+                    {({
+                        handleChange,
+                        handleBlur,
+                        touched,
+                        handleSubmit,
+                        values,
+                        errors,
+                        isValid,
+                        setFieldTouched,
+                        setFieldValue
+                    }) => (
+                        <View>
+                            <Text style={styles.text}>Food Picture</Text>
+                            <View style={{ position: 'relative' }}>
+                                <Image
+                                    source={image ? { uri: image } : require('../../../assets/images/rating_bk.jpg')}
+                                    style={styles.image(touched.imageUrl ? COLORS.secondary : COLORS.offwhite)}
+                                />
+                                <TouchableOpacity
+                                    style={styles.imageUpload}
+                                    onFocus={() => { setFieldTouched('imageUrl') }}
+                                    onBlur={() => { setFieldTouched('imageUrl', '') }}
+                                    onPress={() => pickImage(setFieldValue)}
+                                >
+                                    <Entypo
+                                        color='white'
+                                        name="camera"
+                                        size={24}
+                                    />
+                                    <Text style={{ color: 'white', fontFamily: 'regular' }}>Upload a photo</Text>
+                                </TouchableOpacity>
+                            </View>
+                            {touched.imageUrl && errors.imageUrl && (
+                                <Text style={styles.errorMessage}>{errors.imageUrl}</Text>
+                            )}
 
-                <Text style={styles.text}>Food Details</Text>
-                <View style={styles.wrapper}>
-                    <Text style={styles.label}>Food Name</Text>
-                    <View style={styles.inputWrapper(COLORS.primary)}>
-                        <Ionicons name="restaurant" size={20} color={COLORS.gray} style={styles.iconStyle} />
-                        <TextInput style={{ flex: 1 }} placeholder="Enter food name" placeholderTextColor={COLORS.gray}
-                        // onChangeText={handleChange('phone')}
-                        // onBlur={handleBlur('phone')}
-                        // value={values.phone}
-                        // keyboardType="phone-pad"
-                        />
-                    </View>
-                    {/* {touched.phone && errors.phone && (
-                    <Text style={styles.errorMessage}>{errors.phone}</Text>
-                )} */}
-                </View>
+                            <Text style={styles.text}>Food Details</Text>
+                            <View style={styles.wrapper}>
+                                <Text style={styles.label}>Food Name</Text>
+                                <View style={styles.inputWrapper(touched.title ? COLORS.secondary : COLORS.offwhite)}>
+                                    <Ionicons
+                                        style={styles.iconStyle}
+                                        color={COLORS.gray}
+                                        name="restaurant"
+                                        size={20}
+                                    />
+                                    <TextInput
+                                        style={{ flex: 1 }}
+                                        placeholderTextColor={COLORS.gray}
+                                        placeholder="Enter food name"
+                                        onChangeText={handleChange('title')}
+                                        onFocus={() => { setFieldTouched('title') }}
+                                        onBlur={() => { setFieldTouched('title', '') }}
+                                        value={values.title}
+                                    />
+                                </View>
+                                {touched.title && errors.title && (
+                                    <Text style={styles.errorMessage}>{errors.title}</Text>
+                                )}
+                            </View>
 
-                <View style={styles.wrapper}>
-                    <Text style={styles.label}>Food Description</Text>
-                    <View style={[styles.inputWrapper(COLORS.primary), { height: 100, alignItems: 'flex-start' }]}>
-                        <MaterialIcons name="description" size={20} color={COLORS.gray} style={[styles.iconStyle, { marginTop: 15 }]} />
-                        <TextInput
-                            style={{ flex: 1, marginVertical: 7 }}
-                            multiline
-                            numberOfLines={5}
-                            placeholder="Enter food description"
-                            placeholderTextColor={COLORS.gray}
-                        // onChangeText={handleChange('phone')}
-                        // onBlur={handleBlur('phone')}
-                        // value={values.phone}
-                        // keyboardType="phone-pad"
-                        />
-                    </View>
+                            <View style={styles.wrapper}>
+                                <Text style={styles.label}>Food Description</Text>
+                                <View style={[styles.inputWrapper(touched.description ? COLORS.secondary : COLORS.offwhite), { height: 100, alignItems: 'flex-start' }]}>
+                                    <MaterialIcons name="description" size={20} color={COLORS.gray} style={[styles.iconStyle, { marginTop: 15 }]} />
+                                    <TextInput
+                                        style={{ flex: 1, marginVertical: 7 }}
+                                        placeholderTextColor={COLORS.gray}
+                                        placeholder="Enter food description"
+                                        onChangeText={handleChange('description')}
+                                        onFocus={() => { setFieldTouched('description') }}
+                                        onBlur={() => { setFieldTouched('description', '') }}
+                                        value={values.description}
+                                        numberOfLines={5}
+                                        multiline
+                                    />
+                                </View>
+                                {touched.description && errors.description && (
+                                    <Text style={styles.errorMessage}>{errors.description}</Text>
+                                )}
+                            </View>
 
-                    {/* {touched.phone && errors.phone && (
-                    <Text style={styles.errorMessage}>{errors.phone}</Text>
-                )} */}
-                </View>
+                            <View style={styles.wrapper}>
+                                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                    <Text style={styles.label}>Select Food Tags</Text>
+                                    {touched.foodTags && errors.foodTags && (
+                                        <Text style={styles.errorMessage}>{errors.foodTags}</Text>
+                                    )}
+                                </View>
+                                <MultiSelect
+                                    data={foodTags}
+                                    style={styles.inputWrapper(touched.foodTags ? COLORS.secondary : COLORS.offwhite)}
+                                    selectedTextStyle={[
+                                        styles.selectedTextStyle,
+                                        {
+                                            fontFamily: 'regular',
+                                            color: COLORS.white
+                                        }
+                                    ]}
+                                    placeholderStyle={styles.placeholderStyle}
+                                    inputSearchStyle={styles.inputSearchStyle}
+                                    selectedStyle={styles.selectedStyle}
+                                    placeholder="Select Food tags"
+                                    searchPlaceholder="Search..."
+                                    labelField="label"
+                                    valueField="value"
+                                    maxHeight={200}
+                                    onChange={item => { setFieldValue('foodTags', item) }}
+                                    onFocus={() => { setFieldTouched('foodTags') }}
+                                    onBlur={() => { setFieldTouched('foodTags', '') }}
+                                    value={values.foodTags}
+                                    search
+                                    renderLeftIcon={() => (
+                                        <AntDesign
+                                            style={styles.iconStyle}
+                                            color={COLORS.gray}
+                                            name="tags"
+                                            size={20}
+                                        />
+                                    )}
+                                />
+                            </View>
 
-                <View style={styles.wrapper}>
-                    <Text style={styles.label}>Select Food Tags</Text>
-                    <MultiSelect
-                        style={styles.inputWrapper(COLORS.primary)}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        inputSearchStyle={styles.inputSearchStyle}
-                        iconStyle={styles.iconStyle}
-                        searchPlaceholder='Search...'
-                        search
-                        data={foodTags}
-                        labelField="label"
-                        valueField="value"
-                        placeholder="Select Food tags"
-                        value={selected}
-                        onChange={item => {
-                            setSelected(item);
-                        }}
-                        renderLeftIcon={() => (
-                            <AntDesign
-                                style={styles.iconStyle}
-                                color={COLORS.gray}
-                                name="tags"
-                                size={20}
-                            />
-                        )}
-                        selectedStyle={styles.selectedStyle}
-                    />
-                </View>
 
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <View style={[styles.wrapper, { width: SIZES.width - 160 }]}>
-                        <Text style={styles.label}>Additives</Text>
-                        <View style={styles.inputWrapper(COLORS.primary)}>
-                            <Ionicons name="restaurant" size={20} color={COLORS.gray} style={styles.iconStyle} />
-                            <TextInput style={{ flex: 1 }} placeholder="Enter additive name" placeholderTextColor={COLORS.gray}
-                            // onChangeText={handleChange('phone')}
-                            // onBlur={handleBlur('phone')}
-                            // value={values.phone}
-                            // keyboardType="phone-pad"
+                            {values.additives.map((additive, index) => (
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} key={index}>
+                                    <View style={[styles.wrapper, { width: SIZES.width - 160 }]}>
+                                        <Text style={styles.label}>Additives</Text>
+                                        <View style={styles.inputWrapper(touched.additives?.[index]?.title ? COLORS.secondary : COLORS.offwhite)}>
+                                            <Ionicons
+                                                style={styles.iconStyle}
+                                                color={COLORS.gray}
+                                                name="restaurant"
+                                                size={20}
+                                            />
+                                            <TextInput
+                                                style={{ flex: 1 }}
+                                                placeholderTextColor={COLORS.gray}
+                                                placeholder="Enter additive name"
+                                                onChangeText={text => {
+                                                    const newAdditives = [...values.additives];
+                                                    newAdditives[index].title = text;
+                                                    setFieldValue('additives', newAdditives);
+                                                }}
+                                                onFocus={() => setFieldTouched(`additives.${index}.title`)}
+                                                onBlur={() => setFieldTouched(`additives.${index}.title`, '')}
+                                                value={additive.title}
+                                            />
+                                        </View>
+                                        {touched.additives?.[index]?.title && errors.additives?.[index]?.title && (
+                                            <Text style={styles.errorMessage}>{errors.additives[index].title}</Text>
+                                        )}
+                                    </View>
+                                    <View style={[styles.wrapper, { width: SIZES.width - 250 }]}>
+                                        <Text style={styles.label}>Price</Text>
+                                        <View style={styles.inputWrapper(touched.additives?.[index]?.price ? COLORS.secondary : COLORS.offwhite)}>
+                                            <FontAwesome6
+                                                style={styles.iconStyle}
+                                                color={COLORS.gray}
+                                                name="peso-sign"
+                                                size={20}
+                                            />
+                                            <TextInput
+                                                style={{ flex: 1 }}
+                                                keyboardType='number-pad'
+                                                placeholderTextColor={COLORS.gray}
+                                                placeholder="Price"
+                                                onChangeText={text => {
+                                                    const newAdditives = [...values.additives];
+                                                    newAdditives[index].price = text;
+                                                    setFieldValue('additives', newAdditives);
+                                                }}
+                                                onFocus={() => setFieldTouched(`additives.${index}.price`)}
+                                                onBlur={() => setFieldTouched(`additives.${index}.price`, '')}
+                                                value={additive.price}
+                                            />
+                                        </View>
+                                        {touched.additives?.[index]?.price && errors.additives?.[index]?.price && (
+                                            <Text style={styles.errorMessage}>{errors.additives[index].price}</Text>
+                                        )}
+                                    </View>
+                                </View>
+                            ))}
+
+                            <View style={styles.wrapper}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Text style={styles.label}>Food Category</Text>
+                                    {touched.category && errors.category && (
+                                        <Text style={styles.errorMessage}>{errors.category}</Text>
+                                    )}
+                                </View>
+                                <Dropdown
+                                    data={categories}
+                                    style={styles.inputWrapper(touched.category ? COLORS.secondary : COLORS.offwhite)}
+                                    selectedTextStyle={styles.selectedTextStyle}
+                                    placeholderStyle={styles.placeholderStyle}
+                                    inputSearchStyle={styles.inputSearchStyle}
+                                    iconStyle={styles.iconStyle}
+                                    placeholder={'Select Food Category'}
+                                    searchPlaceholder="Search..."
+                                    labelField="title"
+                                    valueField="_id"
+                                    maxHeight={150}
+                                    onChange={item => { setFieldValue('category', item._id) }}
+                                    onFocus={() => setFieldTouched('category')}
+                                    onBlur={() => setFieldTouched('category', '')}
+                                    value={values.category}
+                                    renderLeftIcon={() => (
+                                        <MaterialIcons
+                                            style={styles.iconStyle}
+                                            color={COLORS.gray}
+                                            name="category"
+                                            size={20}
+                                        />
+                                    )}
+                                />
+                            </View>
+
+                            <View style={styles.wrapper}>
+                                <Text style={styles.label}>Food Code</Text>
+                                <View style={styles.inputWrapper(touched.code ? COLORS.secondary : COLORS.offwhite)}>
+                                    <Entypo
+                                        style={styles.iconStyle}
+                                        color={COLORS.gray}
+                                        name="code"
+                                        size={20}
+                                    />
+                                    <TextInput
+                                        style={{ flex: 1 }}
+                                        placeholderTextColor={COLORS.gray}
+                                        placeholder="Enter food code"
+                                        onBlur={() => setFieldTouched('code', '')}
+                                        onFocus={() => setFieldTouched('code')}
+                                        onChangeText={handleChange('code')}
+                                        value={values.code}
+                                    />
+                                </View>
+                                {touched.code && errors.code && (
+                                    <Text style={styles.errorMessage}>{errors.code}</Text>
+                                )}
+                            </View>
+
+                            <View style={styles.wrapper}>
+                                <Text style={styles.label}>Food Price</Text>
+                                <View style={styles.inputWrapper(touched.price ? COLORS.secondary : COLORS.offwhite)}>
+                                    <FontAwesome6
+                                        style={styles.iconStyle}
+                                        color={COLORS.gray}
+                                        name="peso-sign"
+                                        size={20}
+                                    />
+                                    <TextInput
+                                        style={{ flex: 1 }}
+                                        placeholderTextColor={COLORS.gray}
+                                        placeholder="Enter food price"
+                                        onChangeText={handleChange('price')}
+                                        onBlur={() => setFieldTouched('price', '')}
+                                        onFocus={() => setFieldTouched('price')}
+                                        keyboardType="phone-pad"
+                                        value={values.phone}
+                                    />
+                                </View>
+                                {touched.price && errors.price && (
+                                    <Text style={styles.errorMessage}>{errors.price}</Text>
+                                )}
+                            </View>
+
+                            <Button
+                                loader={loader}
+                                title={"S U B M I T"}
+                                onPress={isValid ? handleSubmit : inValidForm}
+                                isValid={isValid}
                             />
                         </View>
-                        {/* {touched.phone && errors.phone && (
-                    <Text style={styles.errorMessage}>{errors.phone}</Text>
-                )} */}
-                    </View>
-                    <View style={[styles.wrapper, { width: SIZES.width - 250 }]}>
-                        <Text style={styles.label}>Price</Text>
-                        <View style={styles.inputWrapper(COLORS.primary)}>
-                            <FontAwesome6 name="peso-sign" size={20} color={COLORS.gray} style={styles.iconStyle} />
-                            <TextInput style={{ flex: 1 }} placeholder="Price" placeholderTextColor={COLORS.gray}
-                            // onChangeText={handleChange('phone')}
-                            // onBlur={handleBlur('phone')}
-                            // value={values.phone}
-                            // keyboardType="phone-pad"
-                            />
-                        </View>
-                        {/* {touched.phone && errors.phone && (
-                    <Text style={styles.errorMessage}>{errors.phone}</Text>
-                )} */}
-                    </View>
-                </View>
-
-                <View style={styles.wrapper}>
-                    <Text style={styles.label}>Food Category</Text>
-                    <Dropdown
-                        style={styles.inputWrapper(COLORS.primary)}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        inputSearchStyle={styles.inputSearchStyle}
-                        iconStyle={styles.iconStyle}
-                        data={data}
-                        maxHeight={300}
-                        labelField="label"
-                        valueField="value"
-                        placeholder={'Select Food Category'}
-                        searchPlaceholder="Search..."
-                        value={value}
-                        onFocus={() => setIsFocus(true)}
-                        onBlur={() => setIsFocus(false)}
-                        onChange={item => {
-                            setValue(item.value);
-                            setIsFocus(false);
-                        }}
-                        renderLeftIcon={() => (
-                            <MaterialIcons
-                                style={styles.iconStyle}
-                                color={COLORS.gray}
-                                name="category"
-                                size={20}
-                            />
-                        )}
-                    />
-                    {/* </View> */}
-
-                    {/* {touched.phone && errors.phone && (
-                    <Text style={styles.errorMessage}>{errors.phone}</Text>
-                )} */}
-                </View>
-
-                <View style={styles.wrapper}>
-                    <Text style={styles.label}>Food Code</Text>
-                    <View style={styles.inputWrapper(COLORS.primary)}>
-                        <Entypo name="code" size={20} color={COLORS.gray} style={styles.iconStyle} />
-                        <TextInput style={{ flex: 1 }} placeholder="Enter food code" placeholderTextColor={COLORS.gray}
-                        // onChangeText={handleChange('phone')}
-                        // onBlur={handleBlur('phone')}
-                        // value={values.phone}
-                        // keyboardType="phone-pad"
-                        />
-                    </View>
-                    {/* {touched.phone && errors.phone && (
-                    <Text style={styles.errorMessage}>{errors.phone}</Text>
-                )} */}
-                </View>
-
-                <View style={styles.wrapper}>
-                    <Text style={styles.label}>Food Price</Text>
-                    <View style={styles.inputWrapper(COLORS.primary)}>
-                        <FontAwesome6 name="peso-sign" size={20} color={COLORS.gray} style={styles.iconStyle} />
-                        <TextInput style={{ flex: 1 }} placeholder="Enter food price" placeholderTextColor={COLORS.gray}
-                        // onChangeText={handleChange('phone')}
-                        // onBlur={handleBlur('phone')}
-                        // value={values.phone}
-                        // keyboardType="phone-pad"
-                        />
-                    </View>
-                    {/* {touched.phone && errors.phone && (
-                    <Text style={styles.errorMessage}>{errors.phone}</Text>
-                )} */}
-                </View>
-
-                <Button
-                    // loader={loader}
-                    title={"S U B M I T"}
-                // onPress={isValid ? handleSubmit : inValidForm}
-                // isValid={isValid}
-                />
+                    )}
+                </Formik>
             </View>
         </ScrollView >
     )
@@ -276,11 +505,13 @@ const styles = StyleSheet.create({
         fontSize: 24,
         marginTop: 20
     },
-    image: {
+    image: (borderColor) => ({
         height: 150,
         width: SIZES.width - 38,
-        borderRadius: 15
-    },
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: borderColor
+    }),
     imageUpload: {
         position: 'absolute',
         bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -332,6 +563,7 @@ const styles = StyleSheet.create({
         marginLeft: 5
     },
     selectedTextStyle: {
+        marginLeft: 5,
         fontSize: 14,
     },
     iconStyle: {
@@ -345,7 +577,6 @@ const styles = StyleSheet.create({
     },
     selectedStyle: {
         borderRadius: 12,
-        borderColor: COLORS.primary,
-        borderWidth: 1
+        backgroundColor: COLORS.primary,
     }
 })

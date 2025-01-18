@@ -22,8 +22,7 @@ const foodSchema = new mongoose.Schema({
     },
     isAvailable: {
         type: Boolean,
-        required: true,
-        default: true
+        default: false
     },
     restaurant: {
         type: mongoose.Schema.Types.ObjectId,
@@ -33,12 +32,13 @@ const foodSchema = new mongoose.Schema({
     },
     rating: {
         type: Number,
-        min: 1,
+        min: 0,
         max: 5,
-        default: 5
+        default: 0
     },
     ratingCount: {
-        type: String
+        type: String,
+        default: 0
     },
     description: {
         type: String,
@@ -65,11 +65,11 @@ const foodSchema = new mongoose.Schema({
     imageUrl: {
         public_id: {
             type: String,
-            default: 'HalalExpress/Profile/profile_nsvdbb'
+            required: true
         },
         url: {
             type: String,
-            default: 'https://res.cloudinary.com/dwkmutbz3/image/upload/v1736011952/HalalExpress/Profile/profile_nsvdbb.png'
+            required: true
         },
     },
 });

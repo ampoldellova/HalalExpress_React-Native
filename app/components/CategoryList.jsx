@@ -10,13 +10,11 @@ import baseUrl from '../../assets/common/baseUrl'
 const CategoryList = ({ setSelectedCategory, setSelectedSection, setSelectedValue }) => {
     const [categories, setCategories] = useState([]);
     const [selected, setSelected] = useState(null)
-    // const categories = [1, 2, 3, 4, 5];
 
     const getCategories = async () => {
         try {
             const response = await axios.get(`${baseUrl}/api/category`);
             setCategories(response.data);
-            // console.log(response.data)
         } catch (error) {
             console.log("Error fetching restaurants:", error);
         }

@@ -45,7 +45,7 @@ const UserRestaurantPage = () => {
             <Text style={styles.options}>Options</Text>
             <ServiceAvailability availability={item.isAvailable} id={item._id} />
             <ManageFood restaurantId={item._id} />
-            <AddFood />
+            <AddFood restaurantId={item._id} />
         </View >
     )
 }
