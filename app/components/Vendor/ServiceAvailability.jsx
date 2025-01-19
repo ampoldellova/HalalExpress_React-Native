@@ -26,7 +26,7 @@ const ServiceAvailability = ({ availability, id }) => {
                 };
                 const response = await axios.patch(`${baseUrl}/api/restaurant/${id}`, {}, config);
                 setIsAvailable(response.data.isAvailable);
-                Alert.alert('Success', response.data.message);
+                Alert.alert('Success ✅', response.data.message);
             } else {
                 console.log("Authentication token not found");
             }

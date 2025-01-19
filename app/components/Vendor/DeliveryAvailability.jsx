@@ -1,9 +1,38 @@
-import { StyleSheet, Switch, Text, View } from 'react-native'
-import React from 'react'
+import { Alert, StyleSheet, Switch, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { COLORS, SIZES } from '../../constants/theme'
 import { MaterialIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import baseUrl from '../../../assets/common/baseUrl';
 
-const DeliveryAvailability = () => {
+const DeliveryAvailability = ({ availability, id }) => {
+    const [isAvailable, setIsAvailable] = useState(false);
+
+    useEffect(() => {
+        setIsAvailable(availability);
+    }, [availability]);
+
+
+    const toggleAvailability = async () => {
+        try {
+            const token = await AsyncStorage.getItem("token");
+            if (token) {
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${JSON.parse(token)}`,
+                    },
+                };
+                const response = await axios.patch(`${baseUrl}/api/restaurant/delivery/${id}`, {}, config);
+                setIsAvailable(response.data.isAvailable);
+                Alert.alert('Success ✅', response.data.message);
+            } else {
+                console.log("Authentication token not found");
+            }
+        } catch (error) {
+            Alert.alert('Error', error.response?.data?.message || 'Unable to toggle availability.');
+        }
+    };
     return (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: SIZES.width - 38 }}>
             <View style={{ flexDirection: 'column' }}>
@@ -11,10 +40,10 @@ const DeliveryAvailability = () => {
             </View>
             <Text style={styles.isAvailable}>Delivery Availability</Text>
             <Switch
-            // value={isAvailable}
-            // onValueChange={toggleAvailability}
-            // trackColor={{ false: COLORS.red, true: COLORS.primary }}
-            // thumbColor={isAvailable ? COLORS.primary : COLORS.red}
+                value={isAvailable}
+                onValueChange={toggleAvailability}
+                trackColor={{ false: COLORS.red, true: COLORS.primary }}
+                thumbColor={isAvailable ? COLORS.primary : COLORS.red}
             />
         </View>
     )
