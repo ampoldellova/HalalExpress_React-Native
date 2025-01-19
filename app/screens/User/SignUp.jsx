@@ -8,15 +8,13 @@ import {
   Alert,
 } from "react-native";
 import React, { useState, useRef, useContext } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import styles from "../login.style";
+import styles from "../../styles/login.style";
 import LottieView from "lottie-react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../../constants/theme";
 import { BackBtn, Button } from "../../components";
-import { UserLocationContext } from "../../context/UserLocationContext";
 import baseUrl from "../../../assets/common/baseUrl";
 import { LoginContext } from "../../context/LoginContext";
 import axios from "axios";

@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS, SIZES } from "../../constants/theme";
 import { Feather } from '@expo/vector-icons';
-import styles from "../search.style";
+import styles from "../../styles/search.style";
 import LottieView from "lottie-react-native";
 import baseUrl from "../../../assets/common/baseUrl";
 import axios from "axios";

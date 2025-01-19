@@ -13,7 +13,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../../constants/theme";
-import styles from "../login.style";
+import styles from "../../styles/login.style";
 import LottieView from "lottie-react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -21,8 +21,7 @@ import { LoginContext } from "../../context/LoginContext";
 import baseUrl from "../../../assets/common/baseUrl";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../../redux/UserReducer";
-import { useNavigation } from "@react-navigation/native";
-import pages from "../page.style";
+import pages from "../../styles/page.style";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import pages from '../page.style'
+import pages from '../../styles/page.style'
 import axios from 'axios'
 import { useFocusEffect } from '@react-navigation/native'
 import baseUrl from '../../../assets/common/baseUrl'

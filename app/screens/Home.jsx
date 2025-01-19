@@ -1,19 +1,14 @@
 import { RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { COLORS, SIZES } from "../constants/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
-import pages from './page.style'
-import uidata from "../constants/uidata";
+import pages from '../styles/page.style'
 import HomeHeader from "../components/HomeHeader";
 import CategoryList from "../components/CategoryList";
-import ChoicesList from "../components/ChoicesList";
 import Heading from "../components/Heading";
 import NearbyRestaurants from "../components/NearbyRestaurants";
 import Divider from "../components/Divider";
 import NewFoodList from "../components/NewFoodList";
-import FastestNearYou from "../components/FastestNearYou";
 import HomeCategories from "../components/HomeCategories";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import baseUrl from "../../assets/common/baseUrl";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
