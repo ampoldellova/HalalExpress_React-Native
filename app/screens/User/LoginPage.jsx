@@ -175,7 +175,7 @@ const LoginPage = ({ navigation }) => {
                       onChangeText={handleChange("email")}
                       autoCapitalize="none"
                       autoCorrect={false}
-                      style={{ flex: 1 }}
+                      style={styles.textInput}
                     />
                   </View>
                   {touched.email && errors.email && (
@@ -210,7 +210,7 @@ const LoginPage = ({ navigation }) => {
                       onChangeText={handleChange("password")}
                       autoCapitalize="none"
                       autoCorrect={false}
-                      style={{ flex: 1 }}
+                      style={styles.textInput}
                     />
 
                     <TouchableOpacity

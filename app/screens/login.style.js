@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
       marginBottom: SIZES.xxLarge
 
    },
-
    titleLogin: {
       marginVertical: 20,
       marginHorizontal: 60,
@@ -18,10 +17,14 @@ const styles = StyleSheet.create({
       fontSize: 35,
       color: COLORS.primary,
    },
-
    wrapper: {
       marginBottom: 20,
    },
+   textInput: {
+      flex: 1,
+      fontFamily: 'regular',
+      marginTop: 2
+  },
    label: {
       fontFamily: "regular",
       fontSize: SIZES.xSmall,

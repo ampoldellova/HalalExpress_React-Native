@@ -251,7 +251,7 @@ const AddFoodPage = () => {
                                         size={20}
                                     />
                                     <TextInput
-                                        style={{ flex: 1 }}
+                                        style={styles.textInput}
                                         placeholderTextColor={COLORS.gray}
                                         placeholder="Enter food name"
                                         onChangeText={handleChange('title')}
@@ -270,7 +270,7 @@ const AddFoodPage = () => {
                                 <View style={[styles.inputWrapper(touched.description ? COLORS.secondary : COLORS.offwhite), { height: 100, alignItems: 'flex-start' }]}>
                                     <MaterialIcons name="description" size={20} color={COLORS.gray} style={[styles.iconStyle, { marginTop: 15 }]} />
                                     <TextInput
-                                        style={{ flex: 1, marginVertical: 7 }}
+                                        style={[styles.textInput, { marginVertical: 5 }]}
                                         placeholderTextColor={COLORS.gray}
                                         placeholder="Enter food description"
                                         onChangeText={handleChange('description')}
@@ -287,8 +287,8 @@ const AddFoodPage = () => {
                             </View>
 
                             <View style={styles.wrapper}>
+                                <Text style={styles.label}>Food Tags</Text>
                                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                    <Text style={styles.label}>Select Food Tags</Text>
                                     {touched.foodTags && errors.foodTags && (
                                         <Text style={styles.errorMessage}>{errors.foodTags}</Text>
                                     )}
@@ -328,8 +328,8 @@ const AddFoodPage = () => {
                             </View>
 
                             <View style={styles.wrapper}>
+                                <Text style={styles.label}>Food Category</Text>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Text style={styles.label}>Food Category</Text>
                                     {touched.category && errors.category && (
                                         <Text style={styles.errorMessage}>{errors.category}</Text>
                                     )}
@@ -371,7 +371,7 @@ const AddFoodPage = () => {
                                         size={20}
                                     />
                                     <TextInput
-                                        style={{ flex: 1 }}
+                                        style={styles.textInput}
                                         placeholderTextColor={COLORS.gray}
                                         placeholder="Enter food code"
                                         onBlur={() => setFieldTouched('code', '')}
@@ -395,7 +395,7 @@ const AddFoodPage = () => {
                                         size={20}
                                     />
                                     <TextInput
-                                        style={{ flex: 1 }}
+                                        style={styles.textInput}
                                         placeholderTextColor={COLORS.gray}
                                         placeholder="Enter food price"
                                         onChangeText={handleChange('price')}
@@ -424,7 +424,7 @@ const AddFoodPage = () => {
                                                     size={20}
                                                 />
                                                 <TextInput
-                                                    style={{ flex: 1 }}
+                                                    style={styles.textInput}
                                                     placeholderTextColor={COLORS.gray}
                                                     placeholder="Additive name"
                                                     onChangeText={text => {
@@ -451,7 +451,7 @@ const AddFoodPage = () => {
                                                     size={20}
                                                 />
                                                 <TextInput
-                                                    style={{ flex: 1 }}
+                                                    style={styles.textInput}
                                                     keyboardType='number-pad'
                                                     placeholderTextColor={COLORS.gray}
                                                     placeholder="Price"
@@ -522,6 +522,11 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginTop: 20
     },
+    textInput: {
+        flex: 1,
+        fontFamily: 'regular',
+        marginTop: 2
+    },
     image: (borderColor) => ({
         height: 150,
         width: SIZES.width - 38,
@@ -548,6 +553,7 @@ const styles = StyleSheet.create({
         fontSize: SIZES.xSmall,
         marginBottom: 5,
         marginEnd: 5,
+        textAlign: 'right'
     },
     btnStyle: {
         height: 50,
@@ -591,7 +597,8 @@ const styles = StyleSheet.create({
     placeholderStyle: {
         fontSize: 14,
         color: COLORS.gray,
-        marginLeft: 5
+        marginLeft: 5,
+        fontFamily: 'regular',
     },
     selectedTextStyle: {
         marginLeft: 5,

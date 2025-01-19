@@ -169,7 +169,7 @@ const SignUp = ({ navigation }) => {
                     onChangeText={handleChange("username")}
                     autoCapitalize="none"
                     autoCorrect={false}
-                    style={{ flex: 1 }}
+                    style={styles.textInput}
                   />
                 </View>
                 {touched.username && errors.username && (
@@ -203,7 +203,7 @@ const SignUp = ({ navigation }) => {
                     onChangeText={handleChange("email")}
                     autoCapitalize="none"
                     autoCorrect={false}
-                    style={{ flex: 1 }}
+                    style={styles.textInput}
                   />
                 </View>
                 {touched.email && errors.email && (
@@ -237,7 +237,7 @@ const SignUp = ({ navigation }) => {
                     onChangeText={handleChange("phone")}
                     autoCapitalize="none"
                     autoCorrect={false}
-                    style={{ flex: 1 }}
+                    style={styles.textInput}
                   />
                 </View>
                 {touched.phone && errors.phone && (
@@ -272,7 +272,7 @@ const SignUp = ({ navigation }) => {
                     onChangeText={handleChange("password")}
                     autoCapitalize="none"
                     autoCorrect={false}
-                    style={{ flex: 1 }}
+                    style={styles.textInput}
                   />
 
                   <TouchableOpacity

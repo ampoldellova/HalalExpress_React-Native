@@ -93,7 +93,7 @@ const EditRestaurantPage = () => {
                             size={20}
                         />
                         <TextInput
-                            style={{ flex: 1 }}
+                            style={styles.textInput}
                             placeholderTextColor={COLORS.gray}
                             value={item.title}
                         />
@@ -108,7 +108,7 @@ const EditRestaurantPage = () => {
                         size={20}
                     />
                     <TextInput
-                        style={{ flex: 1 }}
+                        style={styles.textInput}
                         placeholderTextColor={COLORS.gray}
                         value={address}
                         onChangeText={handleAddressChange}
@@ -134,6 +134,11 @@ const styles = StyleSheet.create({
         fontFamily: 'bold',
         fontSize: 18,
         marginTop: 20
+    },
+    textInput: {
+        flex: 1,
+        fontFamily: 'regular',
+        marginTop: 2
     },
     imageWrapper: {
         alignItems: 'center',
@@ -179,6 +184,7 @@ const styles = StyleSheet.create({
     label: {
         fontFamily: "regular",
         fontSize: SIZES.xSmall,
+        textAlign: 'right',
     },
     inputWrapper: (borderColor) => ({
         borderColor: borderColor,
