@@ -91,7 +91,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         marginHorizontal: 10,
-        marginTop: 10
+        marginTop: 10,
+        borderRadius: 15,
+        overflow: 'hidden',
     },
     map: {
         width: "100%",

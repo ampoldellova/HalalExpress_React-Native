@@ -5,9 +5,9 @@ import { COLORS } from '../../constants/theme'
 
 const RestaurantMapView = ({ region }) => {
     return (
-        <View style={{ borderWidth: 1, marginTop: 10, borderColor: COLORS.gray2 }}>
+        <View style={styles.container}>
             <MapView
-                style={{ height: 200 }}
+                style={styles.map}
                 region={region}
             >
                 <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }} />
@@ -18,4 +18,15 @@ const RestaurantMapView = ({ region }) => {
 
 export default RestaurantMapView
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        borderWidth: 1,
+        marginTop: 10,
+        borderColor: COLORS.gray2,
+        borderRadius: 15,
+        overflow: 'hidden',
+    },
+    map: {
+        height: 300,
+    },
+})
