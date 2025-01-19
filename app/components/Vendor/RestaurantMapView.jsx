@@ -5,7 +5,7 @@ import { COLORS } from '../../constants/theme'
 
 const RestaurantMapView = ({ region }) => {
     return (
-        <View style={{ borderWidth: 1, marginTop: 10, borderColor: COLORS.gray2, marginBottom: 20 }}>
+        <View style={{ borderWidth: 1, marginTop: 10, borderColor: COLORS.gray2 }}>
             <MapView
                 style={{ height: 200 }}
                 region={region}

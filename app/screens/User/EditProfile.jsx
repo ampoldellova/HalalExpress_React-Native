@@ -198,7 +198,7 @@ const EditProfile = ({ navigation, route }) => {
 
                         {/* Submit Button */}
                         <Button
-                            title="Update Profile"
+                            title="U P D A T E"
                             onPress={handleSubmit}
                             isValid={isValid}
                             loader={loader}

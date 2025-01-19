@@ -1,9 +1,9 @@
 import { Image, ScrollView, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
-import { BackBtn } from '../../components'
+import { BackBtn, Button } from '../../components'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { COLORS, SIZES } from '../../constants/theme';
-import { Entypo, Ionicons } from '@expo/vector-icons';
+import { AntDesign, Entypo, Ionicons } from '@expo/vector-icons';
 import AddressSuggestions from '../../components/AddressSuggestions';
 import MapView, { PROVIDER_GOOGLE, Marker, Polyline } from 'react-native-maps';
 import RestaurantMapView from '../../components/Vendor/RestaurantMapView';
@@ -84,6 +84,26 @@ const EditRestaurantPage = () => {
                 </View>
                 <Text style={styles.text}>Restaurant Details</Text>
                 <View style={{ marginBottom: 20 }}>
+                    <Text style={styles.label}>Address</Text>
+                    <View style={styles.inputWrapper(COLORS.offwhite)}>
+                        <Entypo
+                            style={styles.iconStyle}
+                            color={COLORS.gray}
+                            name="location"
+                            size={20}
+                        />
+                        <TextInput
+                            style={styles.textInput}
+                            placeholderTextColor={COLORS.gray}
+                            value={address}
+                            onChangeText={handleAddressChange}
+                        />
+                    </View>
+                    <AddressSuggestions suggestions={suggestions} onSuggestionPress={handleSuggestionPress} />
+                    <RestaurantMapView region={region} />
+                </View>
+
+                <View style={{ marginBottom: 20 }}>
                     <Text style={styles.label}>Restaurant Name</Text>
                     <View style={styles.inputWrapper(COLORS.offwhite)}>
                         <Ionicons
@@ -99,23 +119,43 @@ const EditRestaurantPage = () => {
                         />
                     </View>
                 </View>
-                <Text style={styles.label}>Address</Text>
-                <View style={styles.inputWrapper(COLORS.offwhite)}>
-                    <Entypo
-                        style={styles.iconStyle}
-                        color={COLORS.gray}
-                        name="location"
-                        size={20}
-                    />
-                    <TextInput
-                        style={styles.textInput}
-                        placeholderTextColor={COLORS.gray}
-                        value={address}
-                        onChangeText={handleAddressChange}
-                    />
+
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <View style={{ marginBottom: 20, width: '61%' }}>
+                        <Text style={styles.label}>Restaurant Code</Text>
+                        <View style={styles.inputWrapper(COLORS.offwhite)}>
+                            <Entypo
+                                style={styles.iconStyle}
+                                color={COLORS.gray}
+                                name="code"
+                                size={20}
+                            />
+                            <TextInput
+                                style={[styles.textInput]}
+                                placeholderTextColor={COLORS.gray}
+                                value={item.code}
+                            />
+                        </View>
+                    </View>
+                    <View style={{ marginBottom: 20, width: '35%' }}>
+                        <Text style={styles.label}>Preperation Time</Text>
+                        <View style={styles.inputWrapper(COLORS.offwhite)}>
+                            <AntDesign
+                                style={styles.iconStyle}
+                                color={COLORS.gray}
+                                name="clockcircle"
+                                size={20}
+                            />
+                            <TextInput
+                                style={styles.textInput}
+                                placeholderTextColor={COLORS.gray}
+                                value={item.time}
+                            />
+                        </View>
+                    </View>
                 </View>
-                <AddressSuggestions suggestions={suggestions} onSuggestionPress={handleSuggestionPress} />
-                <RestaurantMapView region={region} />
+
+                <Button title="U P D A T E" />
             </View>
         </ScrollView>
     )
