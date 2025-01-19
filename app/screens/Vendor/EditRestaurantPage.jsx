@@ -1,9 +1,12 @@
-import { Image, ScrollView, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { BackBtn } from '../../components'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { COLORS, SIZES } from '../../constants/theme';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, Ionicons } from '@expo/vector-icons';
+import AddressSuggestions from '../../components/AddressSuggestions';
+import MapView, { PROVIDER_GOOGLE, Marker, Polyline } from 'react-native-maps';
+import RestaurantMapView from '../../components/Vendor/RestaurantMapView';
 
 const EditRestaurantPage = () => {
     const router = useRoute();
@@ -11,6 +14,38 @@ const EditRestaurantPage = () => {
     const item = router.params;
     const [logo, setLogo] = useState(item.logoUrl.url);
     const [coverPhoto, setCoverPhoto] = useState(item.imageUrl.url);
+    const [address, setAddress] = useState(item.coords.address);
+    const [suggestions, setSuggestions] = useState([]);
+    const [region, setRegion] = useState({
+        latitude: item.coords.latitude,
+        longitude: item.coords.longitude,
+        latitudeDelta: 0.001,
+        longitudeDelta: 0.001,
+    });
+
+    const fetchSuggestions = async (text) => {
+        const response = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${text}&format=json&apiKey=7540990e27fa4d198afeb6d69d3c048e`);
+        const data = await response.json();
+        setSuggestions(data.results);
+    };
+
+    console.log(address);
+    const handleAddressChange = (text) => {
+        setAddress(text);
+        fetchSuggestions(text);
+    };
+
+    const handleSuggestionPress = (suggestion) => {
+        setAddress(suggestion.formatted);
+        setSuggestions([]);
+        setRegion({
+            latitude: suggestion.lat,
+            longitude: suggestion.lon,
+            latitudeDelta: 0.001,
+            longitudeDelta: 0.001,
+        });
+        console.log(`Selected address coordinates: Latitude ${suggestion.lat}, Longitude ${suggestion.lon}`);
+    };
 
     return (
         <ScrollView style={{ marginTop: 30 }}>
@@ -48,6 +83,39 @@ const EditRestaurantPage = () => {
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.text}>Restaurant Details</Text>
+                <View style={{ marginBottom: 20 }}>
+                    <Text style={styles.label}>Restaurant Name</Text>
+                    <View style={styles.inputWrapper(COLORS.offwhite)}>
+                        <Ionicons
+                            style={styles.iconStyle}
+                            color={COLORS.gray}
+                            name="restaurant"
+                            size={20}
+                        />
+                        <TextInput
+                            style={{ flex: 1 }}
+                            placeholderTextColor={COLORS.gray}
+                            value={item.title}
+                        />
+                    </View>
+                </View>
+                <Text style={styles.label}>Address</Text>
+                <View style={styles.inputWrapper(COLORS.offwhite)}>
+                    <Entypo
+                        style={styles.iconStyle}
+                        color={COLORS.gray}
+                        name="location"
+                        size={20}
+                    />
+                    <TextInput
+                        style={{ flex: 1 }}
+                        placeholderTextColor={COLORS.gray}
+                        value={address}
+                        onChangeText={handleAddressChange}
+                    />
+                </View>
+                <AddressSuggestions suggestions={suggestions} onSuggestionPress={handleSuggestionPress} />
+                <RestaurantMapView region={region} />
             </View>
         </ScrollView>
     )
@@ -64,7 +132,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontFamily: 'bold',
-        fontSize: 24,
+        fontSize: 18,
         marginTop: 20
     },
     imageWrapper: {
@@ -108,4 +176,23 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    label: {
+        fontFamily: "regular",
+        fontSize: SIZES.xSmall,
+    },
+    inputWrapper: (borderColor) => ({
+        borderColor: borderColor,
+        backgroundColor: COLORS.lightWhite,
+        borderWidth: 1,
+        height: 50,
+        borderRadius: 12,
+        flexDirection: 'row',
+        paddingHorizontal: 15,
+        alignItems: "center",
+    }),
+    iconStyle: {
+        width: 20,
+        height: 20,
+        marginRight: 5
+    }
 })

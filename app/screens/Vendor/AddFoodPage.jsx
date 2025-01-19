@@ -216,7 +216,6 @@ const AddFoodPage = () => {
                         setFieldValue
                     }) => (
                         < View >
-                            {console.log(errors)}
                             <Text style={styles.text}>Food Picture</Text>
                             <View style={{ position: 'relative' }}>
                                 <Image
@@ -414,7 +413,7 @@ const AddFoodPage = () => {
                             <Text style={[styles.text, { marginTop: 0 }]}>Food Additives</Text>
                             <View style={{ borderRadius: 15, borderWidth: 0.5, borderColor: COLORS.primary, padding: 8, marginBottom: 20 }}>
                                 {values.additives.map((additive, index) => (
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} key={additive.id}>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} key={index}>
                                         <View style={[styles.wrapper, { width: SIZES.width - 165 }]}>
                                             <Text style={styles.label}>Additives</Text>
                                             <View style={styles.inputWrapper(touched.additives?.[index]?.title ? COLORS.secondary : COLORS.offwhite)}>
@@ -520,7 +519,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontFamily: 'bold',
-        fontSize: 24,
+        fontSize: 18,
         marginTop: 20
     },
     image: (borderColor) => ({
@@ -532,7 +531,7 @@ const styles = StyleSheet.create({
     }),
     imageUpload: {
         position: 'absolute',
-        bottom: 0, 
+        bottom: 0,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         height: 75,
         width: SIZES.width - 38,

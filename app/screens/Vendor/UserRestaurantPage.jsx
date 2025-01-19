@@ -43,7 +43,7 @@ const UserRestaurantPage = () => {
             <ServiceAvailability availability={item.isAvailable} id={item._id} />
             <ManageFood restaurantId={item._id} />
             <AddFood restaurantId={item._id} />
-            <EditRestaurantButton details={item} />
+            <EditRestaurantButton details={item} address={coords.address} />
         </View >
     )
 }
