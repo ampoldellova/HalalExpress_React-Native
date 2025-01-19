@@ -40,6 +40,42 @@ module.exports = {
         }
     },
 
+    pickupAvailability: async (req, res) => {
+        const restaurantId = req.params.id;
+
+        try {
+            const restaurant = await Restaurant.findById(restaurantId)
+
+            if (!restaurant) {
+                return res.status(403).json({ status: false, message: "Restaurant not found" })
+            }
+
+            restaurant.pickup = !restaurant.pickup
+            await restaurant.save()
+            res.status(200).json({ status: true, message: "Availability for Pick-Up Successfully Toggled", pickup: restaurant.pickup })
+        } catch (error) {
+            res.status(500).json({ status: false, message: "Error Toggling Restaurant's Pickup" })
+        }
+    },
+
+    deliveryAvailability: async (req, res) => {
+        const restaurantId = req.params.id;
+
+        try {
+            const restaurant = await Restaurant.findById(restaurantId)
+
+            if (!restaurant) {
+                return res.status(403).json({ status: false, message: "Restaurant not found" })
+            }
+
+            restaurant.delivery = !restaurant.delivery
+            await restaurant.save()
+            res.status(200).json({ status: true, message: "Availability for Delivery Successfully Toggled", delivery: restaurant.delivery })
+        } catch (error) {
+            res.status(500).json({ status: false, message: "Error Toggling Restaurant's Delivery" })
+        }
+    },
+
     deleteRestaurant: async (req, res) => {
         const restaurantId = req.params.id;
 
