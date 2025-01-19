@@ -61,7 +61,28 @@ const Restaurant = ({ navigation }) => {
             </View>
 
             <View style={{ marginTop: 8, marginHorizontal: 8, marginBottom: 10 }}>
-                <Text style={styles.title}>{item.title}</Text>
+                <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: 'center' }}>
+                    <Text style={styles.title}>{item.title}</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        {item.pickup ? (
+                            <View style={{ backgroundColor: COLORS.tertiary, borderRadius: 15, justifyContent: 'center', height: 20 }}>
+                                <Text style={{ color: 'white', textAlign: 'center', fontFamily: 'regular', marginHorizontal: 5, fontSize: 12 }}>📦 Pick-Up</Text>
+                            </View>
+                        ) : (
+                            <>
+                            </>
+                        )}
+                        {item.delivery ? (
+                            <View style={{ backgroundColor: COLORS.tertiary, borderRadius: 15, justifyContent: 'center', height: 20, marginLeft: 5 }}>
+                                <Text style={{ color: 'white', textAlign: 'center', fontFamily: 'regular', marginHorizontal: 5, fontSize: 12 }}>🛵 Delivery</Text>
+                            </View>
+                        ) : (
+                            <>
+                            </>
+                        )}
+                    </View>
+                </View>
+
 
                 <View style={{ flexDirection: 'row', justifyContent: "space-between" }}>
                     <Text style={[styles.small, { color: COLORS.gray }]}>Distance:</Text>
@@ -81,7 +102,7 @@ const Restaurant = ({ navigation }) => {
             <View style={{ height: SIZES.height / 1.5 }}>
                 <RestaurantPage item={item} />
             </View>
-        </View>
+        </View >
     )
 }
 
