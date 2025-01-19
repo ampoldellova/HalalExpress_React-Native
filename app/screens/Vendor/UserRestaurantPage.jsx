@@ -9,6 +9,8 @@ import ManageFood from '../../components/Vendor/ManageFood'
 import Feather from '@expo/vector-icons/Feather';
 import AddFood from '../../components/Vendor/AddFood'
 import EditRestaurantButton from '../../components/Vendor/EditRestaurantButton'
+import DeliveryAvailability from '../../components/Vendor/DeliveryAvailability'
+import PickupAvailability from '../../components/Vendor/PickupAvailability'
 
 const UserRestaurantPage = () => {
     const navigation = useNavigation();
@@ -41,6 +43,8 @@ const UserRestaurantPage = () => {
             </View>
             <Text style={styles.options}>Options</Text>
             <ServiceAvailability availability={item.isAvailable} id={item._id} />
+            <DeliveryAvailability />
+            <PickupAvailability />
             <ManageFood restaurantId={item._id} />
             <AddFood restaurantId={item._id} />
             <EditRestaurantButton details={item} address={coords.address} />
