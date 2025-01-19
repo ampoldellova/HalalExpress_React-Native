@@ -83,7 +83,7 @@ const EditRestaurantPage = () => {
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.text}>Restaurant Details</Text>
-                <View style={{ marginBottom: 20 }}>
+                <View style={{ marginBottom: 20, borderWidth: 0.5, borderColor: COLORS.primary, borderRadius: 15, padding: 8 }}>
                     <Text style={styles.label}>Address</Text>
                     <View style={styles.inputWrapper(COLORS.offwhite)}>
                         <Entypo

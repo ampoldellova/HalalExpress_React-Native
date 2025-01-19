@@ -415,7 +415,7 @@ const AddFoodPage = () => {
                                 {values.additives.map((additive, index) => (
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} key={index}>
                                         <View style={[styles.wrapper, { width: '61%' }]}>
-                                            <Text style={styles.label}>Additives</Text>
+                                            <Text style={[styles.label, { textAlign: 'left' }]}>Additives</Text>
                                             <View style={styles.inputWrapper(touched.additives?.[index]?.title ? COLORS.secondary : COLORS.offwhite)}>
                                                 <Ionicons
                                                     style={styles.iconStyle}
@@ -441,8 +441,8 @@ const AddFoodPage = () => {
                                                 <Text style={styles.errorMessage}>{errors.additives[index].title}</Text>
                                             )}
                                         </View>
-                                        <View style={[styles.wrapper, { width: '35%', marginRight: 7 }]}>
-                                            <Text style={styles.label}>Price</Text>
+                                        <View style={[styles.wrapper, { width: '35%' }]}>
+                                            <Text style={[styles.label, { textAlign: 'left' }]}>Price</Text>
                                             <View style={styles.inputWrapper(touched.additives?.[index]?.price ? COLORS.secondary : COLORS.offwhite)}>
                                                 <FontAwesome6
                                                     style={styles.iconStyle}
