@@ -23,7 +23,6 @@ const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSection, setSelectedSection] = useState(null);
   const [selectedValue, setSelectedValue] = useState(null);
-  const [refreshing, setRefreshing] = React.useState(false);
   const [restaurants, setRestaurants] = useState([]);
   const [restaurantsLoaded, setRestaurantsLoaded] = useState(false);
   const [foods, setFoods] = useState([]);

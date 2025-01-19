@@ -1,32 +1,26 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { View, FlatList } from 'react-native'
 import React from 'react'
-import uidata from '../constants/uidata'
-import CategoryFoodComp from './CategoryFoodComp'
+import FoodComponent from './FoodComponent'
 import { useNavigation } from '@react-navigation/native'
 
-const HomeCategories = ({ foods }) => {
+const NewFoodList = ({ foods }) => {
     const navigation = useNavigation();
 
-    const renderCategoryItem = ({ item }) => (
-        <CategoryFoodComp item={item} onPress={() => navigation.navigate('food-nav', item)} />
-    );
-
     return (
-        <>
-            <View style={{ marginLeft: 12, marginBottom: 12 }}>
-                <FlatList
-                    data={foods}
-                    showsHorizontalScrollIndicator={false}
-                    keyExtractor={(item) => item._id}
-                    style={{ marginTop: 10 }}
-                    scrollEnabled
-                    renderItem={renderCategoryItem}
-                />
-            </View>
-        </>
+        <View style={{ marginLeft: 12, marginBottom: 10 }}>
+            <FlatList
+                data={foods}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={{ marginTop: 5, rowGap: 10 }}
+                scrollEnabled
+                keyExtractor={(item) => item._id.toString()}
+                renderItem={({ item }) => (
+                    <FoodComponent item={item} onPress={() => navigation.navigate('food-nav', item)} />
+                )}
+            />
+        </View>
     )
 }
 
-export default HomeCategories
-
-const styles = StyleSheet.create({})
+export default NewFoodList

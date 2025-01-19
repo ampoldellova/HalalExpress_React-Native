@@ -1,7 +1,7 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native'
-import React, { useContext, useState } from 'react'
+import { FlatList, StyleSheet, View } from 'react-native'
+import React, { useContext } from 'react'
 import StoreComponent from './StoreComponent'
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { RestaurantContext } from '../context/RestaurantContext'
 
 const NearbyRestaurants = ({ restaurants }) => {
@@ -16,9 +16,11 @@ const NearbyRestaurants = ({ restaurants }) => {
                 showsHorizontalScrollIndicator={false}
                 style={{ marginTop: 5, rowGap: 10 }}
                 scrollEnabled
+                keyExtractor={(item) => item._id.toString()}
                 renderItem={({ item }) => (
                     <StoreComponent item={item} onPress={() => { navigation.navigate('restaurant', item), setRestaurantObj(item) }} />
-                )} />
+                )}
+            />
         </View>
     )
 }
