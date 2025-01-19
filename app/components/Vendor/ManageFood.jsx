@@ -10,7 +10,7 @@ const ManageFood = ({ restaurantId }) => {
     return (
         <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }} onPress={() => navigation.navigate('manage-food-page', restaurantId)}>
             <Ionicons name="fast-food" size={20} color={COLORS.gray} />
-            <Text style={styles.text}>Manage Foods</Text>
+            <Text style={styles.text}>Manage Menu</Text>
             <Entypo name="chevron-thin-right" size={20} color={COLORS.gray} />
         </TouchableOpacity>
     )
@@ -22,6 +22,6 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 16,
         fontFamily: "regular",
-        left: -75
+        left: -77
     }
 })

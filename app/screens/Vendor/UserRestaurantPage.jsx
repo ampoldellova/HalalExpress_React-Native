@@ -6,7 +6,7 @@ import { COLORS, SIZES } from '../../constants/theme'
 import { RestaurantContext } from '../../context/RestaurantContext'
 import ServiceAvailability from '../../components/Vendor/ServiceAvailability'
 import ManageFood from '../../components/Vendor/ManageFood'
-import Feather from '@expo/vector-icons/Feather';
+import Divider from '../../components/Divider'
 import AddFood from '../../components/Vendor/AddFood'
 import EditRestaurantButton from '../../components/Vendor/EditRestaurantButton'
 import DeliveryAvailability from '../../components/Vendor/DeliveryAvailability'
@@ -45,6 +45,7 @@ const UserRestaurantPage = () => {
             <ServiceAvailability availability={item.isAvailable} id={item._id} />
             <DeliveryAvailability availability={item.delivery} id={item._id} />
             <PickupAvailability availability={item.pickup} id={item._id} />
+            <Divider />
             <ManageFood restaurantId={item._id} />
             <AddFood restaurantId={item._id} />
             <EditRestaurantButton details={item} address={coords.address} />
@@ -117,5 +118,5 @@ const styles = StyleSheet.create({
         fontFamily: "bold",
         fontSize: 18,
         marginTop: 35
-    }
+    },
 })

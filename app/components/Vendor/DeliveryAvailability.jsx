@@ -59,6 +59,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: "regular",
         marginTop: 15,
-        left: -50
+        left: -48
     }
 })
