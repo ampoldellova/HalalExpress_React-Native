@@ -121,7 +121,8 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 22,
         fontFamily: 'medium',
-        color: COLORS.black
+        color: COLORS.black,
+        width: 200
     },
     small: {
         fontSize: 13,
