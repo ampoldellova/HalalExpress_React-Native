@@ -35,16 +35,20 @@ const RestaurantPage = ({ item }) => {
         { key: 'third', title: 'Info' },
     ]);
 
-    const renderTabBar = (props) => (
-        <TabBar
-            {...props}
-            indicatorStyle={{ backgroundColor: COLORS.lightWhite }}
-            style={{ backgroundColor: COLORS.primary }}
-            labelStyle={{ fontWeight: 'bold' }}
-            activeColor={COLORS.secondary}
-            inactiveColor={COLORS.lightWhite}
-        />
-    );
+    const renderTabBar = (props) => {
+        const { key, ...propsWithoutKey } = props;
+        return (
+            <TabBar
+                key={key}
+                {...propsWithoutKey}
+                indicatorStyle={{ backgroundColor: COLORS.lightWhite }}
+                style={{ backgroundColor: COLORS.primary }}
+                labelStyle={{ fontWeight: 'bold' }}
+                activeColor={COLORS.secondary}
+                inactiveColor={COLORS.lightWhite}
+            />
+        );
+    };
 
     return (
         <TabView

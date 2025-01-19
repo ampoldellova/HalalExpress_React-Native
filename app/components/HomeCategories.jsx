@@ -19,7 +19,7 @@ const HomeCategories = ({ foods }) => {
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item) => item._id}
                     style={{ marginTop: 10 }}
-                    scrollEnabled={false}
+                    scrollEnabled
                     renderItem={renderCategoryItem}
                 />
             </View>

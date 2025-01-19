@@ -120,7 +120,7 @@ const LoginPage = ({ navigation }) => {
     }
   };
   return (
-    <View style={pages.viewOne}>
+    <ScrollView style={pages.viewOne}>
       <View style={[pages.viewTwo, { backgroundColor: COLORS.white, height: SIZES.height - 20 }]}>
         <View style={{ marginHorizontal: 20, marginTop: 50 }}>
           <BackBtn onPress={() => navigation.goBack()} />
@@ -249,7 +249,7 @@ const LoginPage = ({ navigation }) => {
           </Formik>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

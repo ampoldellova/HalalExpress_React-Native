@@ -51,7 +51,7 @@ const Home = () => {
       setFilteredFoods(response.data);
       setFoodsLoaded(true);
     } catch (error) {
-      console.log( error);
+      console.log(error);
     }
   };
 
@@ -92,7 +92,7 @@ const Home = () => {
       ) : (
         <View style={pages.viewOne}>
           <View style={pages.viewTwo}>
-            <ScrollView>
+            <View>
               <HomeHeader />
               <CategoryList
                 setSelectedCategory={setSelectedCategory}
@@ -113,7 +113,7 @@ const Home = () => {
                   <NewFoodList foods={filteredFoods} />
                 </View>
               )}
-            </ScrollView>
+            </View>
           </View>
         </View>
       )}
