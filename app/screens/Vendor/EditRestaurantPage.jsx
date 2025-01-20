@@ -214,7 +214,7 @@ const EditRestaurantPage = () => {
                                         placeholderTextColor={COLORS.gray}
                                         value={values.coords.address}
                                         onChangeText={handleChange('coords.address')}
-                                        onFocus={() => setFieldTouched('coords.address', true)}
+                                        onFocus={() => setFieldTouched('coords.address', '')}
                                         onBlur={() => setFieldTouched('coords.address')}
                                     />
                                 </View>
