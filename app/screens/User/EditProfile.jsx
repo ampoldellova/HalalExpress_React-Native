@@ -87,7 +87,6 @@ const EditProfile = ({ navigation, route }) => {
             >
                 {({
                     handleChange,
-                    handleBlur,
                     touched,
                     handleSubmit,
                     values,

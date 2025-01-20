@@ -12,5 +12,6 @@ router.patch('/:id', verifyVendor, restaurantController.serviceAvailability)
 router.patch('/pickup/:id', verifyVendor, restaurantController.pickupAvailability)
 router.patch('/delivery/:id', verifyVendor, restaurantController.deliveryAvailability)
 router.get('/owner/:ownerId', verifyVendor, restaurantController.getRestaurantsByOwner);
+router.put('/:id', verifyVendor, upload.fields([{ name: 'imageUrl', maxCount: 1 }, { name: 'logoUrl', maxCount: 1 }]), restaurantController.editRestaurantDetails);
 
 module.exports = router;

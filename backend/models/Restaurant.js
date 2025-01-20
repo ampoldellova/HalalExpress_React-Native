@@ -65,7 +65,6 @@ const restaurantSchema = new mongoose.Schema({
     coords: {
         id: {
             type: String,
-            required: true
         },
         latitude: {
             type: Number,
@@ -77,22 +76,16 @@ const restaurantSchema = new mongoose.Schema({
         },
         latitudeDelta: {
             type: Number,
-            required: true,
             default: 0.0122
         },
         longitudeDelta: {
             type: Number,
-            required: true,
             default: 0.0221
         },
         address: {
             type: String,
             required: true
         },
-        title: {
-            type: String,
-            required: true
-        }
     }
 }, { timestamps: true });
 

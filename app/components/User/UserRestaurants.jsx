@@ -13,7 +13,6 @@ const UserRestaurants = ({ user }) => {
     const route = useRoute();
     const navigation = useNavigation();
     const [restaurants, setRestaurants] = useState([]);
-    const { restaurantObj, setRestaurantObj } = useContext(RestaurantContext);
     const [loading, setLoading] = useState(true);
 
     const getRestaurantsByOwner = async () => {
@@ -58,7 +57,7 @@ const UserRestaurants = ({ user }) => {
                     style={{ marginTop: 5, rowGap: 10 }}
                     scrollEnabled
                     renderItem={({ item }) => (
-                        <UserStoreComponent item={item} onPress={() => { navigation.navigate('user-restaurant-page', item), setRestaurantObj(item) }} />
+                        <UserStoreComponent item={item} onPress={() => { navigation.navigate('user-restaurant-page', item)}} />
                     )} />
             )}
         </View>

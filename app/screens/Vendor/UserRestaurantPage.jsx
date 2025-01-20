@@ -16,8 +16,6 @@ const UserRestaurantPage = () => {
     const navigation = useNavigation();
     const router = useRoute();
     const item = router.params;
-    const { restaurantObj, setRestaurantObj } = useContext(RestaurantContext)
-    const coords = restaurantObj.coords
 
     return (
         <View style={{ marginHorizontal: 20, marginTop: 30 }}>
@@ -38,7 +36,7 @@ const UserRestaurantPage = () => {
                 />
                 <View style={styles.wrapper}>
                     <Text style={styles.title}>{item.title}</Text>
-                    <Text style={styles.address}>{coords.address}</Text>
+                    <Text style={styles.address}>{item.coords.address}</Text>
                 </View>
             </View>
             <Text style={styles.options}>Options</Text>
@@ -48,7 +46,7 @@ const UserRestaurantPage = () => {
             <Divider />
             <ManageFood restaurantId={item._id} />
             <AddFood restaurantId={item._id} />
-            <EditRestaurantButton details={item} address={coords.address} />
+            <EditRestaurantButton details={item} address={item.coords.address} />
         </View >
     )
 }

@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
    registration: {
       marginTop: 0,
       textAlign: "center",
+      fontFamily: "regular",
    },
 });
 

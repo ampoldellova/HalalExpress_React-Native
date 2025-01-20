@@ -1,5 +1,5 @@
 const Restaurant = require('../models/Restaurant');
-const ImageFile = require("../utils/imageFile");
+const imageFile = require('../utils/imageFile')
 
 module.exports = {
     getAllRestaurants: async (req, res) => {
@@ -152,5 +152,53 @@ module.exports = {
             res.status(500).json({ status: false, message: "Error fetching restaurants by owner", error: error.message });
         }
     },
+
+    editRestaurantDetails: async (req, res) => {
+        console.log(req.files);
+        try {
+            if (req.files) {
+                if (req.files.logoUrl) {
+                    req.body.logoUrl = await imageFile.uploadSingle({
+                        imageFile: req.files.logoUrl[0], // Correctly pass file object
+                        request: req,
+                    });
+                }
+
+                if (req.files.imageUrl) {
+                    req.body.imageUrl = await imageFile.uploadSingle({
+                        imageFile: req.files.imageUrl[0], // Correctly pass file object
+                        request: req,
+                    });
+                }
+
+                await Restaurant.findByIdAndUpdate(
+                    req.params.id,
+                    {
+                        imageUrl: req.body.imageUrl,
+                        logoUrl: req.body.logoUrl,
+                        title: req.body.title,
+                        time: req.body.time,
+                        code: req.body.code,
+                        coords: req.body.coords,
+                    },
+                    {
+                        new: true,
+                        runValidators: true,
+                    }
+                );
+                res.status(201).json({ success: true, message: "Restaurant Details Updated" });
+            } else {
+                await Restaurant.findByIdAndUpdate(req.params.id, req.body, {
+                    new: true,
+                    runValidators: true,
+                });
+                res.status(201).json({ success: true, message: "Restaurant Details Updated" });
+            }
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ success: false, message: "Server Error", error: err });
+        }
+    },
+
 
 }
