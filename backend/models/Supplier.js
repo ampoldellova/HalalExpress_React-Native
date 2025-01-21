@@ -8,25 +8,74 @@ const supplierSchema = new mongoose.Schema({
     },
     hours: {
         sunday: {
-            type: String,
+            start: {
+                type: String,
+                required: true
+            },
+            end: {
+                type: String,
+                required: true
+            }
         },
         monday: {
-            type: String,
+            start: {
+                type: String,
+                required: true
+            },
+            end: {
+                type: String,
+                required: true
+            }
         },
         tuesday: {
-            type: String,
+            start: {
+                type: String,
+                required: true
+            },
+            end: {
+                type: String,
+                required: true
+            }
         },
         wednesday: {
-            type: String,
+            start: {
+                type: String,
+                required: true
+            },
+            end: {
+                type: String,
+                required: true
+            }
         },
         thursday: {
-            type: String,
+            start: {
+                type: String,
+                required: true
+            },
+            end: {
+                type: String,
+                required: true
+            }
         },
         friday: {
-            type: String,
+            start: {
+                type: String,
+                required: true
+            },
+            end: {
+                type: String,
+                required: true
+            }
         },
         saturday: {
-            type: String,
+            start: {
+                type: String,
+                required: true
+            },
+            end: {
+                type: String,
+                required: true
+            }
         },
     },
     time: {
@@ -36,11 +85,11 @@ const supplierSchema = new mongoose.Schema({
     imageUrl: {
         public_id: {
             type: String,
-            default: 'HalalExpress/Profile/profile_nsvdbb'
+            default: 'HalalExpress/RestaurantImages/AmpolsGrill'
         },
         url: {
             type: String,
-            default: 'https://res.cloudinary.com/dwkmutbz3/image/upload/v1736011952/HalalExpress/Profile/profile_nsvdbb.png'
+            default: 'https://res.cloudinary.com/dwkmutbz3/image/upload/v1736087084/HalalExpress/RestaurantImages/AmpolsGrill.jpg'
         },
     },
     pickup: {
@@ -70,11 +119,11 @@ const supplierSchema = new mongoose.Schema({
     logoUrl: {
         public_id: {
             type: String,
-            default: 'HalalExpress/Profile/profile_nsvdbb'
+            default: 'HalalExpress/RestaurantImages/RestaurantLogo'
         },
         url: {
             type: String,
-            default: 'https://res.cloudinary.com/dwkmutbz3/image/upload/v1736011952/HalalExpress/Profile/profile_nsvdbb.png'
+            default: 'https://res.cloudinary.com/dwkmutbz3/image/upload/v1736087399/HalalExpress/RestaurantImages/RestaurantLogo.png'
         },
     },
     rating: {

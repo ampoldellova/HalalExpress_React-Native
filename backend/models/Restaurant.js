@@ -8,25 +8,74 @@ const restaurantSchema = new mongoose.Schema({
     },
     hours: {
         sunday: {
-            type: String,
+            start: {
+                type: String,
+                required: true
+            },
+            end: {
+                type: String,
+                required: true
+            }
         },
         monday: {
-            type: String,
+            start: {
+                type: String,
+                required: true
+            },
+            end: {
+                type: String,
+                required: true
+            }
         },
         tuesday: {
-            type: String,
+            start: {
+                type: String,
+                required: true
+            },
+            end: {
+                type: String,
+                required: true
+            }
         },
         wednesday: {
-            type: String,
+            start: {
+                type: String,
+                required: true
+            },
+            end: {
+                type: String,
+                required: true
+            }
         },
         thursday: {
-            type: String,
+            start: {
+                type: String,
+                required: true
+            },
+            end: {
+                type: String,
+                required: true
+            }
         },
         friday: {
-            type: String,
+            start: {
+                type: String,
+                required: true
+            },
+            end: {
+                type: String,
+                required: true
+            }
         },
         saturday: {
-            type: String,
+            start: {
+                type: String,
+                required: true
+            },
+            end: {
+                type: String,
+                required: true
+            }
         },
     },
     time: {
