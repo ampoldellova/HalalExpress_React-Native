@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const populate = require("mongoose-autopopulate");
 
-const restaurantSchema = new mongoose.Schema({
+const supplierSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
@@ -101,5 +101,5 @@ const restaurantSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-restaurantSchema.plugin(populate);
-module.exports = mongoose.model('Restaurant', restaurantSchema)
+supplierSchema.plugin(populate);
+module.exports = mongoose.model('Supplier', supplierSchema)
