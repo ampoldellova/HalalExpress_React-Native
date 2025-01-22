@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { BackBtn, Button } from '../../components'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { COLORS, SIZES } from '../../constants/theme';
-import { AntDesign, Entypo, Ionicons } from '@expo/vector-icons';
+import { AntDesign, Entypo, FontAwesome6, Ionicons } from '@expo/vector-icons';
 import AddressSuggestions from '../../components/AddressSuggestions';
 import * as ImagePicker from 'expo-image-picker';
 import RestaurantMapView from '../../components/Vendor/RestaurantMapView';
@@ -12,6 +12,7 @@ import baseUrl from '../../../assets/common/baseUrl';
 import axios from 'axios';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import * as Location from 'expo-location';
 
 const validationSchema = Yup.object().shape({
     title: Yup.string().required().label('Restaurant Name'),
@@ -46,9 +47,41 @@ const EditRestaurantPage = () => {
         setSuggestions(data.results);
     };
 
+    const useCurrentLocation = async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+            console.error('Permission to access location was denied');
+            return;
+        }
+
+        let location = await Location.getCurrentPositionAsync({});
+        const { latitude, longitude } = location.coords;
+
+        // Use OpenCage Geocoding API to convert latitude and longitude to an address
+        fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=a153a349ad474d8bb67e62bf4dadfa04`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.results && data.results.length > 0) {
+                    const currentAddress = data.results[0].formatted;
+                    handleAddressChange(currentAddress);
+                } else {
+                    throw new Error('No results found');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching geocoding data:', error);
+            });
+    };
+
     const handleAddressChange = async (text) => {
         setAddress(text);
         fetchSuggestions(text);
+        setFieldValue('coords.address', text);
     };
 
     const handleSuggestionPress = (suggestion) => {
@@ -135,181 +168,6 @@ const EditRestaurantPage = () => {
         }
     }
 
-    const RenderPage = () => (
-        <View style={{ marginTop: 30 }}>
-            <View style={{ marginHorizontal: 20 }}>
-                <BackBtn onPress={() => navigation.goBack()} />
-                <Text style={styles.heading}>Edit Restaurant</Text>
-                <Formik
-                    initialValues={{
-                        title: item.title || '',
-                        time: item.time || '',
-                        code: item.code || '',
-                        coords: {
-                            address: item.coords.address || '',
-                            latitude: item.coords.latitude || '',
-                            longitude: item.coords.longitude || '',
-                        },
-                    }}
-                    onSubmit={(values) => editRestaurant(values)}
-                    validationSchema={validationSchema}
-                >
-                    {({
-                        handleChange,
-                        touched,
-                        handleSubmit,
-                        values,
-                        errors,
-                        isValid,
-                        setFieldTouched,
-                        setFieldValue
-                    }) => (
-                        < View >
-                            <Text style={styles.text}>Restaurant Logo</Text>
-                            <View style={styles.imageWrapper}>
-                                <Image
-                                    source={logo ? { uri: logo } : require('../../../assets/images/profile.png')}
-                                    style={styles.logoUrl}
-                                />
-                                <TouchableOpacity style={styles.uploadLogo} onPress={pickLogo}>
-                                    <Entypo
-                                        color='white'
-                                        name="camera"
-                                        size={24}
-                                    />
-                                    <Text style={styles.editText}>Edit logo</Text>
-                                </TouchableOpacity>
-                            </View>
-
-                            <Text style={styles.text}>Cover Photo</Text>
-                            <View style={styles.imageWrapper}>
-                                <Image
-                                    source={coverPhoto ? { uri: coverPhoto } : require('../../../assets/images/profile.png')}
-                                    style={styles.imageUrl}
-                                />
-                                <TouchableOpacity style={styles.uploadCoverPhoto} onPress={pickCoverPhoto}>
-                                    <Entypo
-                                        color='white'
-                                        name="camera"
-                                        size={24}
-                                    />
-                                    <Text style={styles.editText}>Edit Cover Photo</Text>
-                                </TouchableOpacity>
-                            </View>
-
-                            <Text style={styles.text}>Restaurant Details</Text>
-                            <View style={{ marginBottom: 20, borderWidth: 0.5, borderColor: COLORS.primary, borderRadius: 15, padding: 8 }}>
-                                <Text style={styles.label}>Address</Text>
-                                <View style={styles.inputWrapper(COLORS.offwhite)}>
-                                    <Entypo
-                                        style={styles.iconStyle}
-                                        color={COLORS.gray}
-                                        name="location"
-                                        size={20}
-                                    />
-                                    <TextInput
-                                        style={styles.textInput}
-                                        placeholderTextColor={COLORS.gray}
-                                        value={values.coords.address}
-                                        onChangeText={(text) => {
-                                            handleAddressChange(text)
-                                            setFieldValue('coords.address', text)
-                                        }}
-                                        onFocus={() => setFieldTouched('coords.address', '')}
-                                        onBlur={() => setFieldTouched('coords.address')}
-                                    />
-                                </View>
-                                {touched.coords?.address && errors.coords?.address && (
-                                    <Text style={styles.errorMessage}>{errors.coords?.address}</Text>
-                                )}
-                                <AddressSuggestions suggestions={suggestions} onSuggestionPress={handleSuggestionPress} />
-                                <RestaurantMapView region={region} />
-                            </View>
-
-                            <View style={{ marginBottom: 20 }}>
-                                <Text style={styles.label}>Restaurant Name</Text>
-                                <View style={styles.inputWrapper(COLORS.offwhite)}>
-                                    <Ionicons
-                                        style={styles.iconStyle}
-                                        color={COLORS.gray}
-                                        name="restaurant"
-                                        size={20}
-                                    />
-                                    <TextInput
-                                        style={styles.textInput}
-                                        placeholderTextColor={COLORS.gray}
-                                        value={values.title}
-                                        onChangeText={handleChange('title')}
-                                        onFocus={() => { setFieldTouched('title', '') }}
-                                        onBlur={() => { setFieldTouched('title') }}
-                                    />
-                                </View>
-                                {touched.title && errors.title && (
-                                    <Text style={styles.errorMessage}>{errors.title}</Text>
-                                )}
-                            </View>
-
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <View style={{ marginBottom: 20, width: '61%' }}>
-                                    <Text style={styles.label}>Restaurant Code</Text>
-                                    <View style={styles.inputWrapper(COLORS.offwhite)}>
-                                        <Entypo
-                                            style={styles.iconStyle}
-                                            color={COLORS.gray}
-                                            name="code"
-                                            size={20}
-                                        />
-                                        <TextInput
-                                            style={[styles.textInput]}
-                                            placeholderTextColor={COLORS.gray}
-                                            value={values.code}
-                                            onChangeText={handleChange('code')}
-                                            onFocus={() => { setFieldTouched('code', '') }}
-                                            onBlur={() => { setFieldTouched('code') }}
-                                        />
-                                    </View>
-                                    {touched.code && errors.code && (
-                                        <Text style={styles.errorMessage}>{errors.code}</Text>
-                                    )}
-                                </View>
-                                <View style={{ marginBottom: 20, width: '35%' }}>
-                                    <Text style={styles.label}>Preperation Time</Text>
-                                    <View style={styles.inputWrapper(COLORS.offwhite)}>
-                                        <AntDesign
-                                            style={styles.iconStyle}
-                                            color={COLORS.gray}
-                                            name="clockcircle"
-                                            size={20}
-                                        />
-                                        <TextInput
-                                            style={styles.textInput}
-                                            placeholderTextColor={COLORS.gray}
-                                            value={values.time}
-                                            onChangeText={handleChange('time')}
-                                            onFocus={() => { setFieldTouched('time', '') }}
-                                            onBlur={() => { setFieldTouched('time') }}
-                                        />
-                                    </View>
-                                    {touched.time && errors.time && (
-                                        <Text style={styles.errorMessage}>{errors.time}</Text>
-                                    )}
-                                </View>
-                            </View>
-
-                            <Button
-                                onPress={handleSubmit}
-                                isValid={isValid}
-                                loader={loader}
-                                title="U P D A T E"
-                            />
-                        </View>
-                    )}
-                </Formik>
-
-            </View >
-        </View >
-    );
-
     return (
         <ScrollView nestedScrollEnabled={true}>
             <View style={{ marginTop: 30 }}>
@@ -375,14 +233,16 @@ const EditRestaurantPage = () => {
 
                                 <Text style={styles.text}>Restaurant Details</Text>
                                 <View style={{ marginBottom: 20, borderWidth: 0.5, borderColor: COLORS.primary, borderRadius: 15, padding: 8 }}>
-                                    <Text style={styles.label}>Address</Text>
+                                    <Text style={styles.label}>Restaurant Address</Text>
                                     <View style={styles.inputWrapper(COLORS.offwhite)}>
-                                        <Entypo
-                                            style={styles.iconStyle}
-                                            color={COLORS.gray}
-                                            name="location"
-                                            size={20}
-                                        />
+                                        <TouchableOpacity onPress={useCurrentLocation}>
+                                            <FontAwesome6
+                                                style={styles.iconStyle}
+                                                color={COLORS.primary}
+                                                name="location-crosshairs"
+                                                size={20}
+                                            />
+                                        </TouchableOpacity>
                                         <TextInput
                                             style={styles.textInput}
                                             placeholderTextColor={COLORS.gray}
@@ -398,9 +258,7 @@ const EditRestaurantPage = () => {
                                     {touched.coords?.address && errors.coords?.address && (
                                         <Text style={styles.errorMessage}>{errors.coords?.address}</Text>
                                     )}
-                                    <View>
-                                        <AddressSuggestions suggestions={suggestions} onSuggestionPress={handleSuggestionPress} />
-                                    </View>
+                                    <AddressSuggestions suggestions={suggestions} onSuggestionPress={handleSuggestionPress} />
                                     <RestaurantMapView region={region} />
                                 </View>
 
