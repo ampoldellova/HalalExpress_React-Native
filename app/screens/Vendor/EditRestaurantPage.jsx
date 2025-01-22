@@ -33,14 +33,17 @@ const EditRestaurantPage = () => {
     const [coverPhoto, setCoverPhoto] = useState(item.imageUrl.url);
     const [address, setAddress] = useState(item.coords.address);
     const [suggestions, setSuggestions] = useState([]);
-    const [loader, setLoader] = useState(false);
-    const [loading, setLoading] = useState(false);
     const [region, setRegion] = useState({
         latitude: item.coords.latitude,
         longitude: item.coords.longitude,
         latitudeDelta: 0.001,
         longitudeDelta: 0.001,
     });
+
+    const [loader, setLoader] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [isUsingCurrentLocation, setIsUsingCurrentLocation] = useState(false);
+    const [isTypingAddress, setIsTypingAddress] = useState(false);
 
     const fetchSuggestions = async (text) => {
         const response = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${text}&format=json&apiKey=7540990e27fa4d198afeb6d69d3c048e`);
@@ -59,6 +62,13 @@ const EditRestaurantPage = () => {
         let location = await Location.getCurrentPositionAsync({});
         const { latitude, longitude } = location.coords;
 
+        setRegion({
+            latitude,
+            longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+        });
+
         fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=a153a349ad474d8bb67e62bf4dadfa04`)
             .then(response => {
                 if (!response.ok) {
@@ -70,6 +80,7 @@ const EditRestaurantPage = () => {
                 if (data.results && data.results.length > 0) {
                     const currentAddress = data.results[0].formatted;
                     handleAddressChange(currentAddress);
+                    setIsUsingCurrentLocation(true);
                 } else {
                     throw new Error('No results found');
                 }
@@ -254,16 +265,25 @@ const EditRestaurantPage = () => {
                                             onChangeText={(text) => {
                                                 handleAddressChange(text)
                                                 setFieldValue('coords.address', text)
+                                                setIsTypingAddress(true);
                                             }}
-                                            onFocus={() => setFieldTouched('coords.address', '')}
-                                            onBlur={() => setFieldTouched('coords.address')}
+                                            onFocus={() => {
+                                                setFieldTouched('coords.address', '');
+                                                setIsTypingAddress(true);
+                                            }}
+                                            onBlur={() => {
+                                                setFieldTouched('coords.address');
+                                                setIsTypingAddress(false);
+                                            }}
                                         />
                                     </View>
                                     {loading && <ActivityIndicator size="small" color={COLORS.primary} style={{ marginTop: 5 }} />}
                                     {touched.coords?.address && errors.coords?.address && (
                                         <Text style={styles.errorMessage}>{errors.coords?.address}</Text>
                                     )}
-                                    <AddressSuggestions suggestions={suggestions} onSuggestionPress={handleSuggestionPress} />
+                                    {!isUsingCurrentLocation &&
+                                        <AddressSuggestions suggestions={suggestions} onSuggestionPress={handleSuggestionPress} />
+                                    }
                                     <RestaurantMapView region={region} />
                                 </View>
 
