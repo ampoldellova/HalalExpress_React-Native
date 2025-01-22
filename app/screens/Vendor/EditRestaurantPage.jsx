@@ -1,4 +1,4 @@
-import { Alert, FlatList, Image, ScrollView, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Alert, FlatList, Image, ScrollView, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { BackBtn, Button } from '../../components'
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -34,6 +34,7 @@ const EditRestaurantPage = () => {
     const [address, setAddress] = useState(item.coords.address);
     const [suggestions, setSuggestions] = useState([]);
     const [loader, setLoader] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [region, setRegion] = useState({
         latitude: item.coords.latitude,
         longitude: item.coords.longitude,
@@ -48,6 +49,7 @@ const EditRestaurantPage = () => {
     };
 
     const useCurrentLocation = async () => {
+        setLoading(true);
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
             console.error('Permission to access location was denied');
@@ -57,7 +59,6 @@ const EditRestaurantPage = () => {
         let location = await Location.getCurrentPositionAsync({});
         const { latitude, longitude } = location.coords;
 
-        // Use OpenCage Geocoding API to convert latitude and longitude to an address
         fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=a153a349ad474d8bb67e62bf4dadfa04`)
             .then(response => {
                 if (!response.ok) {
@@ -75,6 +76,9 @@ const EditRestaurantPage = () => {
             })
             .catch(error => {
                 console.error('Error fetching geocoding data:', error);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
 
@@ -255,6 +259,7 @@ const EditRestaurantPage = () => {
                                             onBlur={() => setFieldTouched('coords.address')}
                                         />
                                     </View>
+                                    {loading && <ActivityIndicator size="small" color={COLORS.primary} style={{ marginTop: 5 }} />}
                                     {touched.coords?.address && errors.coords?.address && (
                                         <Text style={styles.errorMessage}>{errors.coords?.address}</Text>
                                     )}
