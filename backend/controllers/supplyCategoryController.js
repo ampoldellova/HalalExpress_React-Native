@@ -13,6 +13,15 @@ module.exports = {
         }
     },
 
+    getSupplyCategories: async (req, res) => {
+        try {
+            const supplyCategories = await SupplyCategory.find({}, { _v: 0 })
+            res.status(200).json(supplyCategories)
+        } catch (error) {
+            res.status(500).json({ status: false, message: error.message })
+        }
+    },
+
     // updateCategory: async (req, res) => {
     //     const categoryId = req.params.id;
 
@@ -56,14 +65,6 @@ module.exports = {
     //     }
     // },
 
-    // getCategories: async (req, res) => {
-    //     try {
-    //         const categories = await Category.find({}, { _v: 0 })
-    //         res.status(200).json(categories)
-    //     } catch (error) {
-    //         res.status(500).json({ status: false, message: error.message })
-    //     }
-    // },
 
     // patchCategoryImage: async (req, res) => {
     //     const categoryId = req.params.id;

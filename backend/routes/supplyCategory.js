@@ -1,7 +1,8 @@
 const router = require('express').Router();
 const supplyCategoryController = require('../controllers/supplyCategoryController')
-const { verifyAdmin } = require('../middleware/verifyToken')
+const { verifyAdmin, verifyVendor } = require('../middleware/verifyToken')
 
 router.post('/', verifyAdmin, supplyCategoryController.createSupplyCategory)
+router.get('/', verifyVendor, supplyCategoryController.getSupplyCategories)
 
 module.exports = router;
