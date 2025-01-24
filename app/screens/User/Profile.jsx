@@ -11,8 +11,8 @@ import axios from "axios";
 import { cleanUser } from "../../../redux/UserReducer";
 import baseUrl from "../../../assets/common/baseUrl";
 import Heading from "../../components/Heading";
-import UserRestaurants from "../../components/User/UserRestaurants";
-import Loader from "../../components/Loader/Loader";
+import UserRestaurants from "../../components/Vendor/UserRestaurants";
+import UserStores from "../../components/Supplier/UserStores";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -119,6 +119,13 @@ const Profile = () => {
           <View>
             <Heading heading={'Your Restaurants'} onPress={() => { }} />
             <UserRestaurants user={user} />
+          </View>
+        )}
+
+        {user.userType === 'Supplier' && (
+          <View>
+            <Heading heading={'Your Stores'} onPress={() => { }} />
+            <UserStores />
           </View>
         )}
       </View>

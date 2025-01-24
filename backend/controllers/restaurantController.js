@@ -138,7 +138,6 @@ module.exports = {
     },
 
     getRestaurantsByOwner: async (req, res) => {
-        console.log(req.params)
         const { ownerId } = req.params;
         try {
             const restaurants = await Restaurant.find({ owner: ownerId });

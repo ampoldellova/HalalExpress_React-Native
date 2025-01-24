@@ -1,8 +1,8 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { RatingInput } from 'react-native-stock-star-rating'
-import { COLORS, SIZES } from '../../constants/theme'
-import Divider from '../Divider'
+import { COLORS, SIZES } from '../constants/theme'
+import Divider from './Divider'
 
 const UserStoreComponent = ({ item, onPress }) => {
 

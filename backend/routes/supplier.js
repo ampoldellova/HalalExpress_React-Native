@@ -3,6 +3,7 @@ const supplierController = require('../controllers/supplierController')
 const upload = require('../utils/multer');
 const { verifyAndAuthorization, verifySupplier } = require('../middleware/verifyToken')
 
-router.post('/:id', verifySupplier, upload.fields([{ name: 'imageUrl', maxCount: 1 }, { name: 'logoUrl', maxCount: 1 }]), supplierController.addSupplier);
+router.post('/', verifySupplier, supplierController.addSupplier);
+router.get('/owner/:ownerId', supplierController.getSupplierStoreByOwner);
 
 module.exports = router;

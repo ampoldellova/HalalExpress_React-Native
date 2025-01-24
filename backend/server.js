@@ -11,6 +11,7 @@ const restaurantRouter = require('./routes/restaurant')
 const categoryRouter = require('./routes/category')
 const foodRouter = require('./routes/food')
 const cartRouter = require('./routes/cart')
+const supplierRouter = require('./routes/supplier')
 
 dotenv.config()
 require('./cloudinary')
@@ -34,5 +35,6 @@ app.use('/api/restaurant', restaurantRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/foods', foodRouter)
 app.use('/api/cart', cartRouter)
+app.use('/api/supplier', supplierRouter)
 
 app.listen(process.env.PORT || port, () => console.log(`HalalExpress app listening on port ${process.env.PORT}!`))

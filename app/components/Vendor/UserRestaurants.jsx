@@ -5,8 +5,7 @@ import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/nativ
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import baseUrl from '../../../assets/common/baseUrl'
 import axios from 'axios'
-import UserStoreComponent from './UserStoreComponent'
-import { RestaurantContext } from '../../context/RestaurantContext'
+import UserStoreComponent from '../UserStoreComponent'
 import Loader from '../Loader/Loader'
 
 const UserRestaurants = ({ user }) => {
