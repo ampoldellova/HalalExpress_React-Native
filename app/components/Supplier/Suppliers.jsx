@@ -3,13 +3,13 @@ import React, { useContext } from 'react'
 import StoreComponent from '../StoreComponent'
 import { useNavigation } from '@react-navigation/native'
 
-const Suppliers = () => {
+const Suppliers = ({ suppliers }) => {
     const navigation = useNavigation();
 
     return (
         <View style={{ marginLeft: 12 }}>
-            {/* <FlatList
-                data={restaurants}
+            <FlatList
+                data={suppliers}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 style={{ marginTop: 5, rowGap: 10 }}
@@ -18,7 +18,7 @@ const Suppliers = () => {
                 renderItem={({ item }) => (
                     <StoreComponent item={item} onPress={() => { }} />
                 )}
-            /> */}
+            />
         </View>
     )
 }

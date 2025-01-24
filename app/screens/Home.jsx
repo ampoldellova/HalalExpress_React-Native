@@ -22,6 +22,8 @@ const Home = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [restaurants, setRestaurants] = useState([]);
   const [restaurantsLoaded, setRestaurantsLoaded] = useState(false);
+  const [suppliers, setSuppliers] = useState([]);
+  const [suppliersLoaded, setSuppliersLoaded] = useState(false);
   const [foods, setFoods] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [foodsLoaded, setFoodsLoaded] = useState(false);
@@ -59,7 +61,24 @@ const Home = () => {
   };
 
   const getSuppliers = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(token)}`,
+          },
+        };
 
+        const response = await axios.get(`${baseUrl}/api/supplier/list`, config);
+        setSuppliers(response.data);
+        setSuppliersLoaded(true);
+      } else {
+        console.log("Authentication token not found");
+      }
+    } catch (error) {
+      console.log("Error fetching suppliers:", error);
+    }
   }
 
   const getFoods = async () => {
@@ -78,10 +97,10 @@ const Home = () => {
 
 
   useEffect(() => {
-    if (restaurantsLoaded && foodsLoaded) {
+    if (restaurantsLoaded && foodsLoaded && suppliersLoaded) {
       setLoading(false);
     }
-  }, [restaurantsLoaded, foodsLoaded]);
+  }, [restaurantsLoaded, foodsLoaded, suppliersLoaded]);
 
 
   useEffect(() => {
@@ -100,12 +119,11 @@ const Home = () => {
       setFoodsLoaded(false);
       getProfile()
 
-      Promise.all([getRestaurants(), getFoods()])
+      Promise.all([getRestaurants(), getFoods(), getSuppliers()])
         .then(() => setLoading(false))
         .catch((err) => console.error(err));
     }, [])
   );
-
 
   return (
     <SafeAreaView>
@@ -135,7 +153,7 @@ const Home = () => {
                   {user.userType === 'Vendor' && (
                     <View>
                       <Heading heading={'Supplier Stores'} onPress={() => { }} />
-                      <Suppliers />
+                      <Suppliers suppliers={suppliers} />
                     </View>
                   )}
                   {user.userType === 'Supplier' || user.userType === 'Client' && (
