@@ -13,6 +13,8 @@ import baseUrl from "../../assets/common/baseUrl";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
 import Loader from "../components/Loader/Loader";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Suppliers from "../components/Supplier/Suppliers";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -24,6 +26,27 @@ const Home = () => {
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [foodsLoaded, setFoodsLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState({});
+
+  const getProfile = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(token)}`,
+          },
+        };
+
+        const response = await axios.get(`${baseUrl}/api/users/profile`, config);
+        setUser(response.data)
+      } else {
+        console.log("Authentication token not found");
+      }
+    } catch (error) {
+      console.log("Error fetching profile:", error);
+    }
+  };
 
   const getRestaurants = async () => {
     try {
@@ -34,6 +57,10 @@ const Home = () => {
       console.log("Error fetching restaurants:", error);
     }
   };
+
+  const getSuppliers = async () => {
+
+  }
 
   const getFoods = async () => {
     try {
@@ -71,6 +98,7 @@ const Home = () => {
       setLoading(true);
       setRestaurantsLoaded(false);
       setFoodsLoaded(false);
+      getProfile()
 
       Promise.all([getRestaurants(), getFoods()])
         .then(() => setLoading(false))
@@ -88,11 +116,15 @@ const Home = () => {
           <View style={pages.viewTwo}>
             <View>
               <HomeHeader />
-              <CategoryList
-                setSelectedCategory={setSelectedCategory}
-                setSelectedSection={setSelectedSection}
-                setSelectedValue={setSelectedValue}
-              />
+              {user.userType === 'Supplier' || user.userType === 'Client' && (
+                <View>
+                  <CategoryList
+                    setSelectedCategory={setSelectedCategory}
+                    setSelectedSection={setSelectedSection}
+                    setSelectedValue={setSelectedValue}
+                  />
+                </View>
+              )}
               {selectedCategory ? (
                 <View>
                   <Heading heading={`Foods in ${selectedValue}`} onPress={() => { }} />
@@ -100,11 +132,21 @@ const Home = () => {
                 </View>
               ) : (
                 <View>
-                  <Heading heading={'Restaurants'} onPress={() => { }} />
-                  <NearbyRestaurants restaurants={restaurants} />
-                  <Divider />
-                  <Heading heading={'Our Food'} onPress={() => { }} />
-                  <NewFoodList foods={filteredFoods} />
+                  {user.userType === 'Vendor' && (
+                    <View>
+                      <Heading heading={'Supplier Stores'} onPress={() => { }} />
+                      <Suppliers />
+                    </View>
+                  )}
+                  {user.userType === 'Supplier' || user.userType === 'Client' && (
+                    <View>
+                      <Heading heading={'Restaurants'} onPress={() => { }} />
+                      <NearbyRestaurants restaurants={restaurants} />
+                      <Divider />
+                      <Heading heading={'Our Food'} onPress={() => { }} />
+                      <NewFoodList foods={filteredFoods} />
+                    </View>
+                  )}
                 </View>
               )}
             </View>

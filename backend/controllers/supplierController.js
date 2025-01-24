@@ -26,5 +26,14 @@ module.exports = {
         } catch (error) {
             res.status(500).json({ status: false, message: "Error fetching Store by owner", error: error.message });
         }
-    }
+    },
+
+    getAllSuppliers: async (req, res) => {
+        try {
+            const suppliers = await Supplier.find();
+            res.status(200).json(suppliers);
+        } catch (error) {
+            res.status(500).json({ error: "Error fetching suppliers" });
+        }
+    },
 }
