@@ -7,7 +7,7 @@ import Divider from './Divider'
 const UserStoreComponent = ({ item, onPress }) => {
 
     return (
-        <TouchableOpacity onPress={onPress}>
+        <TouchableOpacity onPress={onPress} style={{ marginBottom: 20}}>
             <View style={{ flexDirection: 'row' }}>
                 <Image
                     source={{ uri: item.logoUrl.url }}

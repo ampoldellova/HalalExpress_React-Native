@@ -15,7 +15,6 @@ module.exports = {
 
     getSupplierStoreByOwner: async (req, res) => {
         const { ownerId } = req.params;
-        console.log(req.params)
         try {
             const supplierStores = await Supplier.find({ owner: ownerId });
 

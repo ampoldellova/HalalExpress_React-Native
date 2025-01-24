@@ -125,7 +125,7 @@ const Profile = () => {
         {user.userType === 'Supplier' && (
           <View>
             <Heading heading={'Your Stores'} onPress={() => { }} />
-            <UserStores />
+            <UserStores user={user} />
           </View>
         )}
       </View>

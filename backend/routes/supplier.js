@@ -4,6 +4,6 @@ const upload = require('../utils/multer');
 const { verifyAndAuthorization, verifySupplier } = require('../middleware/verifyToken')
 
 router.post('/', verifySupplier, supplierController.addSupplier);
-router.get('/owner/:ownerId', supplierController.getSupplierStoreByOwner);
+router.get('/owner/:ownerId', verifySupplier, supplierController.getSupplierStoreByOwner);
 
 module.exports = router;

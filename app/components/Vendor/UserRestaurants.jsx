@@ -51,8 +51,7 @@ const UserRestaurants = ({ user }) => {
             ) : (
                 <FlatList
                     data={restaurants}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
                     style={{ marginTop: 5, rowGap: 10 }}
                     scrollEnabled
                     renderItem={({ item }) => (
