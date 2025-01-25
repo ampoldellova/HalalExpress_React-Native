@@ -15,6 +15,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import Loader from "../components/Loader/Loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Suppliers from "../components/Supplier/Suppliers";
+import SupplyCategoryList from "../components/Supplier/SupplyCategoryList";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -137,6 +138,16 @@ const Home = () => {
               {user.userType === 'Supplier' || user.userType === 'Client' && (
                 <View>
                   <CategoryList
+                    setSelectedCategory={setSelectedCategory}
+                    setSelectedSection={setSelectedSection}
+                    setSelectedValue={setSelectedValue}
+                  />
+                </View>
+              )}
+
+              {user.userType === 'Vendor' && (
+                <View>
+                  <SupplyCategoryList
                     setSelectedCategory={setSelectedCategory}
                     setSelectedSection={setSelectedSection}
                     setSelectedValue={setSelectedValue}

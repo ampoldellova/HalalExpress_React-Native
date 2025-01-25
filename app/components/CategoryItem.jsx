@@ -17,7 +17,7 @@ const CategoryItem = ({ category, selected }) => {
             shadowColor: SHADOWS.small
         }}>
             <Image source={{ uri: category.imageUrl.url }} style={{ width: 30, height: 30 }} />
-            <Text style={{ fontSize: 13, fontFamily: 'regular' }}>{category.title}</Text>
+            <Text style={{ fontSize: 13, fontFamily: 'regular', textAlign: 'center' }}>{category.title}</Text>
         </View>
     )
 }
