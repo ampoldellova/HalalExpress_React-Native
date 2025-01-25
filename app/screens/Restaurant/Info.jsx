@@ -2,9 +2,6 @@ import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React, { useContext } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { RestaurantContext } from '../../context/RestaurantContext';
-import FoodTile from '../../components/FoodTile';
-import uidata from '../../constants/uidata';
-import CategoryFoodComp from '../../components/CategoryFoodComp';
 
 const Info = () => {
   const navigation = useNavigation();

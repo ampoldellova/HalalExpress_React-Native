@@ -3,12 +3,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import pages from '../styles/page.style'
 import HomeHeader from "../components/HomeHeader";
-import CategoryList from "../components/CategoryList";
+import CategoryList from "../components/Categories/CategoryList";
 import Heading from "../components/Heading";
-import NearbyRestaurants from "../components/NearbyRestaurants";
+import NearbyRestaurants from "../components/Vendor/NearbyRestaurants";
 import Divider from "../components/Divider";
-import NewFoodList from "../components/NewFoodList";
-import HomeCategories from "../components/HomeCategories";
+import NewFoodList from "../components/Foods/NewFoodList";
+import HomeCategories from "../components/Categories/HomeCategories";
 import baseUrl from "../../assets/common/baseUrl";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
@@ -135,7 +135,7 @@ const Home = () => {
           <View style={pages.viewTwo}>
             <View>
               <HomeHeader />
-              {user.userType === 'Supplier' || user.userType === 'Client' && (
+              {(user.userType === 'Supplier' || user.userType === 'Client') && (
                 <View>
                   <CategoryList
                     setSelectedCategory={setSelectedCategory}
@@ -167,7 +167,7 @@ const Home = () => {
                       <Suppliers suppliers={suppliers} />
                     </View>
                   )}
-                  {user.userType === 'Supplier' || user.userType === 'Client' && (
+                  {(user.userType === 'Supplier' || user.userType === 'Client') && (
                     <View>
                       <Heading heading={'Restaurants'} onPress={() => { }} />
                       <NearbyRestaurants restaurants={restaurants} />
