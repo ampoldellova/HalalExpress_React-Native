@@ -70,7 +70,7 @@ const HomeHeader = () => {
     //     const hour = now.getHours();
 
     //     if (hour >= 0 && hour < 12) {
-    //         return "☀️ "
+    //         return "☀️ " 
     //     } else if (hour >= 12 < 17) {
     //         return "🌤️ "
     //     } else {

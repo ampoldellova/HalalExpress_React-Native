@@ -1,8 +1,8 @@
 import { FlatList, StyleSheet, View } from 'react-native'
 import React, { useContext } from 'react'
-import StoreComponent from './StoreComponent'
+import StoreComponent from '../StoreComponent'
 import { useNavigation } from '@react-navigation/native'
-import { RestaurantContext } from '../context/RestaurantContext'
+import { RestaurantContext } from '../../context/RestaurantContext'
 
 const NearbyRestaurants = ({ restaurants }) => {
     const navigation = useNavigation();

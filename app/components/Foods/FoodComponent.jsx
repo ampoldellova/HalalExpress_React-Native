@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import NetworkImage from './NetworkImage'
-import { COLORS, SIZES } from '../constants/theme'
+import NetworkImage from '../NetworkImage'
+import { COLORS, SIZES } from '../../constants/theme'
 
 const FoodComponent = ({ item, onPress }) => {
     return (

@@ -1,11 +1,11 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
-import uidata from '../constants/uidata'
+import uidata from '../../constants/uidata'
 import { TouchableOpacity } from 'react-native'
 import CategoryItem from './CategoryItem'
 import { useFocusEffect } from '@react-navigation/native'
 import axios from 'axios'
-import baseUrl from '../../assets/common/baseUrl'
+import baseUrl from '../../../assets/common/baseUrl'
 
 const CategoryList = ({ setSelectedCategory, setSelectedSection, setSelectedValue }) => {
     const [categories, setCategories] = useState([]);

@@ -1,7 +1,7 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { COLORS, SHADOWS, SIZES } from '../constants/theme';
-import NetworkImage from './NetworkImage';
+import { COLORS, SHADOWS, SIZES } from '../../constants/theme';
+import NetworkImage from '../NetworkImage';
 import { RatingInput } from 'react-native-stock-star-rating'
 import { TouchableOpacity } from 'react-native';
 
