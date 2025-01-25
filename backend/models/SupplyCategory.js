@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const supplyCategorySchema = new mongoose.Schema({
     title: {
@@ -19,6 +19,6 @@ const supplyCategorySchema = new mongoose.Schema({
             default: 'https://res.cloudinary.com/dwkmutbz3/image/upload/v1736011952/HalalExpress/Profile/profile_nsvdbb.png'
         },
     },
-}, { timestamps: false });
+}, { timestamps: false, strictPopulate: false });
 
-module.exports = mongoose.model('SupplyCategory', supplyCategorySchema)
+module.exports = mongoose.model('SupplyCategory', supplyCategorySchema);

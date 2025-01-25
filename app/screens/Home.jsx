@@ -165,6 +165,7 @@ const Home = () => {
                     <View>
                       <Heading heading={'Supplier Stores'} onPress={() => { }} />
                       <Suppliers suppliers={suppliers} />
+                      <Heading heading={'Available Ingredients'} onPress={() => { }} />
                     </View>
                   )}
                   {(user.userType === 'Supplier' || user.userType === 'Client') && (
