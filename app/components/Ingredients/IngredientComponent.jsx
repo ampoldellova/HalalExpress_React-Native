@@ -2,7 +2,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { COLORS, SIZES } from '../../constants/theme'
 
-const FoodComponent = ({ item, onPress }) => {
+const IngredientComponent = ({ item, onPress }) => {
     return (
         <TouchableOpacity style={styles.wrapper} onPress={onPress}>
             <Image
@@ -16,14 +16,14 @@ const FoodComponent = ({ item, onPress }) => {
                 }}
             />
 
-            <Text style={styles.small}>{item.restaurant.title}</Text>
+            <Text style={styles.small}>{item.supplier.title}</Text>
             <Text style={styles.heading}>{item.title}</Text>
             <Text style={styles.small}>₱ {item.price}</Text>
         </TouchableOpacity>
     )
 }
 
-export default FoodComponent
+export default IngredientComponent
 
 const styles = StyleSheet.create({
     wrapper: {

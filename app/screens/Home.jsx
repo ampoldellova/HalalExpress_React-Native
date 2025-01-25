@@ -16,18 +16,26 @@ import Loader from "../components/Loader/Loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Suppliers from "../components/Supplier/Suppliers";
 import SupplyCategoryList from "../components/Supplier/SupplyCategoryList";
+import Ingredients from "../components/Ingredients/Ingredients";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSection, setSelectedSection] = useState(null);
   const [selectedValue, setSelectedValue] = useState(null);
+
   const [restaurants, setRestaurants] = useState([]);
   const [restaurantsLoaded, setRestaurantsLoaded] = useState(false);
+
   const [suppliers, setSuppliers] = useState([]);
   const [suppliersLoaded, setSuppliersLoaded] = useState(false);
+
   const [foods, setFoods] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [foodsLoaded, setFoodsLoaded] = useState(false);
+
+  const [ingredients, setIngredients] = useState([]);
+  const [ingredientsLoaded, setIngredientsLoaded] = useState(false);
+
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
 
@@ -96,12 +104,33 @@ const Home = () => {
     }
   };
 
+  const getIngredients = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(token)}`,
+          },
+        };
+        const response = await axios.get(`${baseUrl}/api/ingredients/list`, config);
+        setIngredients(response.data);
+        setIngredientsLoaded(true);
+      }
+      else {
+        console.log("Authentication token not found");
+      }
+    } catch (error) {
+      console.log("Error fetching ingredients:", error);
+    }
+  };
+
 
   useEffect(() => {
-    if (restaurantsLoaded && foodsLoaded && suppliersLoaded) {
+    if (restaurantsLoaded && foodsLoaded && suppliersLoaded && ingredientsLoaded) {
       setLoading(false);
     }
-  }, [restaurantsLoaded, foodsLoaded, suppliersLoaded]);
+  }, [restaurantsLoaded, foodsLoaded, suppliersLoaded, ingredientsLoaded]);
 
 
   useEffect(() => {
@@ -120,7 +149,7 @@ const Home = () => {
       setFoodsLoaded(false);
       getProfile()
 
-      Promise.all([getRestaurants(), getFoods(), getSuppliers()])
+      Promise.all([getRestaurants(), getFoods(), getSuppliers(), getIngredients()])
         .then(() => setLoading(false))
         .catch((err) => console.error(err));
     }, [])
@@ -166,6 +195,7 @@ const Home = () => {
                       <Heading heading={'Supplier Stores'} onPress={() => { }} />
                       <Suppliers suppliers={suppliers} />
                       <Heading heading={'Available Ingredients'} onPress={() => { }} />
+                      <Ingredients ingredients={ingredients} />
                     </View>
                   )}
                   {(user.userType === 'Supplier' || user.userType === 'Client') && (
