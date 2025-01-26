@@ -32,4 +32,20 @@ module.exports = {
             });
         }
     },
+
+    getIngredientBySupplier: async (req, res) => {
+        const supplierId = req.params.supplierId;
+
+        try {
+            const ingredients = await Ingredient.find({ supplier: supplierId });
+
+            if (!ingredients || ingredients.length === 0) {
+                return res.status(404).json({ status: false, message: "No ingredients found" })
+            }
+
+            res.status(200).json(ingredients)
+        } catch (error) {
+            res.status(500).json({ status: false, message: error.message })
+        }
+    },
 }

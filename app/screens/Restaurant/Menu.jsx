@@ -2,7 +2,6 @@ import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native'
 import CategoryFoodComp from '../../components/Categories/CategoryFoodComp'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import baseUrl from '../../../assets/common/baseUrl'
 import ClosedWindow from '../../components/Vendor/ClosedWindow'
@@ -17,7 +16,6 @@ const Menu = () => {
         try {
             const response = await axios.patch(`${baseUrl}/api/foods/restaurant/${item._id}`, {});
             setFoods(response.data);
-            setLoading(false)
         } catch (error) {
             Alert.alert('Error', error.response?.data?.message || 'Unable to toggle availability.');
         }
@@ -28,7 +26,7 @@ const Menu = () => {
             fetchRestaurantFoods()
         }, [])
     );
-    console.log(item.isAvailable)
+    
     return (
         <View style={{ marginTop: 5, marginBottom: 80 }}>
             {item.isAvailable ? (
