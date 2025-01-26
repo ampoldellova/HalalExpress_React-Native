@@ -3,12 +3,14 @@ import { RatingInput } from 'react-native-stock-star-rating'
 import React, { useContext } from 'react'
 import { COLORS, SIZES } from '../../constants/theme'
 import { useNavigation } from '@react-navigation/native'
+import { SupplierContext } from '../../context/SupplierContext'
 
 const SearchedSupplier = ({ item }) => {
     const navigation = useNavigation();
+    const { supplierObj, setSupplierObj } = useContext(SupplierContext);
 
     return (
-        <TouchableOpacity style={styles.wrapper} onPress={() => { }}>
+        <TouchableOpacity style={styles.wrapper} onPress={() => { navigation.navigate('supplier', item), setSupplierObj(item) }}>
             <Image
                 source={{ uri: item.imageUrl.url }}
                 style={{

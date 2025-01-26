@@ -9,7 +9,7 @@ import baseUrl from "../../../assets/common/baseUrl";
 import axios from "axios";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import SearchedFood from "./SearchedFood";
-import SearchedRestaurant from "./SearchedRestaurant"; 
+import SearchedRestaurant from "./SearchedRestaurant";
 
 const Search = () => {
   const [foods, setFoods] = useState([]);
@@ -141,7 +141,7 @@ const Search = () => {
                 ))}
               {searchCategory === "restaurants" &&
                 filteredRestaurants.map((item, i) => (
-                  <SearchedRestaurant key={i} item={item} onPress={() => navigation.navigate("restaurant-nav", item)} />
+                  <SearchedRestaurant key={i} item={item} />
                 ))}
             </ScrollView>
           )}

@@ -156,11 +156,11 @@ const VendorSearch = () => {
                         <ScrollView style={{ paddingBottom: 20 }}>
                             {searchCategory === "ingredients" &&
                                 filteredIngredients.map((item, i) => (
-                                    <SearchedIngredient key={i} item={item} onPress={() => { }} />
+                                    <SearchedIngredient key={i} item={item} onPress={() => navigation.navigate('ingredient-nav', item)} />
                                 ))}
                             {searchCategory === "suppliers" &&
                                 filteredSuppliers.map((item, i) => (
-                                    <SearchedSupplier key={i} item={item} onPress={() => { }} />
+                                    <SearchedSupplier key={i} item={item} />
                                 ))}
                         </ScrollView>
                     )}
