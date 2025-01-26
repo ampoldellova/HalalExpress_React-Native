@@ -40,7 +40,6 @@ const UserStores = ({ user }) => {
             getSupplierStoresByOwner()
         }, [])
     );
-    console.log(stores[1]?.title);
 
     return (
         <View style={{ marginLeft: 12 }}>
