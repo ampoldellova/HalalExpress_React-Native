@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Alert, Modal, Pressable, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Alert, Modal, Pressable } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { COLORS, SIZES } from "../../constants/theme";
 import { AntDesign } from "@expo/vector-icons";
@@ -13,6 +13,8 @@ import baseUrl from "../../../assets/common/baseUrl";
 import Heading from "../../components/Heading";
 import UserRestaurants from "../../components/Vendor/UserRestaurants";
 import UserStores from "../../components/Supplier/UserStores";
+import { SafeAreaView } from "react-native-safe-area-context";
+import pages from "../../styles/page.style";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -54,82 +56,72 @@ const Profile = () => {
   };
 
   return (
-
-    <View style={{ backgroundColor: COLORS.primary, height: SIZES.height }}>
-      <View
-        style={{
-          backgroundColor: COLORS.offwhite,
-          height: SIZES.height - 19,
-          borderBottomEndRadius: 30,
-          borderBottomStartRadius: 30,
-        }}
-      >
-        <TouchableOpacity onPress={() => navigation.navigate('edit-profile-page', { user })} style={styles.profile}>
-          <View
-            style={{
-              flexDirection: "row",
-            }}
-          >
-            <Image
-              source={{ uri: user?.profile?.url }}
-              style={{
-                height: 45,
-                width: 45,
-                borderRadius: 99,
-              }}
-            />
-            <View style={{ marginLeft: 5, marginTop: 3 }}>
-              <Text style={styles.text}>
-                {user === null ? "username" : user?.username}
-              </Text>
-              <Text style={styles.email}>
-                {user === null ? "email" : user?.email}
-              </Text>
+    <SafeAreaView>
+      <View style={pages.viewOne}>
+        <View style={pages.viewTwo}>
+          <TouchableOpacity onPress={() => navigation.navigate('edit-profile-page', { user })} style={styles.profile}>
+            <View style={{ flexDirection: "row" }}>
+              <Image
+                source={{ uri: user?.profile?.url }}
+                style={{
+                  height: 45,
+                  width: 45,
+                  borderRadius: 99,
+                }}
+              />
+              <View style={{ marginLeft: 5, marginTop: 3 }}>
+                <Text style={styles.text}>
+                  {user === null ? "username" : user?.username}
+                </Text>
+                <Text style={styles.email}>
+                  {user === null ? "email" : user?.email}
+                </Text>
+              </View>
             </View>
-          </View>
 
-          <TouchableOpacity onPress={handleLogout}>
-            <AntDesign name="logout" size={24} color="red" />
+            <TouchableOpacity onPress={handleLogout}>
+              <AntDesign name="logout" size={24} color="red" />
+            </TouchableOpacity>
           </TouchableOpacity>
-        </TouchableOpacity>
 
-        {user.userType === 'Client' && (
-          <View>
-            <RegistrationTile
-              heading={"Register a restaurant"}
-              desc={
-                "Join our community and showcase your culinary delights to a wider audience."
-              }
-            />
-            <View
-              style={{
-                height: 92,
-                backgroundColor: COLORS.lightWhite,
-                margin: 10,
-                borderRadius: 12,
-              }}
-            >
-              <ProfileTile title={"Orders"} icon={"fast-food-outline"} font={1} />
-              <ProfileTile title={"Payment History"} icon={"creditcard"} />
+          {user.userType === 'Client' && (
+            <View>
+              <RegistrationTile
+                heading={"Register a restaurant"}
+                desc={
+                  "Join our community and showcase your culinary delights to a wider audience."
+                }
+              />
+              <View
+                style={{
+                  height: 92,
+                  backgroundColor: COLORS.lightWhite,
+                  margin: 10,
+                  borderRadius: 12,
+                }}
+              >
+                <ProfileTile title={"Orders"} icon={"fast-food-outline"} font={1} />
+                <ProfileTile title={"Payment History"} icon={"creditcard"} />
+              </View>
             </View>
-          </View>
-        )}
+          )}
 
-        {user.userType === 'Vendor' && (
-          <View>
-            <Heading heading={'Your Restaurants'} onPress={() => { }} />
-            <UserRestaurants user={user} />
-          </View>
-        )}
+          {user.userType === 'Vendor' && (
+            <View>
+              <Heading heading={'Your Restaurants'} onPress={() => { }} />
+              <UserRestaurants user={user} />
+            </View>
+          )}
 
-        {user.userType === 'Supplier' && (
-          <View>
-            <Heading heading={'Your Stores'} onPress={() => { }} />
-            <UserStores user={user} />
-          </View>
-        )}
+          {user.userType === 'Supplier' && (
+            <View>
+              <Heading heading={'Your Stores'} onPress={() => { }} />
+              <UserStores user={user} />
+            </View>
+          )}
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -151,7 +143,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginHorizontal: 20,
-    marginTop: 50,
   },
   modalBackground: {
     flex: 1,
