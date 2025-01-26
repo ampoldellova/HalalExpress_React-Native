@@ -14,22 +14,18 @@ import 'react-native-gesture-handler';
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import VendorSearch from "../screens/Search/VendorSearch";
+import VendorHome from "../screens/Vendor/VendorHome";
 
 const Tab = createBottomTabNavigator();
 
 const tabBarStyle = {
   backgroundColor: COLORS.primary,
   borderTopWidth: 0,
-  elevation: 0, // This will remove the shadow on Android
-  shadowOpacity: 0, // This will remove the shadow on iOS
 };
 
 const BottomTab = () => {
   const { cartCount, setCartCount } = useContext(CartCountContext);
-  const { login, setLogin } = useContext(LoginContext)
   const { user } = useSelector(state => state.user)
-  const navigation = useNavigation()
-  console.log(user)
 
   return (
     <Tab.Navigator
@@ -41,7 +37,7 @@ const BottomTab = () => {
     >
       <Tab.Screen
         name="Home"
-        component={Home}
+        component={user ? (user.userType === 'Vendor' ? VendorHome : Home) : Home}
         options={{
           tabBarStyle: tabBarStyle,
           tabBarShowLabel: false,

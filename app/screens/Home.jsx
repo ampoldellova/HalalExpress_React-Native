@@ -1,63 +1,29 @@
-import { RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import pages from '../styles/page.style'
 import HomeHeader from "../components/HomeHeader";
-import CategoryList from "../components/Categories/CategoryList";
 import Heading from "../components/Heading";
-import NearbyRestaurants from "../components/Vendor/NearbyRestaurants";
 import Divider from "../components/Divider";
-import NewFoodList from "../components/Foods/NewFoodList";
-import HomeCategories from "../components/Categories/HomeCategories";
 import baseUrl from "../../assets/common/baseUrl";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
 import Loader from "../components/Loader/Loader";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Suppliers from "../components/Supplier/Suppliers";
-import SupplyCategoryList from "../components/Supplier/SupplyCategoryList";
-import Ingredients from "../components/Ingredients/Ingredients";
+import HomeCategories from "../components/Categories/HomeCategories";
+import CategoryList from "../components/Categories/CategoryList";
+import NearbyRestaurants from "../components/Vendor/NearbyRestaurants";
+import NewFoodList from "../components/Foods/NewFoodList";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSection, setSelectedSection] = useState(null);
   const [selectedValue, setSelectedValue] = useState(null);
-
   const [restaurants, setRestaurants] = useState([]);
   const [restaurantsLoaded, setRestaurantsLoaded] = useState(false);
-
-  const [suppliers, setSuppliers] = useState([]);
-  const [suppliersLoaded, setSuppliersLoaded] = useState(false);
-
   const [foods, setFoods] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [foodsLoaded, setFoodsLoaded] = useState(false);
-
-  const [ingredients, setIngredients] = useState([]);
-  const [ingredientsLoaded, setIngredientsLoaded] = useState(false);
-
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState({});
-
-  const getProfile = async () => {
-    try {
-      const token = await AsyncStorage.getItem("token");
-      if (token) {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(token)}`,
-          },
-        };
-
-        const response = await axios.get(`${baseUrl}/api/users/profile`, config);
-        setUser(response.data)
-      } else {
-        console.log("Authentication token not found");
-      }
-    } catch (error) {
-      console.log("Error fetching profile:", error);
-    }
-  };
 
   const getRestaurants = async () => {
     try {
@@ -68,27 +34,6 @@ const Home = () => {
       console.log("Error fetching restaurants:", error);
     }
   };
-
-  const getSuppliers = async () => {
-    try {
-      const token = await AsyncStorage.getItem("token");
-      if (token) {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(token)}`,
-          },
-        };
-
-        const response = await axios.get(`${baseUrl}/api/supplier/list`, config);
-        setSuppliers(response.data);
-        setSuppliersLoaded(true);
-      } else {
-        console.log("Authentication token not found");
-      }
-    } catch (error) {
-      console.log("Error fetching suppliers:", error);
-    }
-  }
 
   const getFoods = async () => {
     try {
@@ -104,33 +49,12 @@ const Home = () => {
     }
   };
 
-  const getIngredients = async () => {
-    try {
-      const token = await AsyncStorage.getItem("token");
-      if (token) {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(token)}`,
-          },
-        };
-        const response = await axios.get(`${baseUrl}/api/ingredients/list`, config);
-        setIngredients(response.data);
-        setIngredientsLoaded(true);
-      }
-      else {
-        console.log("Authentication token not found");
-      }
-    } catch (error) {
-      console.log("Error fetching ingredients:", error);
-    }
-  };
-
 
   useEffect(() => {
-    if (restaurantsLoaded && foodsLoaded && suppliersLoaded && ingredientsLoaded) {
+    if (restaurantsLoaded && foodsLoaded) {
       setLoading(false);
     }
-  }, [restaurantsLoaded, foodsLoaded, suppliersLoaded, ingredientsLoaded]);
+  }, [restaurantsLoaded, foodsLoaded]);
 
 
   useEffect(() => {
@@ -147,9 +71,8 @@ const Home = () => {
       setLoading(true);
       setRestaurantsLoaded(false);
       setFoodsLoaded(false);
-      getProfile()
 
-      Promise.all([getRestaurants(), getFoods(), getSuppliers(), getIngredients()])
+      Promise.all([getRestaurants(), getFoods()])
         .then(() => setLoading(false))
         .catch((err) => console.error(err));
     }, [])
@@ -164,25 +87,13 @@ const Home = () => {
           <View style={pages.viewTwo}>
             <View>
               <HomeHeader />
-
-              {user.userType === 'Vendor' ? (
-                <View>
-                  <SupplyCategoryList
-                    setSelectedCategory={setSelectedCategory}
-                    setSelectedSection={setSelectedSection}
-                    setSelectedValue={setSelectedValue}
-                  />
-                </View>
-              ) : (
-                <View>
-                  <CategoryList
-                    setSelectedCategory={setSelectedCategory}
-                    setSelectedSection={setSelectedSection}
-                    setSelectedValue={setSelectedValue}
-                  />
-                </View>
-              )}
-
+              <View>
+                <CategoryList
+                  setSelectedCategory={setSelectedCategory}
+                  setSelectedSection={setSelectedSection}
+                  setSelectedValue={setSelectedValue}
+                />
+              </View>
               {selectedCategory ? (
                 <View>
                   <Heading heading={`Foods in ${selectedValue}`} onPress={() => { }} />
@@ -190,22 +101,11 @@ const Home = () => {
                 </View>
               ) : (
                 <View>
-                  {user.userType === 'Vendor' ? (
-                    <View>
-                      <Heading heading={'Supplier Stores'} onPress={() => { }} />
-                      <Suppliers suppliers={suppliers} />
-                      <Heading heading={'Available Ingredients'} onPress={() => { }} />
-                      <Ingredients ingredients={ingredients} />
-                    </View>
-                  ) : (
-                    <View>
-                      <Heading heading={'Restaurants'} onPress={() => { }} />
-                      <NearbyRestaurants restaurants={restaurants} />
-                      <Divider />
-                      <Heading heading={'Our Food'} onPress={() => { }} />
-                      <NewFoodList foods={filteredFoods} />
-                    </View>
-                  )}
+                  <Heading heading={'Restaurants'} onPress={() => { }} />
+                  <NearbyRestaurants restaurants={restaurants} />
+                  <Divider />
+                  <Heading heading={'Our Food'} onPress={() => { }} />
+                  <NewFoodList foods={filteredFoods} />
                 </View>
               )}
             </View>
@@ -217,8 +117,3 @@ const Home = () => {
 };
 
 export default Home;
-
-
-const styles = StyleSheet.create({
-
-});

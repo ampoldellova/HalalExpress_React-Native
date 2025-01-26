@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import CategoryItem from '../Categories/CategoryItem'
+import CategoryItem from './CategoryItem'
 import baseUrl from '../../../assets/common/baseUrl'
 
 const SupplyCategoryList = ({ setSelectedCategory, setSelectedSection, setSelectedValue }) => {

@@ -1,28 +1,29 @@
-import CategoryFoodComp from './CategoryFoodComp'
 import { useNavigation } from '@react-navigation/native'
 import { View, FlatList, StyleSheet } from 'react-native'
+import CategoryIngredientComp from './CategoryIngredientComp';
 
-const HomeCategories = ({ foods }) => {
+
+const HomeIngredientCategories = ({ ingredients }) => {
     const navigation = useNavigation();
 
-    const renderCategoryItem = ({ item }) => (
-        <CategoryFoodComp item={item} onPress={() => navigation.navigate('food-nav', item)} />
+    const renderIngredientCategoryItem = ({ item }) => (
+        <CategoryIngredientComp item={item} onPress={() => { }} />
     );
 
     return (
         <View style={{ marginLeft: 12, marginBottom: 12 }}>
             <FlatList
-                data={foods}
+                data={ingredients}
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item) => item._id.toString()}
                 style={{ marginTop: 10 }}
                 scrollEnabled
-                renderItem={renderCategoryItem}
+                renderItem={renderIngredientCategoryItem}
             />
         </View>
     )
 }
 
-export default HomeCategories
+export default HomeIngredientCategories
 
 const styles = StyleSheet.create({})
