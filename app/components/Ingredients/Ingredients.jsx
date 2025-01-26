@@ -5,7 +5,6 @@ import IngredientComponent from './IngredientComponent';
 
 const Ingredients = ({ ingredients }) => {
     const navigation = useNavigation();
-    console.log(ingredients)
 
     return (
         <View style={{ marginLeft: 12, marginBottom: 10 }}>

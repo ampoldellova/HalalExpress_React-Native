@@ -164,7 +164,16 @@ const Home = () => {
           <View style={pages.viewTwo}>
             <View>
               <HomeHeader />
-              {(user.userType === 'Supplier' || user.userType === 'Client') && (
+
+              {user.userType === 'Vendor' ? (
+                <View>
+                  <SupplyCategoryList
+                    setSelectedCategory={setSelectedCategory}
+                    setSelectedSection={setSelectedSection}
+                    setSelectedValue={setSelectedValue}
+                  />
+                </View>
+              ) : (
                 <View>
                   <CategoryList
                     setSelectedCategory={setSelectedCategory}
@@ -174,15 +183,6 @@ const Home = () => {
                 </View>
               )}
 
-              {user.userType === 'Vendor' && (
-                <View>
-                  <SupplyCategoryList
-                    setSelectedCategory={setSelectedCategory}
-                    setSelectedSection={setSelectedSection}
-                    setSelectedValue={setSelectedValue}
-                  />
-                </View>
-              )}
               {selectedCategory ? (
                 <View>
                   <Heading heading={`Foods in ${selectedValue}`} onPress={() => { }} />
@@ -190,15 +190,14 @@ const Home = () => {
                 </View>
               ) : (
                 <View>
-                  {user.userType === 'Vendor' && (
+                  {user.userType === 'Vendor' ? (
                     <View>
                       <Heading heading={'Supplier Stores'} onPress={() => { }} />
                       <Suppliers suppliers={suppliers} />
                       <Heading heading={'Available Ingredients'} onPress={() => { }} />
                       <Ingredients ingredients={ingredients} />
                     </View>
-                  )}
-                  {(user.userType === 'Supplier' || user.userType === 'Client') && (
+                  ) : (
                     <View>
                       <Heading heading={'Restaurants'} onPress={() => { }} />
                       <NearbyRestaurants restaurants={restaurants} />

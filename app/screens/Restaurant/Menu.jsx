@@ -15,19 +15,9 @@ const Menu = () => {
 
     const fetchRestaurantFoods = async () => {
         try {
-            const token = await AsyncStorage.getItem("token");
-            if (token) {
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${JSON.parse(token)}`,
-                    },
-                };
-                const response = await axios.patch(`${baseUrl}/api/foods/restaurant/${item._id}`, {}, config);
-                setFoods(response.data);
-                setLoading(false)
-            } else {
-                console.log("Authentication token not found");
-            }
+            const response = await axios.patch(`${baseUrl}/api/foods/restaurant/${item._id}`, {});
+            setFoods(response.data);
+            setLoading(false)
         } catch (error) {
             Alert.alert('Error', error.response?.data?.message || 'Unable to toggle availability.');
         }

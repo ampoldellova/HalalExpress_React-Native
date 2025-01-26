@@ -13,6 +13,7 @@ import LoginPage from "../screens/User/LoginPage";
 import 'react-native-gesture-handler';
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import VendorSearch from "../screens/Search/VendorSearch";
 
 const Tab = createBottomTabNavigator();
 
@@ -28,6 +29,7 @@ const BottomTab = () => {
   const { login, setLogin } = useContext(LoginContext)
   const { user } = useSelector(state => state.user)
   const navigation = useNavigation()
+  console.log(user)
 
   return (
     <Tab.Navigator
@@ -56,7 +58,7 @@ const BottomTab = () => {
 
       <Tab.Screen
         name="Search"
-        component={Search}
+        component={user ? (user.userType === 'Vendor' ? VendorSearch : Search) : Search}
         options={{
           tabBarStyle: tabBarStyle,
           tabBarShowLabel: false,
