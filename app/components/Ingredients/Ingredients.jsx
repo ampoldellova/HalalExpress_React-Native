@@ -16,7 +16,7 @@ const Ingredients = ({ ingredients }) => {
                 scrollEnabled
                 keyExtractor={(item) => item._id.toString()}
                 renderItem={({ item }) => (
-                    <IngredientComponent item={item} onPress={() => { }} />
+                    <IngredientComponent item={item} onPress={() => navigation.navigate('ingredient-nav', item)} />
                 )}
             />
         </View>

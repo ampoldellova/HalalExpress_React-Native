@@ -33,6 +33,7 @@ import UserStorePage from './app/screens/Supplier/UserStorePage';
 import SupplierPage from './app/navigation/SupplierPage';
 import Supplier from './app/screens/Supplier/Supplier';
 import { SupplierContext } from './app/context/SupplierContext';
+import IngredientNavigator from './app/navigation/IngredientNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -110,6 +111,11 @@ export default function App() {
                       <Stack.Screen
                         name='food-nav'
                         component={FoodNavigator}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='ingredient-nav'
+                        component={IngredientNavigator}
                         options={{ headerShown: false }}
                       />
                       <Stack.Screen

@@ -5,8 +5,8 @@ import { COLORS, SIZES } from "../constants/theme";
 import { Entypo, AntDesign } from "@expo/vector-icons"
 import BouncyCheckbox from "react-native-bouncy-checkbox"
 import Counter from '../components/Counter';
-import { useFocusEffect } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { RatingInput } from 'react-native-stock-star-rating';
 
 const FoodPage = ({ route, navigation }) => {
   const item = route.params.item;
@@ -60,11 +60,17 @@ const FoodPage = ({ route, navigation }) => {
             <Entypo name="chevron-small-left" size={30} color="white" />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => { }} style={{ position: 'absolute', bottom: 20, right: 0 }}>
-            <View style={styles.restbtn}>
-              <Text style={{ color: COLORS.lightWhite, fontFamily: 'medium' }}>Open the Store</Text>
+          <View style={styles.rating}>
+            <View style={styles.innerRating}>
+              <RatingInput
+                rating={Number(item.rating)}
+                size={22}
+              />
+              <TouchableOpacity style={styles.ratingBtn} onPress={() => { }}>
+                <Text style={styles.btnText}>Open the Store</Text>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
+          </View>
         </View>
 
         <View style={styles.container}>
@@ -132,29 +138,27 @@ const FoodPage = ({ route, navigation }) => {
             <Counter count={count} setCount={setCount} />
           </View>
         </View>
+      </ScrollView >
 
-        <View style={{ top: 110 }}>
-          <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-            <View style={styles.suspended}>
-              <View style={styles.cart}>
-                <View style={styles.cartRow}>
-                  <TouchableOpacity onPress={() => { }} style={styles.cartBtn}>
-                    <AntDesign name='pluscircleo' size={24} color={COLORS.lightWhite} />
-                  </TouchableOpacity>
+      <View style={{ position: 'absolute', bottom: -40, alignItems: "center", width: "100%" }}>
+        <View style={styles.suspended}>
+          <View style={styles.cart}>
+            <View style={styles.cartRow}>
+              <TouchableOpacity onPress={() => { }} style={styles.cartBtn}>
+                <AntDesign name='pluscircleo' size={24} color={COLORS.lightWhite} />
+              </TouchableOpacity>
 
-                  <TouchableOpacity onPress={() => navigation.navigate('order-page')} style={{ backgroundColor: COLORS.primary, paddingHorizontal: 80, borderRadius: 30 }}>
-                    <Text style={[styles.title, { color: COLORS.lightWhite, marginTop: 5, alignItems: "center" }]}>Order</Text>
-                  </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate('order-page')} style={{ backgroundColor: COLORS.primary, paddingHorizontal: 80, borderRadius: 30 }}>
+                <Text style={[styles.title, { color: COLORS.lightWhite, marginTop: 5, alignItems: "center" }]}>Order</Text>
+              </TouchableOpacity>
 
-                  <TouchableOpacity onPress={() => { }} style={styles.cartBtn}>
-                    <Text style={[styles.title, { color: COLORS.lightWhite, marginTop: 5, alignItems: "center" }]}>{0}</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
+              <TouchableOpacity onPress={() => { }} style={styles.cartBtn}>
+                <Text style={[styles.title, { color: COLORS.lightWhite, marginTop: 5, alignItems: "center" }]}>{0}</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
-      </ScrollView >
+      </View>
     </SafeAreaView >
   )
 }
@@ -171,13 +175,30 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     borderRadius: 99
   },
-  sharebtn: {
-    marginRight: 12,
-    alignItems: "center",
+  rating: {
+    height: 50,
+    justifyContent: "center",
+    width: "100%",
+    position: "absolute",
+    backgroundColor: "#00fff",
     zIndex: 999,
-    right: 0,
-    position: 'absolute',
-    top: SIZES.xxLarge,
+    bottom: 5,
+    borderRadius: 15,
+  },
+  innerRating: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 12
+  },
+  ratingBtn: {
+    backgroundColor: COLORS.primary,
+    borderRadius: 9,
+    padding: 6
+  },
+  btnText: {
+    fontSize: 16,
+    fontFamily: 'medium',
+    color: COLORS.white
   },
   restbtn: {
     borderColor: COLORS.primary,
