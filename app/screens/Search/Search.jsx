@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { Text, View, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import React, { useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS, SIZES } from "../../constants/theme";
@@ -9,15 +9,15 @@ import baseUrl from "../../../assets/common/baseUrl";
 import axios from "axios";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import SearchedFood from "./SearchedFood";
-import SearchedRestaurant from "./SearchedRestaurant"; // Component for restaurant results
+import SearchedRestaurant from "./SearchedRestaurant"; 
 
 const Search = () => {
   const [foods, setFoods] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
-  const [searchKey, setSearchKey] = useState(""); // Tracks the search text
-  const [searchCategory, setSearchCategory] = useState("foods"); // "foods" or "restaurants"
+  const [searchKey, setSearchKey] = useState("");
+  const [searchCategory, setSearchCategory] = useState("foods");
   const animation = useRef(null);
   const navigation = useNavigation();
 
@@ -82,7 +82,7 @@ const Search = () => {
                 style={styles.input}
                 value={searchKey}
                 onChangeText={handleSearch}
-                placeholder={`Search ${searchCategory === "foods" ? "foods" : "restaurants"}...`}
+                placeholder={`Search ${searchCategory === "food(s)" ? "food(s)" : "restaurant(s)"}...`}
               />
             </View>
 
