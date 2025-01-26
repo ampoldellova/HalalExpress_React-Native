@@ -8,23 +8,16 @@ import Info from '../screens/Restaurant/Info';
 import 'react-native-gesture-handler';
 
 const FirstRoute = () => (
-    <View style={{ flex: 1, backgroundColor: COLORS.lightWhite }} />
+    <Menu />
 );
 
-const SecondRoute = () => (
-    <View style={{ flex: 1, backgroundColor: COLORS.lightWhite }} />
+const SecondRoute = ({ item }) => (
+    <Directions item={item} />
 );
 
 const ThirdRoute = () => (
-    <View style={{ flex: 1, backgroundColor: COLORS.lightWhite }} />
+    <Info />
 );
-
-
-const renderScene = SceneMap({
-    first: Menu,
-    second: Directions,
-    third: Info
-});
 
 const RestaurantPage = ({ item }) => {
     const layout = useWindowDimensions();
@@ -34,6 +27,19 @@ const RestaurantPage = ({ item }) => {
         { key: 'second', title: 'Directions' },
         { key: 'third', title: 'Info' },
     ]);
+
+    const renderScene = ({ route }) => {
+        switch (route.key) {
+            case 'first':
+                return <FirstRoute />;
+            case 'second':
+                return <SecondRoute item={item} />;
+            case 'third':
+                return <ThirdRoute />;
+            default:
+                return null;
+        }
+    };
 
     const renderTabBar = (props) => {
         const { key, ...propsWithoutKey } = props;

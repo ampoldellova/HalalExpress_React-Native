@@ -32,6 +32,7 @@ import EditRestaurantPage from './app/screens/Vendor/EditRestaurantPage';
 import UserStorePage from './app/screens/Supplier/UserStorePage';
 import SupplierPage from './app/navigation/SupplierPage';
 import Supplier from './app/screens/Supplier/Supplier';
+import { SupplierContext } from './app/context/SupplierContext';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,7 @@ export default function App() {
   const [address, setAddress] = useState(null);
   const [cartCount, setCartCount] = useState(0);
   const [restaurantObj, setRestaurantObj] = useState(null);
+  const [supplierObj, setSupplierObj] = useState(null);
   const [error, setErrorMsg] = useState(null);
 
   const defaultAddresss = { "city": "Shanghai", "country": "China", "district": "Pudong", "isoCountryCode": "CN", "name": "33 East Nanjing Rd", "postalCode": "94108", "region": "SH", "street": "Stockton St", "streetNumber": "1", "subregion": "San Francisco County", "timezone": "America/Los_Angeles" }
@@ -95,104 +97,106 @@ export default function App() {
       <UserLocationContext.Provider value={{ location, setLocation }}>
         <UserReversedGeoCode.Provider value={{ address, setAddress }}>
           <RestaurantContext.Provider value={{ restaurantObj, setRestaurantObj }}>
-            <LoginContext.Provider value={{ login, setLogin }}>
-              <CartCountContext.Provider value={{ cartCount, setCartCount }}>
-                <NavigationContainer>
-                  <Stack.Navigator>
-                    <Stack.Screen
-                      name='bottom-navigation'
-                      component={BottomTab}
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name='food-nav'
-                      component={FoodNavigator}
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name='restaurant-page'
-                      component={RestaurantPage}
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name='restaurant'
-                      component={Restaurant}
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name='supplier-page'
-                      component={SupplierPage}
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name='supplier'
-                      component={Supplier}
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name='login'
-                      component={LoginPage}
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name='signUp'
-                      component={SignUp}
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name='rating'
-                      component={AddRating}
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name='chat-list'
-                      component={ChatList}
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name='chat-page'
-                      component={ChatRoom}
-                      options={{ headerTitle: "" }}
-                    />
-                    <Stack.Screen
-                      name='edit-profile-page'
-                      component={EditProfile}
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name='user-restaurant-page'
-                      component={UserRestaurantPage}
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name='manage-food-page'
-                      component={ManageFoodPage}
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name='vendor-food-page'
-                      component={VendorFoodPage}
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name='add-food-page'
-                      component={AddFoodPage}
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name='edit-restaurant-page'
-                      component={EditRestaurantPage}
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name='user-supplier-store-page'
-                      component={UserStorePage}
-                      options={{ headerShown: false }}
-                    />
-                  </Stack.Navigator>
-                </NavigationContainer>
-              </CartCountContext.Provider>
-            </LoginContext.Provider>
+            <SupplierContext.Provider value={{ supplierObj, setSupplierObj }}>
+              <LoginContext.Provider value={{ login, setLogin }}>
+                <CartCountContext.Provider value={{ cartCount, setCartCount }}>
+                  <NavigationContainer>
+                    <Stack.Navigator>
+                      <Stack.Screen
+                        name='bottom-navigation'
+                        component={BottomTab}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='food-nav'
+                        component={FoodNavigator}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='restaurant-page'
+                        component={RestaurantPage}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='restaurant'
+                        component={Restaurant}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='supplier-page'
+                        component={SupplierPage}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='supplier'
+                        component={Supplier}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='login'
+                        component={LoginPage}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='signUp'
+                        component={SignUp}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='rating'
+                        component={AddRating}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='chat-list'
+                        component={ChatList}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='chat-page'
+                        component={ChatRoom}
+                        options={{ headerTitle: "" }}
+                      />
+                      <Stack.Screen
+                        name='edit-profile-page'
+                        component={EditProfile}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='user-restaurant-page'
+                        component={UserRestaurantPage}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='manage-food-page'
+                        component={ManageFoodPage}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='vendor-food-page'
+                        component={VendorFoodPage}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='add-food-page'
+                        component={AddFoodPage}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='edit-restaurant-page'
+                        component={EditRestaurantPage}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='user-supplier-store-page'
+                        component={UserStorePage}
+                        options={{ headerShown: false }}
+                      />
+                    </Stack.Navigator>
+                  </NavigationContainer>
+                </CartCountContext.Provider>
+              </LoginContext.Provider>
+            </SupplierContext.Provider>
           </RestaurantContext.Provider>
         </UserReversedGeoCode.Provider>
       </UserLocationContext.Provider>

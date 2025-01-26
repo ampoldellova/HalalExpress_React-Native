@@ -8,7 +8,7 @@ import PlaceMarker from './PlaceMarker';
 import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
 
-const GoogleMapView = ({ placeList }) => {
+const GoogleMapView = ({ placeList, title }) => {
     const [coordinates, setCoordinates] = useState([]);
     const { location, setLocation } = useContext(UserLocationContext)
 
@@ -71,7 +71,7 @@ const GoogleMapView = ({ placeList }) => {
                 />
 
                 {placeList.map(
-                    (item, index) => index <= 1 && <PlaceMarker key={index} coordinates={item} />
+                    (item, index) => index <= 1 && <PlaceMarker key={index} coordinates={item} title={title} />
                 )}
 
                 <Polyline coordinates={coordinates} strokeColor={COLORS.primary} strokeWidth={5} />

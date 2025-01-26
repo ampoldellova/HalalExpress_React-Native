@@ -5,10 +5,11 @@ import GoogleMapView from '../../components/GoogleMapView'
 import { COLORS, SIZES } from '../../constants/theme'
 import { TouchableOpacity } from 'react-native'
 
-const Directions = () => {
+const Directions = ({ item }) => {
   const [key, setKey] = useState(0)
   const { restaurantObj, setRestaurantObj } = useContext(RestaurantContext)
   const coords = restaurantObj.coords
+
   const onDirectionClick = () => {
     const url = Platform.select({
       ios: " maps:" + coords.latitude + "," + coords.longitude,
@@ -19,23 +20,20 @@ const Directions = () => {
 
   useEffect(() => {
     setKey(prev => prev + 1)
-  },[])
+  }, [])
 
   return (
     <View>
-      <GoogleMapView key={key} placeList={[coords]} />
+      <GoogleMapView key={key} placeList={[coords]} title={item.title} />
 
       <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: 12 }}>
-
         <Text style={[styles.small, { width: SIZES.width / 1.6 }]}>
           {coords.address}
         </Text>
 
-
         <TouchableOpacity style={styles.ratingBtn} onPress={() => onDirectionClick()}>
           <Text>Directions</Text>
         </TouchableOpacity>
-
       </View>
     </View>
   )

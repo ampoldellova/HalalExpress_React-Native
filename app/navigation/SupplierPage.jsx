@@ -8,23 +8,16 @@ import Directions from '../screens/Supplier/Directions';
 import Info from '../screens/Supplier/Info';
 
 const FirstRoute = () => (
-    <View style={{ flex: 1, backgroundColor: COLORS.lightWhite }} />
+    <Products />
 );
 
-const SecondRoute = () => (
-    <View style={{ flex: 1, backgroundColor: COLORS.lightWhite }} />
+const SecondRoute = ({ item }) => (
+    <Directions item={item} />
 );
 
 const ThirdRoute = () => (
-    <View style={{ flex: 1, backgroundColor: COLORS.lightWhite }} />
+    <Info />
 );
-
-
-const renderScene = SceneMap({
-    first: Products,
-    second: Directions,
-    third: Info
-});
 
 const SupplierPage = ({ item }) => {
     const layout = useWindowDimensions();
@@ -34,6 +27,19 @@ const SupplierPage = ({ item }) => {
         { key: 'second', title: 'Directions' },
         { key: 'third', title: 'Info' },
     ]);
+
+    const renderScene = ({ route }) => {
+        switch (route.key) {
+            case 'first':
+                return <FirstRoute />;
+            case 'second':
+                return <SecondRoute item={item} />;
+            case 'third':
+                return <ThirdRoute />;
+            default:
+                return null;
+        }
+    };
 
     const renderTabBar = (props) => {
         const { key, ...propsWithoutKey } = props;
