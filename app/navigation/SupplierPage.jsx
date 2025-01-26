@@ -2,10 +2,10 @@ import * as React from 'react';
 import { View, useWindowDimensions } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { COLORS } from '../constants/theme';
-import Menu from '../screens/Restaurant/Menu';
-import Directions from '../screens/Restaurant/Directions';
-import Info from '../screens/Restaurant/Info';
 import 'react-native-gesture-handler';
+import Products from '../screens/Supplier/Products';
+import Directions from '../screens/Supplier/Directions';
+import Info from '../screens/Supplier/Info';
 
 const FirstRoute = () => (
     <View style={{ flex: 1, backgroundColor: COLORS.lightWhite }} />
@@ -21,16 +21,16 @@ const ThirdRoute = () => (
 
 
 const renderScene = SceneMap({
-    first: Menu,
+    first: Products,
     second: Directions,
     third: Info
 });
 
-const RestaurantPage = ({ item }) => {
+const SupplierPage = ({ item }) => {
     const layout = useWindowDimensions();
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
-        { key: 'first', title: 'Menu' },
+        { key: 'first', title: 'Products' },
         { key: 'second', title: 'Directions' },
         { key: 'third', title: 'Info' },
     ]);
@@ -61,4 +61,4 @@ const RestaurantPage = ({ item }) => {
     );
 }
 
-export default RestaurantPage
+export default SupplierPage

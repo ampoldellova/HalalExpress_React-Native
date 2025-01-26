@@ -1,15 +1,15 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-import RestaurantPage from '../../navigation/RestaurantPage'
-import { SIZES, COLORS } from '../../constants/theme'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useRoute } from '@react-navigation/native'
+import { COLORS, SIZES } from '../../constants/theme'
 import Entypo from '@expo/vector-icons/Entypo';
 import { RatingInput } from 'react-native-stock-star-rating'
 import GoogleApiServices from '../../hook/GoogleApiServices'
 import { UserLocationContext } from '../../context/UserLocationContext'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import SupplierPage from '../../navigation/SupplierPage'
 
-const Restaurant = ({ navigation }) => {
+const Supplier = ({ navigation }) => {
     const route = useRoute();
     const item = route.params;
     const [distanceTime, setDistanceTime] = useState({})
@@ -83,7 +83,6 @@ const Restaurant = ({ navigation }) => {
                     </View>
                 </View>
 
-
                 <View style={{ flexDirection: 'row', justifyContent: "space-between" }}>
                     <Text style={[styles.small, { color: COLORS.gray }]}>Distance:</Text>
                     <Text style={[styles.small, { fontFamily: 'regular' }]}>{(distanceTime.distance / 1000).toFixed(1)} km</Text>
@@ -100,13 +99,14 @@ const Restaurant = ({ navigation }) => {
                 </View>
             </View>
             <View style={{ height: SIZES.height / 1.5 }}>
-                <RestaurantPage item={item} />
+                <SupplierPage item={item} />
             </View>
-        </SafeAreaView >
+
+        </SafeAreaView>
     )
 }
 
-export default Restaurant
+export default Supplier
 
 const styles = StyleSheet.create({
     backbtn: {

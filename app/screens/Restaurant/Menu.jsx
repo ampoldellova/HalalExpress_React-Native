@@ -30,7 +30,7 @@ const Menu = () => {
     );
     console.log(item.isAvailable)
     return (
-        <View style={{ marginTop: 5, marginBottom: 50 }}>
+        <View style={{ marginTop: 5, marginBottom: 80 }}>
             {item.isAvailable ? (
                 <FlatList
                     data={foods}

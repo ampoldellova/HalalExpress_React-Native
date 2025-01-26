@@ -44,58 +44,7 @@ const extractNumbers = (inputStr) => {
   return matched ? matched.map(num => parseInt(num, 10)) : [];
 }
 
-const fetchDirections = async (startLat, startLng, destinationLat, destinationLng) => {
-  try {
-
-    const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${startLat},${startLng}&destination=${destinationLat},${destinationLng}&key=${apiKey}`;
-    const response = await fetch(url);
-    const data = await response.json().then((data) => {
-      setDirections(data);
-      const encodedPolyline = data.routes[0].overview_polyline.points;
-      const coordinates = decode(encodedPolyline);
-
-      setCoordinates(coordinates);
-    });
-    
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 export default {
   calculateDistanceAndTime,
   extractNumbers
 }
-
-// const apiKey = "AIzaSyBbjMFF4rny4jtAUTnjz69dAiBEIx6nlJs";
-// const baseUrl = "https://maps.googleapis.com/maps/api/distancematrix/json?";
-// const ratePerKm = 1;
-
-// const requestUrl = `${baseUrl}origins=${startLat},${startLng}&destinations=${destinationLat},${destinationLng}&mode=${mode}&key=${apiKey}`;
-
-// try {
-//     const response = await fetch(requestUrl);
-//     const data = await response.json();
-
-//     // Ensure the request was successful and there are results
-//     if (data.status === "OK" && data.rows[0].elements[0].status === "OK") {
-//         const distance = data.rows[0].elements[0].distance.text;
-//         const duration = data.rows[0].elements[0].duration.text;
-
-//         const distanceInKm = parseFloat(distance.replace(' km', ''));
-//         const price = distanceInKm * ratePerKm;
-//         const finalPrice = `$${price.toFixed(2)}`
-
-//         return {
-//             distance,
-//             duration,
-//             finalPrice
-//         };
-//     } else {
-//         console.error("Error calculating distance and duration:", data.status);
-//         return null;
-//     }
-// } catch (error) {
-//     console.error("Failed to calculate distance and duration:", error);
-//     return null;
-// }

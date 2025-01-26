@@ -9,7 +9,6 @@ import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
 
 const GoogleMapView = ({ placeList }) => {
-    const [directions, setDirections] = useState([]);
     const [coordinates, setCoordinates] = useState([]);
     const { location, setLocation } = useContext(UserLocationContext)
 
@@ -85,8 +84,8 @@ export default GoogleMapView
 
 const styles = StyleSheet.create({
     mapContainer: {
-        width: SIZES.width - 20,
-        height: SIZES.height / 2.25,
+        width: "95%",
+        height: "70%",
         borderColor: COLORS.gray2,
         borderWidth: 1,
         borderRadius: 10,

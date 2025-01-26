@@ -16,7 +16,7 @@ const Suppliers = ({ suppliers }) => {
                 scrollEnabled
                 keyExtractor={(item) => item._id.toString()}
                 renderItem={({ item }) => (
-                    <StoreComponent item={item} onPress={() => { }} />
+                    <StoreComponent item={item} onPress={() => { navigation.navigate('supplier', item) }} />
                 )}
             />
         </View>
