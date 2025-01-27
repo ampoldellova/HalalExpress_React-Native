@@ -90,4 +90,50 @@ module.exports = {
             res.status(500).json({ status: false, message: error.message })
         }
     },
+
+    editSupplierDetails: async (req, res) => {
+        try {
+            if (req.files) {
+                if (req.files.logoUrl) {
+                    req.body.logoUrl = await imageFile.uploadSingle({
+                        imageFile: req.files.logoUrl[0], // Correctly pass file object
+                        request: req,
+                    });
+                }
+
+                if (req.files.imageUrl) {
+                    req.body.imageUrl = await imageFile.uploadSingle({
+                        imageFile: req.files.imageUrl[0], // Correctly pass file object
+                        request: req,
+                    });
+                }
+
+                await Supplier.findByIdAndUpdate(
+                    req.params.id,
+                    {
+                        imageUrl: req.body.imageUrl,
+                        logoUrl: req.body.logoUrl,
+                        title: req.body.title,
+                        time: req.body.time,
+                        code: req.body.code,
+                        coords: req.body.coords,
+                    },
+                    {
+                        new: true,
+                        runValidators: true,
+                    }
+                );
+                res.status(201).json({ success: true, message: "Supplier Details Updated" });
+            } else {
+                await Supplier.findByIdAndUpdate(req.params.id, req.body, {
+                    new: true,
+                    runValidators: true,
+                });
+                res.status(201).json({ success: true, message: "Supplier Details Updated" });
+            }
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ success: false, message: "Server Error", error: err });
+        }
+    },
 }

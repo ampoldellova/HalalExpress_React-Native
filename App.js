@@ -36,6 +36,7 @@ import { SupplierContext } from './app/context/SupplierContext';
 import IngredientNavigator from './app/navigation/IngredientNavigator';
 import ManageProductPage from './app/screens/Supplier/ManageProductPage';
 import SupplierProductPage from './app/screens/Supplier/SupplierProductPage';
+import EditSupplierPage from './app/screens/Supplier/EditSupplierPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -203,6 +204,11 @@ export default function App() {
                       <Stack.Screen
                         name='edit-restaurant-page'
                         component={EditRestaurantPage}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='edit-supplier-page'
+                        component={EditSupplierPage}
                         options={{ headerShown: false }}
                       />
                       <Stack.Screen

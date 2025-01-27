@@ -153,7 +153,6 @@ module.exports = {
     },
 
     editRestaurantDetails: async (req, res) => {
-        console.log(req.files);
         try {
             if (req.files) {
                 if (req.files.logoUrl) {
