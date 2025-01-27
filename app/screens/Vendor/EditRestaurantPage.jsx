@@ -185,189 +185,187 @@ const EditRestaurantPage = () => {
 
     return (
         <ScrollView nestedScrollEnabled={true}>
-            <View style={{ marginTop: 30 }}>
-                <View style={{ marginHorizontal: 20 }}>
-                    <BackBtn onPress={() => navigation.goBack()} />
-                    <Text style={styles.heading}>Edit Restaurant</Text>
-                    <Formik
-                        initialValues={{
-                            title: item.title || '',
-                            time: item.time || '',
-                            code: item.code || '',
-                            coords: {
-                                address: item.coords.address || '',
-                                latitude: item.coords.latitude || '',
-                                longitude: item.coords.longitude || '',
-                            },
-                        }}
-                        onSubmit={(values) => editRestaurant(values)}
-                        validationSchema={validationSchema}
-                    >
-                        {({
-                            handleChange,
-                            touched,
-                            handleSubmit,
-                            values,
-                            errors,
-                            isValid,
-                            setFieldTouched,
-                            setFieldValue
-                        }) => (
-                            < View >
-                                <Text style={styles.text}>Restaurant Logo</Text>
-                                <View style={styles.imageWrapper}>
-                                    <Image
-                                        source={logo ? { uri: logo } : require('../../../assets/images/profile.png')}
-                                        style={styles.logoUrl}
+            <View style={{ marginHorizontal: 20 }}>
+                <BackBtn onPress={() => navigation.goBack()} />
+                <Text style={styles.heading}>Edit Restaurant</Text>
+                <Formik
+                    initialValues={{
+                        title: item.title || '',
+                        time: item.time || '',
+                        code: item.code || '',
+                        coords: {
+                            address: item.coords.address || '',
+                            latitude: item.coords.latitude || '',
+                            longitude: item.coords.longitude || '',
+                        },
+                    }}
+                    onSubmit={(values) => editRestaurant(values)}
+                    validationSchema={validationSchema}
+                >
+                    {({
+                        handleChange,
+                        touched,
+                        handleSubmit,
+                        values,
+                        errors,
+                        isValid,
+                        setFieldTouched,
+                        setFieldValue
+                    }) => (
+                        < View >
+                            <Text style={styles.text}>Restaurant Logo</Text>
+                            <View style={styles.imageWrapper}>
+                                <Image
+                                    source={logo ? { uri: logo } : require('../../../assets/images/profile.png')}
+                                    style={styles.logoUrl}
+                                />
+                                <TouchableOpacity style={styles.uploadLogo} onPress={pickLogo}>
+                                    <Entypo
+                                        color='white'
+                                        name="camera"
+                                        size={24}
                                     />
-                                    <TouchableOpacity style={styles.uploadLogo} onPress={pickLogo}>
-                                        <Entypo
-                                            color='white'
-                                            name="camera"
-                                            size={24}
-                                        />
-                                        <Text style={styles.editText}>Edit logo</Text>
-                                    </TouchableOpacity>
-                                </View>
+                                    <Text style={styles.editText}>Edit logo</Text>
+                                </TouchableOpacity>
+                            </View>
 
-                                <Text style={styles.text}>Cover Photo</Text>
-                                <View style={styles.imageWrapper}>
-                                    <Image
-                                        source={coverPhoto ? { uri: coverPhoto } : require('../../../assets/images/profile.png')}
-                                        style={styles.imageUrl}
+                            <Text style={styles.text}>Cover Photo</Text>
+                            <View style={styles.imageWrapper}>
+                                <Image
+                                    source={coverPhoto ? { uri: coverPhoto } : require('../../../assets/images/profile.png')}
+                                    style={styles.imageUrl}
+                                />
+                                <TouchableOpacity style={styles.uploadCoverPhoto} onPress={pickCoverPhoto}>
+                                    <Entypo
+                                        color='white'
+                                        name="camera"
+                                        size={24}
                                     />
-                                    <TouchableOpacity style={styles.uploadCoverPhoto} onPress={pickCoverPhoto}>
-                                        <Entypo
-                                            color='white'
-                                            name="camera"
-                                            size={24}
+                                    <Text style={styles.editText}>Edit Cover Photo</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            <Text style={styles.text}>Restaurant Details</Text>
+                            <View style={{ marginBottom: 20, borderWidth: 0.5, borderColor: COLORS.primary, borderRadius: 15, padding: 8 }}>
+                                <Text style={styles.label}>Restaurant Address</Text>
+                                <View style={styles.inputWrapper(COLORS.offwhite)}>
+                                    <TouchableOpacity onPress={useCurrentLocation}>
+                                        <FontAwesome6
+                                            style={styles.iconStyle}
+                                            color={COLORS.primary}
+                                            name="location-crosshairs"
+                                            size={20}
                                         />
-                                        <Text style={styles.editText}>Edit Cover Photo</Text>
                                     </TouchableOpacity>
+                                    <TextInput
+                                        style={styles.textInput}
+                                        placeholderTextColor={COLORS.gray}
+                                        value={address}
+                                        onChangeText={(text) => {
+                                            handleAddressChange(text)
+                                            setFieldValue('coords.address', text)
+                                            setIsTypingAddress(true);
+                                        }}
+                                        onFocus={() => {
+                                            setFieldTouched('coords.address', '');
+                                            setIsTypingAddress(true);
+                                        }}
+                                        onBlur={() => {
+                                            setFieldTouched('coords.address');
+                                            setIsTypingAddress(false);
+                                        }}
+                                    />
                                 </View>
+                                {loading && <ActivityIndicator size="small" color={COLORS.primary} style={{ marginTop: 5 }} />}
+                                {touched.coords?.address && errors.coords?.address && (
+                                    <Text style={styles.errorMessage}>{errors.coords?.address}</Text>
+                                )}
+                                {!isUsingCurrentLocation &&
+                                    <AddressSuggestions suggestions={suggestions} onSuggestionPress={handleSuggestionPress} />
+                                }
+                                <RestaurantMapView region={region} />
+                            </View>
 
-                                <Text style={styles.text}>Restaurant Details</Text>
-                                <View style={{ marginBottom: 20, borderWidth: 0.5, borderColor: COLORS.primary, borderRadius: 15, padding: 8 }}>
-                                    <Text style={styles.label}>Restaurant Address</Text>
-                                    <View style={styles.inputWrapper(COLORS.offwhite)}>
-                                        <TouchableOpacity onPress={useCurrentLocation}>
-                                            <FontAwesome6
-                                                style={styles.iconStyle}
-                                                color={COLORS.primary}
-                                                name="location-crosshairs"
-                                                size={20}
-                                            />
-                                        </TouchableOpacity>
-                                        <TextInput
-                                            style={styles.textInput}
-                                            placeholderTextColor={COLORS.gray}
-                                            value={address}
-                                            onChangeText={(text) => {
-                                                handleAddressChange(text)
-                                                setFieldValue('coords.address', text)
-                                                setIsTypingAddress(true);
-                                            }}
-                                            onFocus={() => {
-                                                setFieldTouched('coords.address', '');
-                                                setIsTypingAddress(true);
-                                            }}
-                                            onBlur={() => {
-                                                setFieldTouched('coords.address');
-                                                setIsTypingAddress(false);
-                                            }}
-                                        />
-                                    </View>
-                                    {loading && <ActivityIndicator size="small" color={COLORS.primary} style={{ marginTop: 5 }} />}
-                                    {touched.coords?.address && errors.coords?.address && (
-                                        <Text style={styles.errorMessage}>{errors.coords?.address}</Text>
-                                    )}
-                                    {!isUsingCurrentLocation &&
-                                        <AddressSuggestions suggestions={suggestions} onSuggestionPress={handleSuggestionPress} />
-                                    }
-                                    <RestaurantMapView region={region} />
+                            <View style={{ marginBottom: 20 }}>
+                                <Text style={styles.label}>Restaurant Name</Text>
+                                <View style={styles.inputWrapper(COLORS.offwhite)}>
+                                    <Ionicons
+                                        style={styles.iconStyle}
+                                        color={COLORS.gray}
+                                        name="restaurant"
+                                        size={20}
+                                    />
+                                    <TextInput
+                                        style={styles.textInput}
+                                        placeholderTextColor={COLORS.gray}
+                                        value={values.title}
+                                        onChangeText={handleChange('title')}
+                                        onFocus={() => { setFieldTouched('title', '') }}
+                                        onBlur={() => { setFieldTouched('title') }}
+                                    />
                                 </View>
+                                {touched.title && errors.title && (
+                                    <Text style={styles.errorMessage}>{errors.title}</Text>
+                                )}
+                            </View>
 
-                                <View style={{ marginBottom: 20 }}>
-                                    <Text style={styles.label}>Restaurant Name</Text>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <View style={{ marginBottom: 20, width: '61%' }}>
+                                    <Text style={styles.label}>Restaurant Code</Text>
                                     <View style={styles.inputWrapper(COLORS.offwhite)}>
-                                        <Ionicons
+                                        <Entypo
                                             style={styles.iconStyle}
                                             color={COLORS.gray}
-                                            name="restaurant"
+                                            name="code"
+                                            size={20}
+                                        />
+                                        <TextInput
+                                            style={[styles.textInput]}
+                                            placeholderTextColor={COLORS.gray}
+                                            value={values.code}
+                                            onChangeText={handleChange('code')}
+                                            onFocus={() => { setFieldTouched('code', '') }}
+                                            onBlur={() => { setFieldTouched('code') }}
+                                        />
+                                    </View>
+                                    {touched.code && errors.code && (
+                                        <Text style={styles.errorMessage}>{errors.code}</Text>
+                                    )}
+                                </View>
+                                <View style={{ marginBottom: 20, width: '35%' }}>
+                                    <Text style={styles.label}>Preperation Time</Text>
+                                    <View style={styles.inputWrapper(COLORS.offwhite)}>
+                                        <AntDesign
+                                            style={styles.iconStyle}
+                                            color={COLORS.gray}
+                                            name="clockcircle"
                                             size={20}
                                         />
                                         <TextInput
                                             style={styles.textInput}
                                             placeholderTextColor={COLORS.gray}
-                                            value={values.title}
-                                            onChangeText={handleChange('title')}
-                                            onFocus={() => { setFieldTouched('title', '') }}
-                                            onBlur={() => { setFieldTouched('title') }}
+                                            value={values.time}
+                                            onChangeText={handleChange('time')}
+                                            onFocus={() => { setFieldTouched('time', '') }}
+                                            onBlur={() => { setFieldTouched('time') }}
                                         />
                                     </View>
-                                    {touched.title && errors.title && (
-                                        <Text style={styles.errorMessage}>{errors.title}</Text>
+                                    {touched.time && errors.time && (
+                                        <Text style={styles.errorMessage}>{errors.time}</Text>
                                     )}
                                 </View>
-
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <View style={{ marginBottom: 20, width: '61%' }}>
-                                        <Text style={styles.label}>Restaurant Code</Text>
-                                        <View style={styles.inputWrapper(COLORS.offwhite)}>
-                                            <Entypo
-                                                style={styles.iconStyle}
-                                                color={COLORS.gray}
-                                                name="code"
-                                                size={20}
-                                            />
-                                            <TextInput
-                                                style={[styles.textInput]}
-                                                placeholderTextColor={COLORS.gray}
-                                                value={values.code}
-                                                onChangeText={handleChange('code')}
-                                                onFocus={() => { setFieldTouched('code', '') }}
-                                                onBlur={() => { setFieldTouched('code') }}
-                                            />
-                                        </View>
-                                        {touched.code && errors.code && (
-                                            <Text style={styles.errorMessage}>{errors.code}</Text>
-                                        )}
-                                    </View>
-                                    <View style={{ marginBottom: 20, width: '35%' }}>
-                                        <Text style={styles.label}>Preperation Time</Text>
-                                        <View style={styles.inputWrapper(COLORS.offwhite)}>
-                                            <AntDesign
-                                                style={styles.iconStyle}
-                                                color={COLORS.gray}
-                                                name="clockcircle"
-                                                size={20}
-                                            />
-                                            <TextInput
-                                                style={styles.textInput}
-                                                placeholderTextColor={COLORS.gray}
-                                                value={values.time}
-                                                onChangeText={handleChange('time')}
-                                                onFocus={() => { setFieldTouched('time', '') }}
-                                                onBlur={() => { setFieldTouched('time') }}
-                                            />
-                                        </View>
-                                        {touched.time && errors.time && (
-                                            <Text style={styles.errorMessage}>{errors.time}</Text>
-                                        )}
-                                    </View>
-                                </View>
-
-                                <Button
-                                    onPress={handleSubmit}
-                                    isValid={isValid}
-                                    loader={loader}
-                                    title="U P D A T E"
-                                />
                             </View>
-                        )}
-                    </Formik>
 
-                </View >
+                            <Button
+                                onPress={handleSubmit}
+                                isValid={isValid}
+                                loader={loader}
+                                title="U P D A T E"
+                            />
+                        </View>
+                    )}
+                </Formik>
+
             </View >
         </ScrollView>
 

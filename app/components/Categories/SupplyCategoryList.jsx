@@ -13,18 +13,8 @@ const SupplyCategoryList = ({ setSelectedCategory, setSelectedSection, setSelect
 
     const getSupplyCategories = async () => {
         try {
-            const token = await AsyncStorage.getItem("token");
-            if (token) {
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${JSON.parse(token)}`,
-                    },
-                };
-                const response = await axios.get(`${baseUrl}/api/supplyCategory/`, config);
-                setSupplyCategories(response.data);
-            } else {
-                console.log("Authentication token not found");
-            }
+            const response = await axios.get(`${baseUrl}/api/supplyCategory/`);
+            setSupplyCategories(response.data);
         } catch (error) {
             console.log("Error fetching restaurants:", error);
         }

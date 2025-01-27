@@ -9,6 +9,7 @@ import DeliveryAvailability from '../../components/Supplier/DeliveryAvailability
 import Divider from '../../components/Divider';
 import ManageProducts from '../../components/Supplier/ManageProducts';
 import EditSupplierButton from '../../components/Supplier/EditSupplierButton';
+import AddProduct from '../../components/Supplier/AddProduct';
 
 const UserStorePage = () => {
     const route = useRoute();
@@ -43,6 +44,7 @@ const UserStorePage = () => {
             <PickupAvailability availability={item.pickup} id={item._id} />
             <Divider />
             <ManageProducts supplierId={item._id} />
+            <AddProduct supplierId={item._id} />
             <EditSupplierButton details={item} address={item.coords.address} />
         </View >
     )

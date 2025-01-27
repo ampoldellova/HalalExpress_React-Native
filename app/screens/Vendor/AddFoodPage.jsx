@@ -167,7 +167,6 @@ const AddFoodPage = () => {
         try {
             const response = await axios.get(`${baseUrl}/api/category`);
             setCategories(response.data);
-            console.log(categories)
         } catch (error) {
             console.log("Error fetching categories:", error);
         }
@@ -287,11 +286,11 @@ const AddFoodPage = () => {
                             </View>
 
                             <View style={styles.wrapper}>
-                                <Text style={styles.label}>Food Tags</Text>
                                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                                     {touched.foodTags && errors.foodTags && (
                                         <Text style={styles.errorMessage}>{errors.foodTags}</Text>
                                     )}
+                                    <Text style={styles.label}>Food Tags</Text>
                                 </View>
                                 <MultiSelect
                                     data={foodTags}
@@ -328,11 +327,11 @@ const AddFoodPage = () => {
                             </View>
 
                             <View style={styles.wrapper}>
-                                <Text style={styles.label}>Food Category</Text>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                     {touched.category && errors.category && (
                                         <Text style={styles.errorMessage}>{errors.category}</Text>
                                     )}
+                                    <Text style={styles.label}>Food Category</Text>
                                 </View>
                                 <Dropdown
                                     data={categories}

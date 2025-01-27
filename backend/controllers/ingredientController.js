@@ -14,20 +14,25 @@ module.exports = {
 
     addIngredient: async (req, res) => {
         try {
-            const newIngredient = new Ingredient(req.body);
+            req.body.imageUrl = await imageFile.uploadSingle({
+                imageFile: req.file,
+                request: req,
+            });
 
-            await newIngredient.save();
+            const newProduct = new Ingredient(req.body);
+
+            await newProduct.save();
 
             res.status(200).json({
                 status: true,
-                message: "Ingredient added successfully",
-                data: newIngredient
+                message: "Product item added successfully",
+                data: newProduct
             });
         } catch (error) {
-            console.error("Error adding ingredient:", error);
+            console.error("Error adding Product:", error);
             res.status(500).json({
                 status: false,
-                message: "Failed to add ingredient",
+                message: "Failed to add Product",
                 error: error.message
             });
         }
