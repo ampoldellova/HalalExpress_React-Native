@@ -59,7 +59,7 @@ module.exports = {
         const supplierId = req.params.id;
 
         try {
-            const supplier = await supplier.findById(supplierId)
+            const supplier = await Supplier.findById(supplierId)
 
             if (!supplier) {
                 return res.status(403).json({ status: false, message: "supplier not found" })
@@ -69,7 +69,7 @@ module.exports = {
             await supplier.save()
             res.status(200).json({ status: true, message: "Availability for Pick-Up Successfully Toggled", pickup: supplier.pickup })
         } catch (error) {
-            res.status(500).json({ status: false, message: "Error Toggling supplier's Pickup" })
+            res.status(500).json({ status: false, message: error.message })
         }
     },
 
@@ -77,7 +77,7 @@ module.exports = {
         const supplierId = req.params.id;
 
         try {
-            const supplier = await supplier.findById(supplierId)
+            const supplier = await Supplier.findById(supplierId)
 
             if (!supplier) {
                 return res.status(403).json({ status: false, message: "supplier not found" })
@@ -87,7 +87,7 @@ module.exports = {
             await supplier.save()
             res.status(200).json({ status: true, message: "Availability for Delivery Successfully Toggled", delivery: supplier.delivery })
         } catch (error) {
-            res.status(500).json({ status: false, message: "Error Toggling supplier's Delivery" })
+            res.status(500).json({ status: false, message: error.message })
         }
     },
 }

@@ -4,6 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import BackBtn from '../../components/BackBtn';
 import { COLORS, SIZES } from '../../constants/theme';
 import ServiceAvailability from '../../components/Supplier/ServiceAvailability';
+import PickupAvailability from '../../components/Supplier/PickupAvailability';
 
 const UserStorePage = () => {
     const route = useRoute();
@@ -34,6 +35,7 @@ const UserStorePage = () => {
             </View>
             <Text style={styles.options}>Options</Text>
             <ServiceAvailability availability={item.isAvailable} id={item._id} />
+            <PickupAvailability availability={item.isAvailable} id={item._id} />
         </View >
     )
 }
