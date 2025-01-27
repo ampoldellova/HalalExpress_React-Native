@@ -6,5 +6,6 @@ const upload = require('../utils/multer')
 router.post('/', verifySupplier, upload.single('imageUrl'), ingredientController.addIngredient)
 router.get('/list', verifyVendor, upload.single('imageUrl'), ingredientController.getAllIngredients)
 router.patch('/supplier/:supplierId', ingredientController.getIngredientBySupplier)
+router.patch('/:id', verifySupplier, ingredientController.ingredientAvailability)
 
 module.exports = router; 

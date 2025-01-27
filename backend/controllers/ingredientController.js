@@ -48,4 +48,24 @@ module.exports = {
             res.status(500).json({ status: false, message: error.message })
         }
     },
+
+    ingredientAvailability: async (req, res) => {
+        const ingredientId = req.params.id;
+
+        try {
+            const ingredient = await Ingredient.findById(ingredientId);
+
+            if (!ingredient) {
+                return res.status(404).json({ status: false })
+            }
+
+            ingredient.isAvailable = !ingredient.isAvailable;
+
+            await ingredient.save();
+
+            res.status(200).json({ status: true, message: "Product availability successfully toggled" })
+        } catch (error) {
+            res.status(500).json({ status: false, message: "Product availability failed to toggled" })
+        }
+    },
 }

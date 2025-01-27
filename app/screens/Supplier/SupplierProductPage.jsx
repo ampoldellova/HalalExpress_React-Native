@@ -8,8 +8,9 @@ import DeleteButton from '../../components/DeleteButton';
 import baseUrl from '../../../assets/common/baseUrl';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import ProductAvailability from '../../components/Supplier/ProductAvailability';
 
-const VendorFoodPage = () => {
+const SupplierProductPage = () => {
     const [loader, setLoader] = useState(false);
     const [isValid, setIsValid] = useState(true);
     const route = useRoute();
@@ -38,7 +39,7 @@ const VendorFoodPage = () => {
                     Authorization: `Bearer ${JSON.parse(token)}`,
                 }
             }
-            await axios.delete(`${baseUrl}/api/foods/${item._id}`, config);
+            await axios.delete(`${baseUrl}/api/ingredients/${item._id}`, config);
             Alert.alert('Success ✅', 'Food item deleted successfully!', [
                 {
                     text: 'OK',
@@ -64,13 +65,13 @@ const VendorFoodPage = () => {
             </View>
             <Text style={styles.small}>{item.description}</Text>
             <Text style={styles.options}>Options</Text>
-            <FoodAvailability availability={item.isAvailable} id={item._id} />
-            <DeleteButton title="D E L E T E   F O O D" loader={loader} isValid={isValid} onPress={() => consentForm()} />
+            <ProductAvailability availability={item.isAvailable} id={item._id} />
+            <DeleteButton title="D E L E T E   P R O D U C T" loader={loader} isValid={isValid} onPress={() => consentForm()} />
         </View>
     )
 }
 
-export default VendorFoodPage
+export default SupplierProductPage
 
 const styles = StyleSheet.create({
     heading: {

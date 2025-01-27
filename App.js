@@ -34,6 +34,8 @@ import SupplierPage from './app/navigation/SupplierPage';
 import Supplier from './app/screens/Supplier/Supplier';
 import { SupplierContext } from './app/context/SupplierContext';
 import IngredientNavigator from './app/navigation/IngredientNavigator';
+import ManageProductPage from './app/screens/Supplier/ManageProductPage';
+import SupplierProductPage from './app/screens/Supplier/SupplierProductPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -179,8 +181,18 @@ export default function App() {
                         options={{ headerShown: false }}
                       />
                       <Stack.Screen
+                        name='manage-product-page'
+                        component={ManageProductPage}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
                         name='vendor-food-page'
                         component={VendorFoodPage}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name='supplier-product-page'
+                        component={SupplierProductPage}
                         options={{ headerShown: false }}
                       />
                       <Stack.Screen

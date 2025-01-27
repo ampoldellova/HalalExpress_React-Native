@@ -1,19 +1,20 @@
 import { Alert, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native'
-import ManageFoodCard from '../../components/Vendor/ManageFoodCard'
 import { BackBtn } from '../../components'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import baseUrl from '../../../assets/common/baseUrl'
 import Loader from '../../components/Loader/Loader'
+import ManageProductCard from '../../components/Supplier/ManageProductCard'
 
-const ManageFoodPage = () => {
+const ManageProductPage = () => {
     const route = useRoute();
-    const restaurantId = route.params;
+    const supplierId = route.params;
     const navigation = useNavigation();
-    const [foods, setFoods] = useState([]);
+    const [ingredients, setIngredients] = useState([]);
     const [loading, setLoading] = useState(true);
+    console.log(supplierId)
 
     const fetchRestaurantFoods = async () => {
         try {
@@ -24,8 +25,8 @@ const ManageFoodPage = () => {
                         Authorization: `Bearer ${JSON.parse(token)}`,
                     },
                 };
-                const response = await axios.patch(`${baseUrl}/api/foods/restaurant/${restaurantId}`, {}, config);
-                setFoods(response.data);
+                const response = await axios.patch(`${baseUrl}/api/ingredients/supplier/${supplierId}`, {}, config);
+                setIngredients(response.data);
                 setLoading(false)
             } else {
                 console.log("Authentication token not found");
@@ -48,14 +49,14 @@ const ManageFoodPage = () => {
             ) : (
                 <View style={{ marginHorizontal: 20, marginTop: 30 }}>
                     <BackBtn onPress={() => navigation.goBack()} />
-                    <Text style={styles.heading}>Manage Foods</Text>
+                    <Text style={styles.heading}>Manage Products</Text>
                     <FlatList
-                        data={foods}
+                        data={ingredients}
                         showsVerticalScrollIndicator={false}
                         scrollEnabled
                         style={{ marginBottom: 100 }}
                         renderItem={({ item }) => (
-                            <ManageFoodCard item={item} onPress={() => { navigation.navigate('vendor-food-page', item) }} />
+                            <ManageProductCard item={item} onPress={() => { navigation.navigate('supplier-product-page', item) }} />
                         )} />
                 </View>
             )}
@@ -63,7 +64,7 @@ const ManageFoodPage = () => {
     )
 }
 
-export default ManageFoodPage
+export default ManageProductPage
 
 const styles = StyleSheet.create({
     heading: {

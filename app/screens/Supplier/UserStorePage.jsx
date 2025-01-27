@@ -6,6 +6,8 @@ import { COLORS, SIZES } from '../../constants/theme';
 import ServiceAvailability from '../../components/Supplier/ServiceAvailability';
 import PickupAvailability from '../../components/Supplier/PickupAvailability';
 import DeliveryAvailability from '../../components/Supplier/DeliveryAvailability';
+import Divider from '../../components/Divider';
+import ManageProducts from '../../components/Supplier/ManageProducts';
 
 const UserStorePage = () => {
     const route = useRoute();
@@ -38,6 +40,8 @@ const UserStorePage = () => {
             <ServiceAvailability availability={item.isAvailable} id={item._id} />
             <DeliveryAvailability availability={item.delivery} id={item._id} />
             <PickupAvailability availability={item.pickup} id={item._id} />
+            <Divider />
+            <ManageProducts supplierId={item._id} />
         </View >
     )
 }
