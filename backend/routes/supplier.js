@@ -6,5 +6,8 @@ const { verifyAndAuthorization, verifySupplier, verifyVendor } = require('../mid
 router.post('/', verifySupplier, supplierController.addSupplier);
 router.get('/owner/:ownerId', verifySupplier, supplierController.getSupplierStoreByOwner);
 router.get('/list', verifyVendor, supplierController.getAllSuppliers);
+router.patch('/:id', verifySupplier, supplierController.serviceAvailability)
+router.patch('/pickup/:id', verifySupplier, supplierController.pickupAvailability)
+router.patch('/delivery/:id', verifySupplier, supplierController.deliveryAvailability)
 
 module.exports = router;

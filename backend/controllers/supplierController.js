@@ -9,7 +9,7 @@ module.exports = {
             await newSupplier.save()
             res.status(201).json({ status: true, message: "Supplier Created Successfully" })
         } catch (error) {
-            res.status(500).json({ status: false, message: "Error Creating Restaurant", error: error.message })
+            res.status(500).json({ status: false, message: "Error Creating supplier", error: error.message })
         }
     },
 
@@ -34,6 +34,60 @@ module.exports = {
             res.status(200).json(suppliers);
         } catch (error) {
             res.status(500).json({ error: "Error fetching suppliers" });
+        }
+    },
+
+    serviceAvailability: async (req, res) => {
+        const supplierId = req.params.id;
+
+        try {
+            const supplier = await Supplier.findById(supplierId)
+
+            if (!supplier) {
+                return res.status(403).json({ status: false, message: "supplier not found" })
+            }
+
+            supplier.isAvailable = !supplier.isAvailable
+            await supplier.save()
+            res.status(200).json({ status: true, message: "Availability Successfully Toggled", isAvailable: supplier.isAvailable })
+        } catch (error) {
+            res.status(500).json({ status: false, message: error.message })
+        }
+    },
+
+    pickupAvailability: async (req, res) => {
+        const supplierId = req.params.id;
+
+        try {
+            const supplier = await supplier.findById(supplierId)
+
+            if (!supplier) {
+                return res.status(403).json({ status: false, message: "supplier not found" })
+            }
+
+            supplier.pickup = !supplier.pickup
+            await supplier.save()
+            res.status(200).json({ status: true, message: "Availability for Pick-Up Successfully Toggled", pickup: supplier.pickup })
+        } catch (error) {
+            res.status(500).json({ status: false, message: "Error Toggling supplier's Pickup" })
+        }
+    },
+
+    deliveryAvailability: async (req, res) => {
+        const supplierId = req.params.id;
+
+        try {
+            const supplier = await supplier.findById(supplierId)
+
+            if (!supplier) {
+                return res.status(403).json({ status: false, message: "supplier not found" })
+            }
+
+            supplier.delivery = !supplier.delivery
+            await supplier.save()
+            res.status(200).json({ status: true, message: "Availability for Delivery Successfully Toggled", delivery: supplier.delivery })
+        } catch (error) {
+            res.status(500).json({ status: false, message: "Error Toggling supplier's Delivery" })
         }
     },
 }

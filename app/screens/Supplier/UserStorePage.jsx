@@ -3,6 +3,7 @@ import React from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import BackBtn from '../../components/BackBtn';
 import { COLORS, SIZES } from '../../constants/theme';
+import ServiceAvailability from '../../components/Supplier/ServiceAvailability';
 
 const UserStorePage = () => {
     const route = useRoute();
@@ -32,6 +33,7 @@ const UserStorePage = () => {
                 </View>
             </View>
             <Text style={styles.options}>Options</Text>
+            <ServiceAvailability availability={item.isAvailable} id={item._id} />
         </View >
     )
 }
