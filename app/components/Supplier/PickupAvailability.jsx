@@ -24,7 +24,7 @@ const PickupAvailability = ({ availability, id }) => {
                     },
                 };
                 const response = await axios.patch(`${baseUrl}/api/supplier/pickup/${id}`, {}, config);
-                setIsAvailable(response.data.isAvailable);
+                setIsAvailable(response.data.pickup);
                 Alert.alert('Success ✅', response.data.message);
             } else {
                 console.log("Authentication token not found");

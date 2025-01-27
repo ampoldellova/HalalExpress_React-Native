@@ -24,7 +24,7 @@ const DeliveryAvailability = ({ availability, id }) => {
                     },
                 };
                 const response = await axios.patch(`${baseUrl}/api/supplier/delivery/${id}`, {}, config);
-                setIsAvailable(response.data.isAvailable);
+                setIsAvailable(response.data.delivery);
                 Alert.alert('Success ✅', response.data.message);
             } else {
                 console.log("Authentication token not found");
