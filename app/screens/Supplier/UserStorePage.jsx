@@ -5,6 +5,7 @@ import BackBtn from '../../components/BackBtn';
 import { COLORS, SIZES } from '../../constants/theme';
 import ServiceAvailability from '../../components/Supplier/ServiceAvailability';
 import PickupAvailability from '../../components/Supplier/PickupAvailability';
+import DeliveryAvailability from '../../components/Supplier/DeliveryAvailability';
 
 const UserStorePage = () => {
     const route = useRoute();
@@ -35,7 +36,8 @@ const UserStorePage = () => {
             </View>
             <Text style={styles.options}>Options</Text>
             <ServiceAvailability availability={item.isAvailable} id={item._id} />
-            <PickupAvailability availability={item.isAvailable} id={item._id} />
+            <DeliveryAvailability availability={item.delivery} id={item._id} />
+            <PickupAvailability availability={item.pickup} id={item._id} />
         </View >
     )
 }
