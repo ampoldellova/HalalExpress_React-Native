@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import baseUrl from '../../../assets/common/baseUrl';
 import { COLORS, SIZES } from '../../constants/theme';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const ProductAvailability = ({ availability, id }) => {
     const [isAvailable, setIsAvailable] = useState(false);
@@ -36,7 +36,7 @@ const ProductAvailability = ({ availability, id }) => {
     return (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: SIZES.width - 38 }}>
             <View style={{ flexDirection: 'column' }}>
-                <Ionicons name="restaurant" size={20} color={COLORS.gray} style={styles.icon} />
+                <MaterialCommunityIcons name="food-halal" size={20} color={COLORS.gray} style={styles.icon} />
             </View>
             <Text style={styles.isAvailable}>Product Availability</Text>
             <Switch

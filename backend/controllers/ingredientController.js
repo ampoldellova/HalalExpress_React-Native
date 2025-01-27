@@ -68,4 +68,21 @@ module.exports = {
             res.status(500).json({ status: false, message: "Product availability failed to toggled" })
         }
     },
+
+    deleteIngredientById: async (req, res) => {
+        const ingredientId = req.params.id;
+
+        try {
+            const ingredient = await Ingredient.findById(ingredientId);
+
+            if (!ingredient) {
+                return res.status(404).json({ status: false, message: "Product not found" })
+            }
+
+            await Ingredient.findByIdAndDelete(ingredientId)
+            res.status(200).json({ status: true, message: "Product Deleted Successfully" })
+        } catch (error) {
+            res.status(500).json({ status: false, message: error.message })
+        }
+    },
 }

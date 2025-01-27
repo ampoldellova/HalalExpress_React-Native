@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import BackBtn from '../../components/BackBtn';
 import { COLORS, SIZES } from '../../constants/theme';
-import FoodAvailability from '../../components/Vendor/FoodAvailability';
 import DeleteButton from '../../components/DeleteButton';
 import baseUrl from '../../../assets/common/baseUrl';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -18,19 +17,19 @@ const SupplierProductPage = () => {
     const navigation = useNavigation();
 
     const consentForm = async () => {
-        Alert.alert('Warning ⚠️', 'Are you sure you want to delete this food item?', [
+        Alert.alert('Warning ⚠️', 'Are you sure you want to delete this product?', [
             {
                 text: 'Cancel',
                 onPress: () => { },
             },
             {
                 text: 'OK',
-                onPress: () => deleteFood()
+                onPress: () => deleteProduct()
             }
         ]);
     }
 
-    const deleteFood = async () => {
+    const deleteProduct = async () => {
         setLoader(true);
         try {
             const token = await AsyncStorage.getItem("token");
@@ -40,7 +39,7 @@ const SupplierProductPage = () => {
                 }
             }
             await axios.delete(`${baseUrl}/api/ingredients/${item._id}`, config);
-            Alert.alert('Success ✅', 'Food item deleted successfully!', [
+            Alert.alert('Success ✅', 'Product deleted successfully!', [
                 {
                     text: 'OK',
                     onPress: () => navigation.goBack()
